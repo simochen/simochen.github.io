@@ -1,0 +1,879 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="图像复原。
+函数说明1. Mat 构造函数1Mat dstImage = Mat(srcImage.size(), srcImage.type());
+2. Mat 值拷贝12Mat dstImage;srcImage.copyTo(dstImage);
+3. Mat 截取123456789Mat imageROI;imageROI = image(const Rect&amp;amp; roi);ima">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenCV 学习笔记（4）">
+<meta property="og:url" content="http://simochen.github.io/2016/10/19/2016-10-19-opencv-4/index.html">
+<meta property="og:site_name" content="Ink One">
+<meta property="og:description" content="图像复原。
+函数说明1. Mat 构造函数1Mat dstImage = Mat(srcImage.size(), srcImage.type());
+2. Mat 值拷贝12Mat dstImage;srcImage.copyTo(dstImage);
+3. Mat 截取123456789Mat imageROI;imageROI = image(const Rect&amp;amp; roi);ima">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?dst = (scale \cdot src1">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/lena.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/blur.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/noiImage.png">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?S_{xy}">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?(x,y">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?m\times n">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?\hat f(x,y">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/aritFilter.png">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?\frac{1}{mn}">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?\hat f(x,y">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/geoFilter_pk3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/geoFilter.png">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?\hat f(x,y">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/harFilter_pk3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/harFilter.png">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?\hat f(x,y">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?n\times n">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?n^4">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?n^2\log n">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?n\times n">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/mid_algorithm.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/midFilter.png">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?x_0(t">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?y_0(t">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?H(u,v">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?=\frac{T}{\pi (ua+vb">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?=T\frac{\sin\left[2\pi (ua+vb">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?\hat F(u,v">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?G(u,v">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?H(u,v">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?\hat F(u,v">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?=\frac{(a_1+jb_1">
+<meta property="og:image" content="http://latex.codecogs.com/svg.latex?=\frac{(a_1a_2+b_1b_2">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/resImage.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/wiener.png">
+<meta property="og:updated_time" content="2016-10-26T09:48:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenCV 学习笔记（4）">
+<meta name="twitter:description" content="图像复原。
+函数说明1. Mat 构造函数1Mat dstImage = Mat(srcImage.size(), srcImage.type());
+2. Mat 值拷贝12Mat dstImage;srcImage.copyTo(dstImage);
+3. Mat 截取123456789Mat imageROI;imageROI = image(const Rect&amp;amp; roi);ima">
+<meta name="twitter:image" content="http://latex.codecogs.com/svg.latex?dst = (scale \cdot src1">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://simochen.github.io/2016/10/19/2016-10-19-opencv-4/"/>
+
+
+
+
+
+  <title> OpenCV 学习笔记（4） | Ink One </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ink One</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://simochen.github.io/2016/10/19/2016-10-19-opencv-4/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="simochen">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Ink One">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Ink One" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                OpenCV 学习笔记（4）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-19T17:44:30+08:00">
+                2016-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/opencv/" itemprop="url" rel="index">
+                    <span itemprop="name">opencv</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>图像复原。</p>
+<h2 id="函数说明"><a href="#函数说明" class="headerlink" title="函数说明"></a>函数说明</h2><h3 id="1-Mat-构造函数"><a href="#1-Mat-构造函数" class="headerlink" title="1. Mat 构造函数"></a>1. Mat 构造函数</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Mat dstImage = Mat(srcImage.size(), srcImage.type());</div></pre></td></tr></table></figure>
+<h3 id="2-Mat-值拷贝"><a href="#2-Mat-值拷贝" class="headerlink" title="2. Mat 值拷贝"></a>2. Mat 值拷贝</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Mat dstImage;</div><div class="line">srcImage.copyTo(dstImage);</div></pre></td></tr></table></figure>
+<h3 id="3-Mat-截取"><a href="#3-Mat-截取" class="headerlink" title="3. Mat 截取"></a>3. Mat 截取</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Mat imageROI;</div><div class="line">imageROI = image(<span class="keyword">const</span> Rect&amp; roi);</div><div class="line">imageROI = image(Range rowRange, Range colRange);</div><div class="line">imageROI = image(<span class="keyword">const</span> Range* ranges);</div><div class="line"></div><div class="line">roi = Rect(x, y, width, height);</div><div class="line">roi = Rect(point1, point2);</div><div class="line">rowRange = Range(startrow, endrow);</div><div class="line">rowRange = Range::all();	<span class="comment">// select all the rows</span></div></pre></td></tr></table></figure>
+<p>ranges - 每个维度选取的范围构成的数组</p>
+<h3 id="4-Sum-Mean"><a href="#4-Sum-Mean" class="headerlink" title="4. Sum / Mean"></a>4. Sum / Mean</h3><p>返回数组元素的和，对于每个通道独立。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function">Scalar <span class="title">sum</span><span class="params">(InputArray src)</span></span>;</div><div class="line"><span class="function">Scalar <span class="title">mean</span><span class="params">(InputArray src)</span></span>;</div></pre></td></tr></table></figure>
+<h3 id="5-divide"><a href="#5-divide" class="headerlink" title="5. divide"></a>5. divide</h3><p>两个数组间元素的除法。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">divide</span><span class="params">(InputArray src1, InputArray src2, OutputArray dst, </span></span></div><div class="line">         <span class="keyword">double</span> scale=<span class="number">1</span>, <span class="keyword">int</span> dtype=<span class="number">-1</span>)</div></pre></td></tr></table></figure>
+<p><strong>参数说明</strong></p>
+<ul>
+<li>src1 - 第一个输入数组</li>
+<li>src2 - 第二个输入数组</li>
+<li>dst - 输出数组，与输入数组具有相同的大小和类型</li>
+<li>scale - 可选的比例参数<ul>
+<li><img src="http://latex.codecogs.com/svg.latex?dst = (scale \cdot src1" alt=""> / src2)</li>
+</ul>
+</li>
+<li>dtype - 可选的输出数组深度；若为-1，则输出数组深度为 <code>src2.depth()</code> ，但为了防止数组除法（array-by-array division）的情况，当 <code>src1.depth()==src2.depth</code> 时，只能设定-1.</li>
+</ul>
+<p><strong>函数说明</strong></p>
+<ul>
+<li>当 <code>src2(I)</code> 为0时，<code>dst(I)</code> 也为0</li>
+<li>多通道数组的各不同通道独立计算</li>
+</ul>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><h3 id="1-复原椒盐噪声图像"><a href="#1-复原椒盐噪声图像" class="headerlink" title="1. 复原椒盐噪声图像"></a>1. 复原椒盐噪声图像</h3><p>原图像如下图所示。向其中加入椒盐噪声，并采用</p>
+<ol>
+<li>算术均值滤波</li>
+<li>几何均值滤波</li>
+<li>谐波均值滤波</li>
+<li>中值滤波</li>
+</ol>
+<p>过滤噪声，复原图像。</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/lena.jpg" alt=""></p>
+<p><a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/lena.jpg" target="_blank" rel="external">点此下载</a></p>
+<h3 id="2-复原运动模糊图像"><a href="#2-复原运动模糊图像" class="headerlink" title="2. 复原运动模糊图像"></a>2. 复原运动模糊图像</h3><p>运动模糊图像如下图所示。采用维纳滤波进行图像复原。</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/blur.jpg" alt=""></p>
+<p><a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/blur.jpg" target="_blank" rel="external">点此下载</a></p>
+<h2 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h2><h3 id="加入椒盐噪声"><a href="#加入椒盐噪声" class="headerlink" title="加入椒盐噪声"></a>加入椒盐噪声</h3><p>设加入噪声的比例为p。在每个像素位置，生成 [0,1) 的随机数，当随机数值小于0.5p时，加入胡椒噪声；当随机数值在 [0.5p, p) 范围内时，加入盐噪声。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//加入椒盐噪声</span></div><div class="line"><span class="function">Mat <span class="title">addNoise</span><span class="params">(<span class="keyword">const</span> Mat &amp;srcImage, <span class="keyword">double</span> p)</span> </span>&#123;</div><div class="line">    Mat dstImage;</div><div class="line">    srcImage.copyTo(dstImage);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; dstImage.rows; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; dstImage.cols; j++) &#123;</div><div class="line">            <span class="comment">//生成 [0,1) 的随机数</span></div><div class="line">            <span class="keyword">double</span> randnum;</div><div class="line">            randnum = rand() / <span class="keyword">double</span>(RAND_MAX);</div><div class="line">            <span class="comment">//加入胡椒噪声</span></div><div class="line">            <span class="keyword">if</span> (randnum &lt; <span class="number">0.5</span> * p) dstImage.at&lt;Vec3b&gt;(i, j) = &#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span> &#125;;</div><div class="line">            <span class="comment">//加入盐噪声</span></div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (randnum &lt; p) dstImage.at&lt;Vec3b&gt;(i, j) = &#123; <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span> &#125;;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dstImage;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>加入椒盐噪声后的图像：</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/noiImage.png" alt=""></p>
+<h3 id="边界扩展"><a href="#边界扩展" class="headerlink" title="边界扩展"></a>边界扩展</h3><p>为了便于边界点的模板操作，对原图的边界进行扩展。目标图像上的像素坐标在扩展图像上对应于窗口区域的左上角位置。补0扩展在滤波操作中会显著减小边界点的灰度值，这里采用反射扩展。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Mat expImage, dstImage, imageROI;</div><div class="line">srcImage.copyTo(expImage);</div><div class="line"><span class="keyword">int</span> a, b;</div><div class="line">a = (ksize.width - <span class="number">1</span>) / <span class="number">2</span>;</div><div class="line">b = (ksize.height - <span class="number">1</span>) / <span class="number">2</span>;</div><div class="line"><span class="comment">//边界反射扩展，目标图像上的像素坐标对应于窗口区域的左上角位置</span></div><div class="line">copyMakeBorder(expImage, expImage, b, b, a, a, BORDER_REFLECT);</div><div class="line">dstImage = Mat(srcImage.size(), srcImage.type());</div></pre></td></tr></table></figure>
+<h3 id="椒盐噪声滤波"><a href="#椒盐噪声滤波" class="headerlink" title="椒盐噪声滤波"></a>椒盐噪声滤波</h3><h4 id="算术均值滤波"><a href="#算术均值滤波" class="headerlink" title="算术均值滤波"></a>算术均值滤波</h4><p>令<img src="http://latex.codecogs.com/svg.latex?S_{xy}" alt="">表示中心在<img src="http://latex.codecogs.com/svg.latex?(x,y" alt="">)，尺寸为<img src="http://latex.codecogs.com/svg.latex?m\times n" alt="">的矩形子图像窗口的坐标集。算术均值滤波可表示为：</p>
+<p>​                    <img src="http://latex.codecogs.com/svg.latex?\hat f(x,y" alt="">=\frac{1}{mn}\sum<em>{(s,t)\in S</em>{xy}}{g(x,y)})</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; dstImage.rows; i++) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; dstImage.cols; j++) &#123;</div><div class="line">        imageROI = expImage(Rect(j, i, ksize.width, ksize.height));</div><div class="line">        <span class="comment">//计算算数均值</span></div><div class="line">        Vec4b m = (Vec4b)mean(imageROI);</div><div class="line">        dstImage.at&lt;Vec3b&gt;(i, j) = &#123; m[<span class="number">0</span>], m[<span class="number">1</span>], m[<span class="number">2</span>] &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>算术均值滤波后的图像：</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/aritFilter.png" alt=""></p>
+<h4 id="几何均值滤波"><a href="#几何均值滤波" class="headerlink" title="几何均值滤波"></a>几何均值滤波</h4><p>每个被复原像素由子图像窗口中像素点的乘积结果求<img src="http://latex.codecogs.com/svg.latex?\frac{1}{mn}" alt="">次幂得到：</p>
+<p><img src="http://latex.codecogs.com/svg.latex?\hat f(x,y" alt="">=\left(\prod<em>{(s,t)\in S</em>{xy}}{g(x,y)} \right) ^{\frac{1}{mn}})</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; dstImage.rows; i++) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; dstImage.cols; j++) &#123;</div><div class="line">        <span class="comment">//初始化乘积</span></div><div class="line">        Vec3d product = &#123; <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span> &#125;;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; ksize.height; m++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> n = <span class="number">0</span>; n &lt; ksize.width; n++) &#123;</div><div class="line">                <span class="comment">//累乘像素灰度值</span></div><div class="line">                product[<span class="number">0</span>] *= expImage.at&lt;Vec3b&gt;(i + m, j + n)[<span class="number">0</span>];</div><div class="line">                product[<span class="number">1</span>] *= expImage.at&lt;Vec3b&gt;(i + m, j + n)[<span class="number">1</span>];</div><div class="line">                product[<span class="number">2</span>] *= expImage.at&lt;Vec3b&gt;(i + m, j + n)[<span class="number">2</span>];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//计算几何均值</span></div><div class="line">        Vec3b c;</div><div class="line">        <span class="keyword">double</span> b = <span class="number">1.0</span> / (ksize.width * ksize.height);</div><div class="line">        c[<span class="number">0</span>] = (uchar)<span class="built_in">pow</span>(product[<span class="number">0</span>], b);</div><div class="line">        c[<span class="number">1</span>] = (uchar)<span class="built_in">pow</span>(product[<span class="number">1</span>], b);</div><div class="line">        c[<span class="number">2</span>] = (uchar)<span class="built_in">pow</span>(product[<span class="number">2</span>], b);</div><div class="line">        dstImage.at&lt;Vec3b&gt;(i, j) = c;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>几何均值滤波后的图像：</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/geoFilter_pk3.png" alt=""></p>
+<p>可以看出，几何均值滤波不能过滤胡椒噪声，反而会扩大胡椒噪声。由几何均值滤波公式，当窗口区域中有像素点的灰度值为0时，计算得到的几何均值就为0。即几何均值滤波后，胡椒噪声周围的像素点都将变为黑点。</p>
+<p>考虑到几何均值滤波可以过滤盐噪声，可对图像中的胡椒噪声取反，变为盐噪声，再进行滤波。</p>
+<p>加入一行代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (expImage.at&lt;Vec3b&gt;(i + m, j + n)[<span class="number">0</span>] == <span class="number">0</span>)expImage.at&lt;Vec3b&gt;(i + m, j + n) = &#123;<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>&#125;;</div></pre></td></tr></table></figure>
+<p>对胡椒噪声取反后，几何均值滤波得到的图像：</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/geoFilter.png" alt=""></p>
+<h4 id="谐波均值滤波"><a href="#谐波均值滤波" class="headerlink" title="谐波均值滤波"></a>谐波均值滤波</h4><p>谐波均值滤波可表示为：</p>
+<p><img src="http://latex.codecogs.com/svg.latex?\hat f(x,y" alt="">=\frac{mn}{\sum \limits<em>{(s,t)\in S</em>{xy}}{\frac{1}{g(x,y)}}})</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; dstImage.rows; i++) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; dstImage.cols; j++) &#123;</div><div class="line">        <span class="comment">//初始化分母（灰度值倒数之和）</span></div><div class="line">        Vec3d den = &#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span> &#125;;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; ksize.height; m++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> n = <span class="number">0</span>; n &lt; ksize.width; n++) &#123;</div><div class="line">                <span class="comment">//累加灰度值倒数</span></div><div class="line">                den[<span class="number">0</span>] += <span class="number">1.0</span> / expImage.at&lt;Vec3b&gt;(i + m, j + n)[<span class="number">0</span>];</div><div class="line">                den[<span class="number">1</span>] += <span class="number">1.0</span> / expImage.at&lt;Vec3b&gt;(i + m, j + n)[<span class="number">1</span>];</div><div class="line">                den[<span class="number">2</span>] += <span class="number">1.0</span> / expImage.at&lt;Vec3b&gt;(i + m, j + n)[<span class="number">2</span>];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//计算谐波均值</span></div><div class="line">        Vec3b c;</div><div class="line">        c[<span class="number">0</span>] = (uchar)(ksize.width * ksize.height / den[<span class="number">0</span>]);</div><div class="line">        c[<span class="number">1</span>] = (uchar)(ksize.width * ksize.height / den[<span class="number">1</span>]);</div><div class="line">        c[<span class="number">2</span>] = (uchar)(ksize.width * ksize.height / den[<span class="number">2</span>]);</div><div class="line">        dstImage.at&lt;Vec3b&gt;(i, j) = c;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>谐波均值滤波后的图像：</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/harFilter_pk3.png" alt=""></p>
+<p>同几何均值滤波类似，谐波均值滤波也不能过滤胡椒噪声。由谐波均值滤波公式，当窗口区域中有像素点的灰度值为0时，分母为无穷大，计算得到的谐波均值为0。即谐波均值滤波后，胡椒噪声周围的像素点都将变为黑点。</p>
+<p>同样的，对图像中的胡椒噪声取反，变为盐噪声，再进行滤波。滤波得到的图像：</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/harFilter.png" alt=""></p>
+<h4 id="中值滤波"><a href="#中值滤波" class="headerlink" title="中值滤波"></a>中值滤波</h4><p>取子图像窗口中像素点灰度的中值作为被复原像素点的灰度值：</p>
+<p><img src="http://latex.codecogs.com/svg.latex?\hat f(x,y" alt="">=\mathop{medium}\limits<em>{(s,t)\in S</em>{xy}}{g(x,y)})</p>
+<p>首先考虑通过对窗口区域像素的灰度值进行排序来计算中值。对于大小为 <img src="http://latex.codecogs.com/svg.latex?n\times n" alt=""> 的模板核，冒泡排序的时间复杂度为O(<img src="http://latex.codecogs.com/svg.latex?n^4" alt="">)，快速排序的时间复杂度为O(<img src="http://latex.codecogs.com/svg.latex?n^2\log n" alt="">)。显然对于较大的模板核，计算时间很长。</p>
+<p>论文《AFast Two-Dimensional Median Filtering Algorithm》[1] 中提出了一种时间复杂度为O(n)的中值计算方法。</p>
+<p> <strong>利用灰度直方图计算中值</strong></p>
+<pre><code>利用窗口区域的灰度直方图计算其像素点中值，对于深度一定的图像，计算时间为常数，即复杂度为O(1)。
+</code></pre><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//在直方图中计算中值</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">calcMedium</span><span class="params">(<span class="keyword">const</span> Mat &amp;hist, <span class="keyword">int</span> total)</span> </span>&#123;</div><div class="line">    <span class="comment">//计算中值时，停止计数值为像素总数的 1/2</span></div><div class="line">    <span class="keyword">int</span> stopCount = total / <span class="number">2</span>;</div><div class="line">    <span class="keyword">float</span> s = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; hist.size[<span class="number">0</span>]; i++) &#123;</div><div class="line">        s += hist.at&lt;<span class="keyword">float</span>&gt;(i);</div><div class="line">        <span class="keyword">if</span> (s &gt; stopCount) <span class="keyword">return</span> i;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>计算灰度直方图</strong></p>
+<p>在每一行的起始，计算窗口区域的灰度直方图，在从一个像素点移动到与之相邻（水平或垂直方向）的像素点时，动态地更新灰度直方图。如下图所示。对于 <img src="http://latex.codecogs.com/svg.latex?n\times n" alt=""> 的窗口区域，每次移动在直方图中执行n次减法与n次加法，时间复杂度为O(n)。</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/mid_algorithm.png" alt=""></p>
+<p>[2]</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; dstImage.rows; i++) &#123;</div><div class="line">    imageROI = expImage(Rect(<span class="number">0</span>, i, ksize.width, ksize.height));</div><div class="line">    <span class="comment">//将三通道的ROI分割为三个单通道图像</span></div><div class="line">    Mat ROIplane[<span class="number">3</span>];</div><div class="line">    split(imageROI, ROIplane);</div><div class="line">    <span class="comment">//计算每个单通道图像的直方图</span></div><div class="line">    Mat hist[<span class="number">3</span>];</div><div class="line">    <span class="keyword">int</span> channel = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> histSize = <span class="number">256</span>;</div><div class="line">    <span class="keyword">int</span> dims = <span class="number">1</span>;</div><div class="line">    <span class="keyword">float</span> hranges[] = &#123; <span class="number">0</span>, <span class="number">255</span> &#125;;</div><div class="line">    <span class="keyword">const</span> <span class="keyword">float</span> *ranges[] = &#123; hranges &#125;;</div><div class="line">    calcHist(&amp;ROIplane[<span class="number">0</span>], <span class="number">1</span>, &amp;channel, Mat(), hist[<span class="number">0</span>], dims, &amp;histSize, ranges);</div><div class="line">    calcHist(&amp;ROIplane[<span class="number">1</span>], <span class="number">1</span>, &amp;channel, Mat(), hist[<span class="number">1</span>], dims, &amp;histSize, ranges);	</div><div class="line">    calcHist(&amp;ROIplane[<span class="number">2</span>], <span class="number">1</span>, &amp;channel, Mat(), hist[<span class="number">2</span>], dims, &amp;histSize, ranges);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; dstImage.cols; j++) &#123;</div><div class="line">        <span class="keyword">if</span> (j &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="comment">//更新直方图，删去原ROI最左边的列，添加右边一列</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; ksize.height; k++) &#123;</div><div class="line">                hist[<span class="number">0</span>].at&lt;<span class="keyword">float</span>&gt;(expImage.at&lt;Vec3b&gt;(i + k, j - <span class="number">1</span>)[<span class="number">0</span>]) -= <span class="number">1</span>;</div><div class="line">                hist[<span class="number">0</span>].at&lt;<span class="keyword">float</span>&gt;(expImage.at&lt;Vec3b&gt;(i + k, j + ksize.width - <span class="number">1</span>)[<span class="number">0</span>]) += <span class="number">1</span>;</div><div class="line">                hist[<span class="number">1</span>].at&lt;<span class="keyword">float</span>&gt;(expImage.at&lt;Vec3b&gt;(i + k, j - <span class="number">1</span>)[<span class="number">1</span>]) -= <span class="number">1</span>;</div><div class="line">                hist[<span class="number">1</span>].at&lt;<span class="keyword">float</span>&gt;(expImage.at&lt;Vec3b&gt;(i + k, j + ksize.width - <span class="number">1</span>)[<span class="number">1</span>]) += <span class="number">1</span>;</div><div class="line">                hist[<span class="number">2</span>].at&lt;<span class="keyword">float</span>&gt;(expImage.at&lt;Vec3b&gt;(i + k, j - <span class="number">1</span>)[<span class="number">2</span>]) -= <span class="number">1</span>;</div><div class="line">                hist[<span class="number">2</span>].at&lt;<span class="keyword">float</span>&gt;(expImage.at&lt;Vec3b&gt;(i + k, j + ksize.width - <span class="number">1</span>)[<span class="number">2</span>]) += <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//计算中值</span></div><div class="line">        Vec3b m;</div><div class="line">        <span class="keyword">int</span> total = ksize.width * ksize.height;</div><div class="line">        m[<span class="number">0</span>] = calcMedium(hist[<span class="number">0</span>], total);</div><div class="line">        m[<span class="number">1</span>] = calcMedium(hist[<span class="number">1</span>], total);</div><div class="line">        m[<span class="number">2</span>] = calcMedium(hist[<span class="number">2</span>], total);</div><div class="line">        dstImage.at&lt;Vec3b&gt;(i, j) = m;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>中值滤波后的图像：</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/midFilter.png" alt=""></p>
+<h3 id="运动模糊图像复原"><a href="#运动模糊图像复原" class="headerlink" title="运动模糊图像复原"></a>运动模糊图像复原</h3><h4 id="运动模糊的退化函数"><a href="#运动模糊的退化函数" class="headerlink" title="运动模糊的退化函数"></a>运动模糊的退化函数</h4><p>假设图像以一定的速率做匀速直线运动，x, y 方向上的速度分别为 <img src="http://latex.codecogs.com/svg.latex?x_0(t" alt="">=\frac{at}{T})，<img src="http://latex.codecogs.com/svg.latex?y_0(t" alt="">=\frac{bt}{T}) 。运动模糊的退化函数可表示为</p>
+<p><img src="http://latex.codecogs.com/svg.latex?H(u,v" alt="">=\frac{T}{\pi (ua+vb)}\sin\left[\pi (ua+vb)\right]e^{-j\pi (ua+vb)})</p>
+<p><img src="http://latex.codecogs.com/svg.latex?=\frac{T}{\pi (ua+vb" alt="">}\sin\left<a href="\cos\left[\pi (ua+vb">\pi (ua+vb)\right</a>\right]-j\sin\left[\pi (ua+vb)\right]))</p>
+<p><img src="http://latex.codecogs.com/svg.latex?=T\frac{\sin\left[2\pi (ua+vb" alt="">\right]}{2\pi (ua+vb)}+jT\frac{\cos\left[2\pi (ua+vb)\right]-1}{2\pi (ua+vb)})</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 运动模糊</span></div><div class="line"><span class="function">Mat <span class="title">motionBlur</span><span class="params">(Size msize, <span class="keyword">double</span> a, <span class="keyword">double</span> b, <span class="keyword">double</span> T)</span> </span>&#123;</div><div class="line">    <span class="comment">//建立一个2通道32位浮点数的矩阵，通道1存放实部，通道2存放虚部</span></div><div class="line">    Mat degMat = Mat(msize, CV_32FC2);</div><div class="line">    <span class="keyword">double</span> k;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; msize.width; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; msize.height; j++) &#123;</div><div class="line">            k = <span class="number">2</span> * PI * (i * a + j * b);</div><div class="line">            <span class="comment">//处理分母为0的情况</span></div><div class="line">            <span class="keyword">if</span> (k == <span class="number">0</span>) k = <span class="number">0.0001</span>;</div><div class="line">            degMat.at&lt;Vec2f&gt;(i, j)[<span class="number">0</span>] = T * <span class="built_in">sin</span>(k) / k;</div><div class="line">            degMat.at&lt;Vec2f&gt;(i, j)[<span class="number">1</span>] = T * (<span class="built_in">cos</span>(k) - <span class="number">1</span>) / k;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> degMat;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="维纳滤波"><a href="#维纳滤波" class="headerlink" title="维纳滤波"></a>维纳滤波</h4><p>维纳滤波可近似表示为</p>
+<p><img src="http://latex.codecogs.com/svg.latex?\hat F(u,v" alt="">=\left[\frac{1}{H(u,v)}\frac{|H(u,v)|^2}{|H(u,v)|^2+K}\right]G(u,v))</p>
+<p>其中，K 为信噪比。</p>
+<p>设<img src="http://latex.codecogs.com/svg.latex?G(u,v" alt="">=a_1+jb_1)，<img src="http://latex.codecogs.com/svg.latex?H(u,v" alt="">=a_2+jb_2)。则上述公式可化为：</p>
+<p><img src="http://latex.codecogs.com/svg.latex?\hat F(u,v" alt="">=\frac{a_1+jb_1}{a_2+jb_2}\cdot\frac{|H(u,v)|^2}{|H(u,v)|^2+K})</p>
+<p><img src="http://latex.codecogs.com/svg.latex?=\frac{(a_1+jb_1" alt="">(a_2-jb_2)}{(a_2+jb_2)(a_2-jb_2)}\cdot\frac{|H(u,v)|^2}{|H(u,v)|^2+K})</p>
+<p><img src="http://latex.codecogs.com/svg.latex?=\frac{(a_1a_2+b_1b_2" alt="">+j(a_2b_1-a_1b_2)}{(a_2^2+b_2^2)+K})</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//维纳滤波</span></div><div class="line"><span class="function">Mat <span class="title">wienerFilter</span><span class="params">(<span class="keyword">const</span> Mat &amp;blurMat, <span class="keyword">const</span> Mat &amp;degMat, <span class="keyword">double</span> K = <span class="number">0.01</span>)</span> </span>&#123;</div><div class="line">    Mat blur_plane[<span class="number">2</span>], deg_plane[<span class="number">2</span>], res_plane[<span class="number">2</span>];</div><div class="line">    <span class="comment">//分割2通道的矩阵，提取实部和虚部</span></div><div class="line">    split(blurMat, blur_plane);</div><div class="line">    split(degMat, deg_plane);</div><div class="line">    Mat mul[<span class="number">6</span>];</div><div class="line">    multiply(deg_plane[<span class="number">0</span>], deg_plane[<span class="number">0</span>], mul[<span class="number">0</span>]);</div><div class="line">    multiply(deg_plane[<span class="number">1</span>], deg_plane[<span class="number">1</span>], mul[<span class="number">1</span>]);</div><div class="line">    multiply(blur_plane[<span class="number">0</span>], deg_plane[<span class="number">0</span>], mul[<span class="number">2</span>]);</div><div class="line">    multiply(blur_plane[<span class="number">1</span>], deg_plane[<span class="number">1</span>], mul[<span class="number">3</span>]);</div><div class="line">    multiply(blur_plane[<span class="number">1</span>], deg_plane[<span class="number">0</span>], mul[<span class="number">4</span>]);</div><div class="line">    multiply(blur_plane[<span class="number">0</span>], deg_plane[<span class="number">1</span>], mul[<span class="number">5</span>]);</div><div class="line">    divide(mul[<span class="number">2</span>] + mul[<span class="number">3</span>], mul[<span class="number">0</span>] + mul[<span class="number">1</span>] + K, res_plane[<span class="number">0</span>]);</div><div class="line">    divide(mul[<span class="number">4</span>] - mul[<span class="number">5</span>], mul[<span class="number">0</span>] + mul[<span class="number">1</span>] + K, res_plane[<span class="number">1</span>]);</div><div class="line">    Mat resMat;</div><div class="line">    merge(res_plane, <span class="number">2</span>, resMat);</div><div class="line">    <span class="keyword">return</span> resMat;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="图像复原"><a href="#图像复原" class="headerlink" title="图像复原"></a>图像复原</h4><p>对模糊图像进行傅里叶变换，采用变换得到的频谱与估计的退化函数进行维纳滤波，再对滤波后的频谱进行傅里叶反变换，得到复原图像。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">//读取模糊图像</span></div><div class="line">    Mat blurImage;</div><div class="line">    blurImage = imread(<span class="string">"blur.jpg"</span>);</div><div class="line">    imshow(<span class="string">"Blur Image"</span>, blurImage);</div><div class="line">    <span class="comment">//分割RGB三通道图像</span></div><div class="line">    Mat blur_plane[<span class="number">3</span>], blur_spec[<span class="number">3</span>];</div><div class="line">    split(blurImage, blur_plane);</div><div class="line">    <span class="comment">//离散傅里叶变换</span></div><div class="line">    blur_spec[<span class="number">0</span>] = performDFT(blur_plane[<span class="number">0</span>]);</div><div class="line">    blur_spec[<span class="number">1</span>] = performDFT(blur_plane[<span class="number">1</span>]);</div><div class="line">    blur_spec[<span class="number">2</span>] = performDFT(blur_plane[<span class="number">2</span>]);</div><div class="line">    <span class="comment">//生成运动模糊退化函数</span></div><div class="line">    Mat H;</div><div class="line">    H = motionBlur(Size(blur_spec[<span class="number">0</span>].cols, blur_spec[<span class="number">0</span>].rows), <span class="number">0.0005</span>, <span class="number">-0.0001</span>, <span class="number">1</span>);</div><div class="line">    <span class="comment">//维纳滤波，傅里叶逆变换</span></div><div class="line">    Mat res_plane[<span class="number">3</span>];</div><div class="line">    res_plane[<span class="number">0</span>] = performIDFT(wienerFilter(blur_spec[<span class="number">0</span>], H, <span class="number">0.02</span>));</div><div class="line">    res_plane[<span class="number">1</span>] = performIDFT(wienerFilter(blur_spec[<span class="number">1</span>], H, <span class="number">0.02</span>));</div><div class="line">    res_plane[<span class="number">2</span>] = performIDFT(wienerFilter(blur_spec[<span class="number">2</span>], H, <span class="number">0.02</span>));</div><div class="line">    <span class="comment">//合成三通道图像</span></div><div class="line">    Mat resImage;</div><div class="line">    merge(res_plane, <span class="number">3</span>, resImage);</div><div class="line">    imshow(<span class="string">"Restored Image"</span>, resImage);</div><div class="line">    waitKey(<span class="number">0</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>复原图像：</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/resImage.png" alt=""></p>
+<p>在当前设置的退化函数参数下，去模糊的效果不明显，同时有一定的颜色失真。</p>
+<h4 id="Matlab-复原"><a href="#Matlab-复原" class="headerlink" title="Matlab 复原"></a>Matlab 复原</h4><p>Matlab 下调用函数进行图像复原：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">%读取模糊图像</span></div><div class="line">blur = im2double(imread(<span class="string">'blur.jpg'</span>));</div><div class="line">figure(<span class="number">1</span>);imshow(blur);</div><div class="line">title(<span class="string">'Blur Image'</span>);</div><div class="line"><span class="comment">%运动模糊卷积核</span></div><div class="line">len = <span class="number">21</span>;</div><div class="line">theta = <span class="number">11</span>;</div><div class="line">h = fspecial(<span class="string">'motion'</span>, len, theta);</div><div class="line"><span class="comment">%维纳滤波复原，信噪比设为0.02</span></div><div class="line">res = deconvwnr(blur, h, <span class="number">0.02</span>);</div><div class="line">figure(<span class="number">2</span>);imshow(res);</div><div class="line">title(<span class="string">'Restored Image'</span>);</div></pre></td></tr></table></figure>
+<p>得到的复原图像：</p>
+<p><img src="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016-10-19/wiener.png" alt=""></p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>[1] Huang T, Yang G,Tang G. A fast two-dimensional median filtering algorithm[J]. IEEE Transactionson Acoustics, Speech, and Signal Processing, 1979, 27(1): 13-18.</p>
+<p>[2] Perreault S, Hébert P. Medianfiltering in constant time[J]. IEEE transactions on image processing, 2007,16(9): 2389-2394.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/26/2016-09-26-markdown-edit-image/" rel="next" title="MarkDown 图片编辑">
+                <i class="fa fa-chevron-left"></i> MarkDown 图片编辑
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/28/2016-10-26-GMM_EM/" rel="prev" title="GMM的EM算法实现">
+                GMM的EM算法实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="simochen" />
+          <p class="site-author-name" itemprop="name">simochen</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/simochen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#函数说明"><span class="nav-number">1.</span> <span class="nav-text">函数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Mat-构造函数"><span class="nav-number">1.1.</span> <span class="nav-text">1. Mat 构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Mat-值拷贝"><span class="nav-number">1.2.</span> <span class="nav-text">2. Mat 值拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Mat-截取"><span class="nav-number">1.3.</span> <span class="nav-text">3. Mat 截取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Sum-Mean"><span class="nav-number">1.4.</span> <span class="nav-text">4. Sum / Mean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-divide"><span class="nav-number">1.5.</span> <span class="nav-text">5. divide</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">2.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-复原椒盐噪声图像"><span class="nav-number">2.1.</span> <span class="nav-text">1. 复原椒盐噪声图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-复原运动模糊图像"><span class="nav-number">2.2.</span> <span class="nav-text">2. 复原运动模糊图像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序实现"><span class="nav-number">3.</span> <span class="nav-text">程序实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加入椒盐噪声"><span class="nav-number">3.1.</span> <span class="nav-text">加入椒盐噪声</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边界扩展"><span class="nav-number">3.2.</span> <span class="nav-text">边界扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#椒盐噪声滤波"><span class="nav-number">3.3.</span> <span class="nav-text">椒盐噪声滤波</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算术均值滤波"><span class="nav-number">3.3.1.</span> <span class="nav-text">算术均值滤波</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#几何均值滤波"><span class="nav-number">3.3.2.</span> <span class="nav-text">几何均值滤波</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#谐波均值滤波"><span class="nav-number">3.3.3.</span> <span class="nav-text">谐波均值滤波</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中值滤波"><span class="nav-number">3.3.4.</span> <span class="nav-text">中值滤波</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运动模糊图像复原"><span class="nav-number">3.4.</span> <span class="nav-text">运动模糊图像复原</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#运动模糊的退化函数"><span class="nav-number">3.4.1.</span> <span class="nav-text">运动模糊的退化函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#维纳滤波"><span class="nav-number">3.4.2.</span> <span class="nav-text">维纳滤波</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图像复原"><span class="nav-number">3.4.3.</span> <span class="nav-text">图像复原</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Matlab-复原"><span class="nav-number">3.4.4.</span> <span class="nav-text">Matlab 复原</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">3.5.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simochen</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
