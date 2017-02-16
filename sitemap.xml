@@ -2,6 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://simochen.github.io/2016/10/02/opencv-2/</loc>
+    
+    <lastmod>2017-02-16T19:35:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://simochen.github.io/2016/10/02/opencv-1/</loc>
+    
+    <lastmod>2017-02-16T19:29:52.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://simochen.github.io/2015/04/19/java-install-and-config/</loc>
+    
+    <lastmod>2017-02-16T19:28:12.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://simochen.github.io/2016/05/03/sublime_3_python_config/</loc>
+    
+    <lastmod>2017-02-16T19:27:49.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://simochen.github.io/2016/09/28/win10-vs2015-opencv/</loc>
+    
+    <lastmod>2017-02-16T19:27:17.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://simochen.github.io/2016/09/29/macos-sierra-office/</loc>
+    
+    <lastmod>2017-02-16T19:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://simochen.github.io/2016/09/26/a-story-about-bicycle/</loc>
     
     <lastmod>2017-02-16T19:22:17.000Z</lastmod>
@@ -16,13 +58,6 @@
   </url>
   
   <url>
-    <loc>https://simochen.github.io/2016/09/28/win10-vs2015-opencv/</loc>
-    
-    <lastmod>2017-02-16T19:20:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://simochen.github.io/2016/09/26/markdown-edit-image/</loc>
     
     <lastmod>2017-02-16T19:12:33.000Z</lastmod>
@@ -30,23 +65,9 @@
   </url>
   
   <url>
-    <loc>https://simochen.github.io/2016/05/03/sublime_3_python_config/</loc>
-    
-    <lastmod>2017-02-16T18:48:42.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://simochen.github.io/2015/07/15/mactex-2/</loc>
     
     <lastmod>2017-02-16T18:41:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2015/04/19/java-install-and-config/</loc>
-    
-    <lastmod>2017-02-16T18:39:12.000Z</lastmod>
     
   </url>
   
