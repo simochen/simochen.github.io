@@ -97,7 +97,6 @@
 <meta property="og:description" content="matlab下混合高斯模型的EM算法实现。
 参数说明N：样本数M：Gauss数
 高斯模型模型表示$N(\mathbf{x;\mu,\Sigma})=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-">
-<meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\Sigma}=\frac{1}{N}\sum_{n=1}^N(\mathbf{x}_n-\mathbf{\hat\mu}">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?p(\mathbf{x}">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?s.t. \sum_{m=1}^Mc_m=1">
@@ -120,13 +119,13 @@
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}_m=\frac{1}{\gamma_m}\sum_{n=1}^N\gamma_m(n">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\Sigma}_m=\frac{1}{\gamma_m}\sum_{n=1}^N\gamma_m(n">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\hat c_m=\frac{\gamma_m}{\sum\limits_{m=1}^M\gamma_m}">
-<meta property="og:updated_time" content="2017-02-16T20:38:00.000Z">
+<meta property="og:updated_time" content="2017-02-16T20:39:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GMM的EM算法实现">
 <meta name="twitter:description" content="matlab下混合高斯模型的EM算法实现。
 参数说明N：样本数M：Gauss数
 高斯模型模型表示$N(\mathbf{x;\mu,\Sigma})=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-">
-<meta name="twitter:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n">
+<meta name="twitter:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\Sigma}=\frac{1}{N}\sum_{n=1}^N(\mathbf{x}_n-\mathbf{\hat\mu}">
 
 
 
@@ -390,8 +389,8 @@
         <p>matlab下混合高斯模型的EM算法实现。</p>
 <h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h2><p>N：样本数<br>M：Gauss数</p>
 <h2 id="高斯模型"><a href="#高斯模型" class="headerlink" title="高斯模型"></a>高斯模型</h2><h3 id="模型表示"><a href="#模型表示" class="headerlink" title="模型表示"></a>模型表示</h3><p>$N(\mathbf{x;\mu,\Sigma})=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-\mu})}}$<br>其中，d 为维数。</p>
-<h3 id="最大似然估计"><a href="#最大似然估计" class="headerlink" title="最大似然估计"></a>最大似然估计</h3><p>$L(\theta)=\sum_{n=1}^N\log N(\mathbf{x}<em>n;\mathbf{\mu,\Sigma})=-\frac{1}{2}\sum</em>{n=1}^N{d\log(2\pi)+\log|\mathbf{\Sigma}|+(\mathbf{x}_n-\mathbf{\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x}_n-\mathbf{\mu})}$</p>
-<p>得到的参数估计为：<br><img src="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n" alt=""></p>
+<h3 id="最大似然估计"><a href="#最大似然估计" class="headerlink" title="最大似然估计"></a>最大似然估计</h3><p>$$L(\theta)=\sum_{n=1}^N\log N(\mathbf{x}<em>n;\mathbf{\mu,\Sigma})=-\frac{1}{2}\sum</em>{n=1}^N{d\log(2\pi)+\log|\mathbf{\Sigma}|+(\mathbf{x}_n-\mathbf{\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x}_n-\mathbf{\mu})}$$</p>
+<p>得到的参数估计为：<br>$\mathbf{\hat\mu}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n$</p>
 <p><img src="http://latex.codecogs.com/svg.latex?\mathbf{\hat\Sigma}=\frac{1}{N}\sum_{n=1}^N(\mathbf{x}_n-\mathbf{\hat\mu}" alt="">(\mathbf{x}_n-\mathbf{\hat\mu})^T)</p>
 <h2 id="混合高斯模型"><a href="#混合高斯模型" class="headerlink" title="混合高斯模型"></a>混合高斯模型</h2><h3 id="模型表示-1"><a href="#模型表示-1" class="headerlink" title="模型表示"></a>模型表示</h3><p><img src="http://latex.codecogs.com/svg.latex?p(\mathbf{x}" alt="">=\sum_{m=1}^Mc_mN(\mathbf{x;\mu}_m,\mathbf{\Sigma}_m)))</p>
 <p><img src="http://latex.codecogs.com/svg.latex?s.t. \sum_{m=1}^Mc_m=1" alt=""></p>
