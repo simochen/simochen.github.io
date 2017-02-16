@@ -93,7 +93,7 @@
 <meta property="og:url" content="https://simochen.github.io/2015/07/19/mactex-1/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
-<meta property="og:updated_time" content="2017-02-16T18:27:52.000Z">
+<meta property="og:updated_time" content="2017-02-16T18:30:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mactex学习笔记(1)">
 <meta name="twitter:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
@@ -373,6 +373,14 @@
 <p>后来查阅资料时无意中进入文件夹</p>
 <pre><code>/usr/local/texlive/2015/texmf-dist/tex/latex/ctex/fontset/
 </code></pre><p>其中有若干设置文件，包括 ctex-fontset-adobe.def 、 ctex-fontset-mac.def 、 ctex-fontset-windows.def 等。打开 ctex-fontset-adobe.def 文件。发现其中涉及到的 Adobe 字体名为 AdobeSongStd-Light、AdobeKaitiStd-Regular、AdobeHeitiStd-Regular、AdobeFangsongStd-Regular， 即最近版本使用的 Adobe 字体。于是不再尝试安装旧的 Adobe 字体，而是将调用的代码中的 adobefonts 改为 adobe ，再次编译，能够正常显示各种设定字体。</p>
+<h2 id="未定义命令-sjtuspace"><a href="#未定义命令-sjtuspace" class="headerlink" title="未定义命令 \sjtuspace.."></a>未定义命令 <code>\sjtuspace..</code></h2><p>查阅资料，在 bbs.ctex 上有人问了类似的问题，引用回答如下</p>
+<p><strong>回答部分</strong></p>
+<blockquote>
+<p>这是 ctex 宏包的 Bug，以前没有显现出来，fontspec 2.4 版本以后显现出来了。<br>暂时的解决办法，在 <code>\documentclass</code> 的前面写：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">expandafter</span></span><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">csname</span></span> CTEX@spaceChar<span class="tag">\<span class="name">endcsname</span><span class="string">&#123;\hspace&#123;1em&#125;</span></span>&#125;</div></pre></td></tr></table></figure></p>
+<p>我们会尽快上传一个 ctex 宏包的新版本处理此问题。因为准备在今年转向完全重写的 ctex 宏包 2.0，所以以前的 1.x 的 ctex 宏包一直没有上传过更新。<br>进一步技术细节：<br>ctex 包中设置中文字体的命令要早于 \CTEX@spaceChar 的定义。而可能使用 <code>\CTEX@spaceChar</code> 的宏 <code>\CTEXsetfont</code> 则在 <code>\CTEX@spaceChar</code> 之前定义。<br>因为在线安装，用的是最新的 fontspec 2.4 版本。而 fontspec 改变了内部实现，需要在定义字体时设置字号，触发 <code>\CTEXsetfont</code>，造成问题。<br>​<br> 故在 diss.tex 文件 <code>\documentclass</code> 之前加入一行代码</p>
+</blockquote>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">expandafter</span></span><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">csname</span></span> CTEX@spaceChar<span class="tag">\<span class="name">endcsname</span><span class="string">&#123;\hspace&#123;1em&#125;</span></span>&#125;</div></pre></td></tr></table></figure>
+<p>编译通过。</p>
 <h2 id="粗体"><a href="#粗体" class="headerlink" title="粗体"></a>粗体</h2><p>对比生成的 diss.pdf 与参考文档 readme.pdf ，发现 readme.pdf 中黑体的部分在 diss.pdf 中为粗体的 Adobe 宋体。读 ctex-fontset-adobe.def 文件，粗体的部分应由黑体替换。但在文档中 <code>\bf</code> 命令没有自动将粗体替换为黑体。</p>
 <p>两种简单的处理方法：</p>
 <ul>
@@ -548,7 +556,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#缺少字体"><span class="nav-number">1.</span> <span class="nav-text">缺少字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#粗体"><span class="nav-number">2.</span> <span class="nav-text">粗体</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#缺少字体"><span class="nav-number">1.</span> <span class="nav-text">缺少字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未定义命令-sjtuspace"><span class="nav-number">2.</span> <span class="nav-text">未定义命令 \sjtuspace..</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#粗体"><span class="nav-number">3.</span> <span class="nav-text">粗体</span></a></li></ol></div>
             
 
           </div>
