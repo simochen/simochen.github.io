@@ -93,7 +93,7 @@
 <meta property="og:url" content="https://simochen.github.io/2015/07/19/mactex-1/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
-<meta property="og:updated_time" content="2017-02-16T18:35:38.000Z">
+<meta property="og:updated_time" content="2017-02-16T18:35:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mactex学习笔记(1)">
 <meta name="twitter:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
@@ -375,7 +375,7 @@
 </code></pre><p>其中有若干设置文件，包括 ctex-fontset-adobe.def 、 ctex-fontset-mac.def 、 ctex-fontset-windows.def 等。打开 ctex-fontset-adobe.def 文件。发现其中涉及到的 Adobe 字体名为 AdobeSongStd-Light、AdobeKaitiStd-Regular、AdobeHeitiStd-Regular、AdobeFangsongStd-Regular， 即最近版本使用的 Adobe 字体。于是不再尝试安装旧的 Adobe 字体，而是将调用的代码中的 adobefonts 改为 adobe ，再次编译，能够正常显示各种设定字体。</p>
 <h2 id="未定义命令-sjtuspace"><a href="#未定义命令-sjtuspace" class="headerlink" title="未定义命令 \sjtuspace.."></a>未定义命令 <code>\sjtuspace..</code></h2><p>接着测试 diss.tex 文件，编译报错，错误信息为<br>​<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Undefined control sequence \sjtuspace -&gt;\protect \CTEX@spaceChar\protect \CTEX@spaceChar</div></pre></td></tr></table></figure></p>
 <p>查找错误位置，sjtuthesis.cls 文件中</p>
-<p><code>\newcommand</code></p>
+<p><code>\newcommand\sjtuspace{}</code></p>
 <p>一行报错。</p>
 <p>查阅资料，在 bbs.ctex 上有人问了类似的问题，引用回答如下</p>
 <p><strong>回答部分</strong></p>
