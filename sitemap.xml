@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://simochen.github.io/2015/07/19/mactex-1/</loc>
+    
+    <lastmod>2017-02-16T18:21:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://simochen.github.io/about/index.html</loc>
     
     <lastmod>2017-02-16T17:50:56.000Z</lastmod>
@@ -19,118 +26,6 @@
     <loc>https://simochen.github.io/categories/index.html</loc>
     
     <lastmod>2017-02-16T17:47:37.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/09/26/markdown-edit-image/</loc>
-    
-    <lastmod>2017-02-16T03:46:37.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2017/02/10/python-nn/</loc>
-    
-    <lastmod>2017-02-16T03:46:04.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/11/12/opencv-6/</loc>
-    
-    <lastmod>2017-02-10T08:58:19.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/11/02/opencv-5/</loc>
-    
-    <lastmod>2017-02-10T08:58:19.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/10/28/GMM_EM/</loc>
-    
-    <lastmod>2016-10-28T09:46:34.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/10/19/opencv-4/</loc>
-    
-    <lastmod>2016-10-26T09:48:10.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/05/03/sublime_3_python_config/</loc>
-    
-    <lastmod>2016-10-26T07:06:59.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/10/24/latex-under-equation/</loc>
-    
-    <lastmod>2016-10-24T14:58:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/10/03/opencv-3/</loc>
-    
-    <lastmod>2016-10-24T13:31:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/10/02/opencv-2/</loc>
-    
-    <lastmod>2016-10-22T17:08:23.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2015/07/15/mactex-2/</loc>
-    
-    <lastmod>2016-10-19T08:48:18.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/09/28/win10-vs2015-opencv/</loc>
-    
-    <lastmod>2016-10-19T08:46:03.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/10/02/opencv-1/</loc>
-    
-    <lastmod>2016-10-19T08:43:35.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/10/19/snap/</loc>
-    
-    <lastmod>2016-10-19T08:37:49.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2016/09/29/macos-sierra-office/</loc>
-    
-    <lastmod>2016-10-05T10:08:30.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://simochen.github.io/2015/04/19/java-install-and-config/</loc>
-    
-    <lastmod>2016-09-21T13:22:01.000Z</lastmod>
     
   </url>
   
