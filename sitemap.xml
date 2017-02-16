@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://simochen.github.io/tags/index.html</loc>
+    
+    <lastmod>2017-02-16T17:48:59.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://simochen.github.io/categories/index.html</loc>
+    
+    <lastmod>2017-02-16T17:47:37.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://simochen.github.io/2016/09/26/markdown-edit-image/</loc>
     
     <lastmod>2017-02-16T03:46:37.000Z</lastmod>
