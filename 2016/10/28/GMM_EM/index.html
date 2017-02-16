@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Matlab,Algorithm,speech," />
 
 
 
@@ -88,24 +88,15 @@
 
 
 <meta name="description" content="matlab下混合高斯模型的EM算法实现。
-参数说明N：样本数
-M：Gauss数
-高斯模型模型表示=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-\mu})}})
-其中，d 为维数。
-最大似然估">
+参数说明N：样本数M：Gauss数
+高斯模型模型表示$N(\mathbf{x;\mu,\Sigma})=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GMM的EM算法实现">
 <meta property="og:url" content="https://simochen.github.io/2016/10/28/GMM_EM/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="matlab下混合高斯模型的EM算法实现。
-参数说明N：样本数
-M：Gauss数
-高斯模型模型表示=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-\mu})}})
-其中，d 为维数。
-最大似然估">
-<meta property="og:image" content="http://latex.codecogs.com/svg.latex?N(\mathbf{x;\mu,\Sigma}">
-<meta property="og:image" content="http://latex.codecogs.com/svg.latex?L(\theta">
-<meta property="og:image" content="http://latex.codecogs.com/svg.latex?=-\frac{1}{2}\sum_{n=1}^N\{d\log(2\pi">
+参数说明N：样本数M：Gauss数
+高斯模型模型表示$N(\mathbf{x;\mu,\Sigma})=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\Sigma}=\frac{1}{N}\sum_{n=1}^N(\mathbf{x}_n-\mathbf{\hat\mu}">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?p(\mathbf{x}">
@@ -129,16 +120,13 @@ M：Gauss数
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}_m=\frac{1}{\gamma_m}\sum_{n=1}^N\gamma_m(n">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\Sigma}_m=\frac{1}{\gamma_m}\sum_{n=1}^N\gamma_m(n">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\hat c_m=\frac{\gamma_m}{\sum\limits_{m=1}^M\gamma_m}">
-<meta property="og:updated_time" content="2016-10-28T09:46:34.000Z">
+<meta property="og:updated_time" content="2017-02-16T20:38:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GMM的EM算法实现">
 <meta name="twitter:description" content="matlab下混合高斯模型的EM算法实现。
-参数说明N：样本数
-M：Gauss数
-高斯模型模型表示=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-\mu})}})
-其中，d 为维数。
-最大似然估">
-<meta name="twitter:image" content="http://latex.codecogs.com/svg.latex?N(\mathbf{x;\mu,\Sigma}">
+参数说明N：样本数M：Gauss数
+高斯模型模型表示$N(\mathbf{x;\mu,\Sigma})=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-">
+<meta name="twitter:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n">
 
 
 
@@ -359,28 +347,6 @@ M：Gauss数
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/matlab/" itemprop="url" rel="index">
-                    <span itemprop="name">matlab</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -422,14 +388,10 @@ M：Gauss数
 
       
         <p>matlab下混合高斯模型的EM算法实现。</p>
-<h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h2><p>N：样本数</p>
-<p>M：Gauss数</p>
-<h2 id="高斯模型"><a href="#高斯模型" class="headerlink" title="高斯模型"></a>高斯模型</h2><h3 id="模型表示"><a href="#模型表示" class="headerlink" title="模型表示"></a>模型表示</h3><p><img src="http://latex.codecogs.com/svg.latex?N(\mathbf{x;\mu,\Sigma}" alt="">=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-\mu})}})</p>
-<p>其中，d 为维数。</p>
-<h3 id="最大似然估计"><a href="#最大似然估计" class="headerlink" title="最大似然估计"></a>最大似然估计</h3><p><img src="http://latex.codecogs.com/svg.latex?L(\theta" alt="">=\sum_{n=1}^N\log N(\mathbf{x}_n;\mathbf{\mu,\Sigma}))</p>
-<p><img src="http://latex.codecogs.com/svg.latex?=-\frac{1}{2}\sum_{n=1}^N\{d\log(2\pi" alt="">+\log|\mathbf{\Sigma}|+(\mathbf{x}_n-\mathbf{\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x}_n-\mathbf{\mu})})</p>
-<p>得到的参数估计为：</p>
-<p><img src="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n" alt=""></p>
+<h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h2><p>N：样本数<br>M：Gauss数</p>
+<h2 id="高斯模型"><a href="#高斯模型" class="headerlink" title="高斯模型"></a>高斯模型</h2><h3 id="模型表示"><a href="#模型表示" class="headerlink" title="模型表示"></a>模型表示</h3><p>$N(\mathbf{x;\mu,\Sigma})=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-\mu})}}$<br>其中，d 为维数。</p>
+<h3 id="最大似然估计"><a href="#最大似然估计" class="headerlink" title="最大似然估计"></a>最大似然估计</h3><p>$L(\theta)=\sum_{n=1}^N\log N(\mathbf{x}<em>n;\mathbf{\mu,\Sigma})=-\frac{1}{2}\sum</em>{n=1}^N{d\log(2\pi)+\log|\mathbf{\Sigma}|+(\mathbf{x}_n-\mathbf{\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x}_n-\mathbf{\mu})}$</p>
+<p>得到的参数估计为：<br><img src="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n" alt=""></p>
 <p><img src="http://latex.codecogs.com/svg.latex?\mathbf{\hat\Sigma}=\frac{1}{N}\sum_{n=1}^N(\mathbf{x}_n-\mathbf{\hat\mu}" alt="">(\mathbf{x}_n-\mathbf{\hat\mu})^T)</p>
 <h2 id="混合高斯模型"><a href="#混合高斯模型" class="headerlink" title="混合高斯模型"></a>混合高斯模型</h2><h3 id="模型表示-1"><a href="#模型表示-1" class="headerlink" title="模型表示"></a>模型表示</h3><p><img src="http://latex.codecogs.com/svg.latex?p(\mathbf{x}" alt="">=\sum_{m=1}^Mc_mN(\mathbf{x;\mu}_m,\mathbf{\Sigma}_m)))</p>
 <p><img src="http://latex.codecogs.com/svg.latex?s.t. \sum_{m=1}^Mc_m=1" alt=""></p>
@@ -474,6 +436,16 @@ M：Gauss数
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Matlab/" rel="tag"># Matlab</a>
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+            <a href="/tags/speech/" rel="tag"># speech</a>
+          
+        </div>
+      
 
       
         
@@ -492,10 +464,6 @@ M：Gauss数
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/02/opencv-5/" rel="prev" title="OpenCV 学习笔记（5）">
-                OpenCV 学习笔记（5） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -572,7 +540,7 @@ M：Gauss数
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -581,12 +549,19 @@ M：Gauss数
           
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
