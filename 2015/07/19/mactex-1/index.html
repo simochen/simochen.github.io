@@ -93,7 +93,7 @@
 <meta property="og:url" content="https://simochen.github.io/2015/07/19/mactex-1/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
-<meta property="og:updated_time" content="2017-02-16T18:23:36.000Z">
+<meta property="og:updated_time" content="2017-02-16T18:25:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mactex学习笔记(1)">
 <meta name="twitter:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
@@ -360,6 +360,7 @@
         <p>准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。</p>
 <a id="more"></a>
 <h2 id="缺少字体"><a href="#缺少字体" class="headerlink" title="缺少字体"></a>缺少字体</h2><p>首先测试 temptest.tex 文件（在TexShop中采用XeLaTeX模式编译），编译不通过，错误为部分<code>\..</code>命令后没有加空格，这样会连同后面的内容一同作为命令。加上空格后编译通过，但不能显示中文，模板说明中表明需要：</p>
+<p>​<br> 故在 diss.tex 文件 <code>\documentclass</code> 之前加入一行代码</p>
 <figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">expandafter</span></span><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">csname</span></span> CTEX@spaceChar<span class="tag">\<span class="name">endcsname</span><span class="string">&#123;\hspace&#123;1em&#125;</span></span>&#125;</div></pre></td></tr></table></figure>
 <p>编译通过。</p>
 <h2 id="粗体"><a href="#粗体" class="headerlink" title="粗体"></a>粗体</h2><p>对比生成的 diss.pdf 与参考文档 readme.pdf ，发现 readme.pdf 中黑体的部分在 diss.pdf 中为粗体的 Adobe 宋体。读 ctex-fontset-adobe.def 文件，粗体的部分应由黑体替换。但在文档中 <code>\bf</code> 命令没有自动将粗体替换为黑体。</p>
