@@ -93,7 +93,7 @@
 <meta property="og:url" content="https://simochen.github.io/2015/07/19/mactex-1/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
-<meta property="og:updated_time" content="2017-02-16T18:26:02.000Z">
+<meta property="og:updated_time" content="2017-02-16T18:27:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mactex学习笔记(1)">
 <meta name="twitter:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
@@ -360,6 +360,13 @@
         <p>准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。</p>
 <a id="more"></a>
 <h2 id="缺少字体"><a href="#缺少字体" class="headerlink" title="缺少字体"></a>缺少字体</h2><p>首先测试 temptest.tex 文件（在TexShop中采用XeLaTeX模式编译），编译不通过，错误为部分<code>\..</code>命令后没有加空格，这样会连同后面的内容一同作为命令。加上空格后编译通过，但不能显示中文，模板说明中表明需要：</p>
+<ul>
+<li><p>TeXGyreTermes 西文的:Regular、Italic、Bold、Bold Italic 四种 OTF 字体</p>
+<ul>
+<li>AdobeSongStd、AdobeKaitiStd、AdobeHeitiStd、AdobeFangsongStd 四款中文字体</li>
+</ul>
+</li>
+</ul>
 <p>将字体文件名改为所需的字体名，仍然不行。观察到字体文件的内容中仍显示原来的字体信息，与文件名无关。</p>
 <p>读 temptest.tex 与 sjtuthesis.cls 可知，上述要求的 AdobeSongStd 等字体没有显式的调用，涉及到调用 Adobe 字体的代码为：<br>​<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">LoadClass</span><span class="string">[fancyhdr,fntef,UTF8,adobefonts]</span><span class="string">&#123;ctexbook&#125;</span></span></div></pre></td></tr></table></figure></p>
 <p>尝试将上述代码中的 adobefonts 改为 AdobeSongStd-Light ，编译通过并能显示中文字体，且显示的中文字体不仅为宋体、原来文件设置的页眉的楷体也能够显示。推测这里的 AdobeSongStd-Light 可能仅起到一个入口的调用作用，而非设置字体为宋体。</p>
