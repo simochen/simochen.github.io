@@ -494,13 +494,9 @@
           
             <p>在用$\LaTeX$输入数学公式时，有时需要将公式的下标放在正下方：</p>
 <ol>
-<li><p>如果是数学符号，那么直接在<code>_</code>前加<code>\limits</code>命令放在正下方，如sum函数下面的取值范围，一般情况下是放在$\sum$的正下方。如果$\sum$在分母中，则默认会将取值范围置于右下角，如果需要放在正下方。可以如下实现：</p>
-<p><code>f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1}{g(x,y)}}}</code> </p>
-<p>显示为 $$f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1}{g(x,y)}}}$$</p>
+<li><p>如果是数学符号，那么直接在<code>_</code>前加<code>\limits</code>命令放在正下方，如sum函数下面的取值范围，一般情况下是放在$\sum$的正下方。如果$\sum$在分母中，则默认会将取值范围置于右下角，如果需要放在正下方。可以如下实现：<br><code>f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1}{g(x,y)}}}</code><br>显示为 $$f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1}{g(x,y)}}}$$</p>
 </li>
-<li><p>若是普通符号，那么要用<code>\mathop</code>先转成数学符号再用<code>\limits</code>，如</p>
-<p><code>f(x,y)=\mathop{medium}\limits_{(s,t)\in S_{xy}}{g(x,y)})</code></p>
-<p>显示为 $$f(x,y)=\mathop{medium}\limits_{(s,t)\in S_{xy}}{g(x,y)}​$$</p>
+<li><p>若是普通符号，那么要用<code>\mathop</code>先转成数学符号再用<code>\limits</code>，如<br><code>f(x,y)=\mathop{medium}\limits_{(s,t)\in S_{xy}}{g(x,y)})</code><br>显示为 $$f(x,y)=\mathop{medium}\limits_{(s,t)\in S_{xy}}{g(x,y)}​$$</p>
 </li>
 <li><p>对于双美元符之间的公式，Latex默认下标是放在正下方。所以就不需要加<code>\limits</code>。</p>
 </li>
@@ -634,7 +630,7 @@
 
       
         
-          <p>对图像进行傅里叶变换和频域滤波。</p>
+          <p>对图像进行傅里叶变换和频域滤波。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/10/03/opencv-3/#more" rel="contents">
@@ -769,7 +765,7 @@
 
       
         
-          <p>直方图计算与均衡化。</p>
+          <p>直方图计算与均衡化。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/10/02/opencv-2/#more" rel="contents">
@@ -904,7 +900,7 @@
 
       
         
-          <p>图像的读取、显示以及保存。</p>
+          <p>图像的读取、显示以及保存。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/10/02/opencv-1/#more" rel="contents">
@@ -1063,14 +1059,11 @@
         
           
             <p>Mac 升级 macOS Sierra 后 Office 2016 无限崩溃，无法使用。</p>
-<p>解决方案是安装新版本的 Office 2016 for Mac。微软发布的 Office 2016 新版本（15.26.0）中加入了对 macOS Sierra 系统的支持。</p>
-<p>步骤如下。</p>
+<p>解决方案是安装新版本的 Office 2016 for Mac。微软发布的 Office 2016 新版本（15.26.0）中加入了对 macOS Sierra 系统的支持。<br>步骤如下。</p>
 <ol>
-<li><p>完全卸载 Office 2016</p>
-<p> 参考微软官方卸载教程 <a href="https://support.office.com/en-us/article/Uninstall-Office-2016-for-Mac-eefa1199-5b58-43af-8a3d-b73dc1a8cae3" target="_blank" rel="external">Uninstall Office 2016 for Mac</a>。</p>
+<li><p>完全卸载 Office 2016<br> 参考微软官方卸载教程 <a href="https://support.office.com/en-us/article/Uninstall-Office-2016-for-Mac-eefa1199-5b58-43af-8a3d-b73dc1a8cae3" target="_blank" rel="external">Uninstall Office 2016 for Mac</a>。</p>
 </li>
-<li><p>安装新版 Office 2016</p>
-<p> 参考<a href="https://www.firewolf.science/2015/09/microsoft-office-2016-for-mac-15-25-0-with-vl-license-utility/" target="_blank" rel="external">这篇文章</a>。</p>
+<li><p>安装新版 Office 2016<br> 参考<a href="https://www.firewolf.science/2015/09/microsoft-office-2016-for-mac-15-25-0-with-vl-license-utility/" target="_blank" rel="external">这篇文章</a>。</p>
 </li>
 </ol>
 
@@ -1225,9 +1218,7 @@
       
         
           <p>在 Windows10 下安装并配置 Visual Studio 2015 和 OpenCV 2.4.13 。</p>
-<h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><p>操作系统： Windows 10</p>
-<p>开发环境： <a href="https://www.visualstudio.com/downloads/">Visual Studio 2015</a></p>
-<p>OpenCV：  <a href="http://opencv.org/downloads.html">2.4.13</a></p>
+<h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><p>操作系统： Windows 10<br>开发环境： <a href="https://www.visualstudio.com/downloads/">Visual Studio 2015</a><br>OpenCV：  <a href="http://opencv.org/downloads.html">2.4.13</a></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/09/28/win10-vs2015-opencv/#more" rel="contents">
@@ -1364,10 +1355,8 @@
         
           <h2 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h2><h3 id="本地图片"><a href="#本地图片" class="headerlink" title="本地图片"></a>本地图片</h3><p>MarkDown中插入本地图片的语法为：<code>![](dir/imgname)</code></p>
 <ol>
-<li><p>使用相对路径插入图片<br> 如，把名为1.png的图片和<em>.md文件放在一起，则可以插入图片<code>![](1.png)</code><br> 如果1.png图片放在与</em>.md同一目录的名为image的文件夹下，则可以插入图片<code>![](image/1.png)</code></p>
-</li>
-<li><p>同样地，图片路径可采用绝对路径</p>
-</li>
+<li>使用相对路径插入图片<br> 如，把名为1.png的图片和<em>.md文件放在一起，则可以插入图片<code>![](1.png)</code><br> 如果1.png图片放在与</em>.md同一目录的名为image的文件夹下，则可以插入图片<code>![](image/1.png)</code></li>
+<li>同样地，图片路径可采用绝对路径</li>
 </ol>
 <h3 id="利用GitHub"><a href="#利用GitHub" class="headerlink" title="利用GitHub"></a>利用GitHub</h3><p>利用Github存储图片，在*.md中引用图片链接地址。采用如下步骤：</p>
 <ol>
@@ -1689,7 +1678,7 @@
 
       
         
-          <p>Sublime Text 3 安装及配置 Python 环境。</p>
+          <p>Sublime Text 3 安装及配置 Python 环境。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/05/03/sublime_3_python_config/#more" rel="contents">

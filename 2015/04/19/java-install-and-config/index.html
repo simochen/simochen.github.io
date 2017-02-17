@@ -93,7 +93,7 @@
 <meta property="og:url" content="//simochen.github.io/2015/04/19/java-install-and-config/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="记录个人在配置Java环境中遇到的一些问题。">
-<meta property="og:updated_time" content="2017-02-16T19:28:12.000Z">
+<meta property="og:updated_time" content="2017-02-17T05:07:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java1.8和MyEclipse、tomcat的安装及配置">
 <meta name="twitter:description" content="记录个人在配置Java环境中遇到的一些问题。">
@@ -379,8 +379,7 @@
       
 
       
-        <p>记录个人在配置Java环境中遇到的一些问题。</p>
-<a id="more"></a>
+        <p>记录个人在配置Java环境中遇到的一些问题。<br><a id="more"></a></p>
 <h2 id="配置用户环境"><a href="#配置用户环境" class="headerlink" title="配置用户环境"></a>配置用户环境</h2><ul>
 <li>环境变量[用户变量?]</li>
 <li>JAVA_HOME – jdk目录</li>
@@ -397,55 +396,32 @@
 <li>– 运行方法：cmd命令java [ClassName]</li>
 </ul>
 </li>
-<li><p>WebRoot: 网页内容</p>
-</li>
-<li><p>Windows中文环境下建立项目：默认GBK编码格式=&gt;乱码[M]</p>
-<ol>
-<li><p>首先改变编码</p>
-<p> MyWeb [R] -&gt; Properties-&gt; Other: UTF-8</p>
-</li>
-<li><p>Java版本</p>
-<p>Window -&gt; Preferences -&gt; Java -&gt; Installed JREs -&gt; Add -&gt;Standard VM -&gt;[Driectory] jdk file</p>
-<p>[MacOS] 右上角搜索“preferences”</p>
-</li>
-<li><p>Web服务器</p>
-<p>Window -&gt; Preferences -&gt; Myeclipse -&gt; Servers -&gt; Tomcat -&gt;8.x -&gt; [Enable] -&gt; Browse选择文件目录<br>[展开]-&gt; JDK -&gt; Add…</p>
-<p>[MacOS] MyEclipse -&gt;Servers -&gt; Tomcat -&gt;8.x -&gt; [Enable] -&gt; Browse选择文件目录<br>[展开]-&gt; JDK -&gt; Add…</p>
-</li>
-</ol>
-</li>
+<li>WebRoot: 网页内容</li>
+<li>Windows中文环境下建立项目：默认GBK编码格式=&gt;乱码[M]<br>  1.首先改变编码<pre><code>MyWeb [R] -&gt; Properties-&gt; Other: UTF-8
+</code></pre>  2.Java版本<pre><code>Window -&gt; Preferences -&gt; Java -&gt; Installed JREs -&gt; Add -&gt;Standard VM -&gt;[Driectory] jdk file
+[MacOS] 右上角搜索“preferences”
+</code></pre>  3.Web服务器<pre><code>Window -&gt; Preferences -&gt; Myeclipse -&gt; Servers -&gt; Tomcat -&gt;8.x -&gt; [Enable] -&gt; Browse选择文件目录
+</code></pre>[展开]-&gt; JDK -&gt; Add…<pre><code>[MacOS] MyEclipse -&gt;Servers -&gt; Tomcat -&gt;8.x -&gt; [Enable] -&gt; Browse选择文件目录
+</code></pre>[展开]-&gt; JDK -&gt; Add…</li>
 </ul>
 <h2 id="安装MyEclipse"><a href="#安装MyEclipse" class="headerlink" title="安装MyEclipse"></a>安装MyEclipse</h2><p>官方下载：<a href="http://www.myeclipsecn.com/download/" target="_blank" rel="external">http://www.myeclipsecn.com/download/</a></p>
-<h2 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h2><p>tomcat解压 最好放在根目录下</p>
-<p>tomcat目录 -&gt; Bin -&gt; startup.bat[D]</p>
-<p>[MacOS] 终端：cd /Library/Tomcat/bin [tomcat目录] -&gt; sudo sh startup.sh</p>
-<p>用于跑应用程序 webapps</p>
-<p>Tab -&gt; Tomcat 8.x[R] -&gt; Add Deployment -&gt; [Choose] -&gt; Finish -&gt; Run Server</p>
-<h2 id="测试是否成功"><a href="#测试是否成功" class="headerlink" title="测试是否成功"></a>测试是否成功</h2><p>打开任意浏览器</p>
-<pre><code>http://localhost:8080 [默认端口8080]
-http://localhost:8080/MyWeb
-</code></pre><p>Console：Terminate</p>
-<h2 id="问题处理"><a href="#问题处理" class="headerlink" title="问题处理"></a>问题处理</h2><h3 id="Windows-环境下"><a href="#Windows-环境下" class="headerlink" title="Windows 环境下"></a>Windows 环境下</h3><p>采用<code>apache-tomcat-7.0.32-windows-x86</code>安装出错，查看错误——与64位系统不兼容。到<a href="http://tomcat.apache.org/" target="_blank" rel="external">tomcat官网</a>下载64位版本<code>apache-tomcat-8.0.21-windows-x64</code>，再次利用startup.bat安装仍然出错。错误为</p>
-<pre><code>java.lang.Exception: Socket bind failed: [730048] ?????????×???
-</code></pre><p>百度一下，发现是由于端口号被占用。修改端口：打开../conf/server.xml，将默认的端口port=”8080”改为8088。再次安装，成功。</p>
-<p>修改端口注意事项：</p>
-<p>不要使用服务器端使用的熟知端口号，数值为0~1023，而数值为1024-49151的登记端口号是可以使用的，还有一类是客户端使用的端口号—短暂端口号，数值为49152~65535，这类端口号是仅在客户进程运行时才动态选择的，是留给客户进程选择暂时使用。简而言之，一般将端口改为8080左右的任一个端口号就可以了。</p>
+<h2 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h2><p>tomcat解压 最好放在根目录下<br>tomcat目录 -&gt; Bin -&gt; startup.bat[D]<br>[MacOS] 终端：cd /Library/Tomcat/bin [tomcat目录] -&gt; sudo sh startup.sh<br>用于跑应用程序 webapps<br>Tab -&gt; Tomcat 8.x[R] -&gt; Add Deployment -&gt; [Choose] -&gt; Finish -&gt; Run Server</p>
+<h2 id="测试是否成功"><a href="#测试是否成功" class="headerlink" title="测试是否成功"></a>测试是否成功</h2><p>打开任意浏览器<br>    <a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> [默认端口8080]<br>    <a href="http://localhost:8080/MyWeb" target="_blank" rel="external">http://localhost:8080/MyWeb</a></p>
+<p>Console：Terminate</p>
+<h2 id="问题处理"><a href="#问题处理" class="headerlink" title="问题处理"></a>问题处理</h2><h3 id="Windows-环境下"><a href="#Windows-环境下" class="headerlink" title="Windows 环境下"></a>Windows 环境下</h3><p>采用<code>apache-tomcat-7.0.32-windows-x86</code>安装出错，查看错误——与64位系统不兼容。到<a href="http://tomcat.apache.org/" target="_blank" rel="external">tomcat官网</a>下载64位版本<code>apache-tomcat-8.0.21-windows-x64</code>，再次利用startup.bat安装仍然出错。错误为<br>    java.lang.Exception: Socket bind failed: [730048] ?????????×???</p>
+<p>百度一下，发现是由于端口号被占用。修改端口：打开../conf/server.xml，将默认的端口port=”8080”改为8088。再次安装，成功。</p>
+<p>修改端口注意事项：<br>不要使用服务器端使用的熟知端口号，数值为0~1023，而数值为1024-49151的登记端口号是可以使用的，还有一类是客户端使用的端口号—短暂端口号，数值为49152~65535，这类端口号是仅在客户进程运行时才动态选择的，是留给客户进程选择暂时使用。简而言之，一般将端口改为8080左右的任一个端口号就可以了。</p>
 <h3 id="MacOS-环境下"><a href="#MacOS-环境下" class="headerlink" title="MacOS 环境下"></a>MacOS 环境下</h3><ol>
-<li><p>中文乱码(???)</p>
-<p> MyEclipse -&gt; Servers -&gt; Tomcat -&gt; 8.x -&gt; [展开] -&gt; Launch -&gt; [Create Launch Configuration] -&gt; [Tabs] Common -&gt; Encoding -&gt; Other [UTF-8]</p>
+<li><p>中文乱码(???)<br> MyEclipse -&gt; Servers -&gt; Tomcat -&gt; 8.x -&gt; [展开] -&gt; Launch -&gt; [Create Launch Configuration] -&gt; [Tabs] Common -&gt; Encoding -&gt; Other [UTF-8]</p>
 </li>
-<li><p>拒绝访问</p>
-<p> 检查文件(夹)的权限，设置为对当前用户可读可写。</p>
+<li><p>拒绝访问<br> 检查文件(夹)的权限，设置为对当前用户可读可写。</p>
 </li>
-<li><p>可以访问Tomcat页面(<a href="http://localhost:8080)，但是不能访问web项目页面(../MyWeb" target="_blank" rel="external">http://localhost:8080)，但是不能访问web项目页面(../MyWeb</a>)</p>
-<p> 对比Windows和MacOX系统下的 [Tomcat..]/webapps 文件夹中内容发现，Windows系统下的webapps文件夹中有MyWeb项目文件夹，但MacOX系统下的文件夹中没有MyWeb项目文件夹。将工作空间中MyWeb项目下的WebRoot文件夹中内容拷贝到 webapps/MyWeb 目录下，访问../MyWeb，成功打开项目页面。</p>
+<li><p>可以访问Tomcat页面(<a href="http://localhost:8080)，但是不能访问web项目页面(../MyWeb" target="_blank" rel="external">http://localhost:8080)，但是不能访问web项目页面(../MyWeb</a>)<br> 对比Windows和MacOX系统下的 [Tomcat..]/webapps 文件夹中内容发现，Windows系统下的webapps文件夹中有MyWeb项目文件夹，但MacOX系统下的文件夹中没有MyWeb项目文件夹。将工作空间中MyWeb项目下的WebRoot文件夹中内容拷贝到 webapps/MyWeb 目录下，访问../MyWeb，成功打开项目页面。</p>
 </li>
-<li><p>自动部署web项目</p>
-<p> 在顶部工具栏点击[Deploy MyEclipse J2EE Project Server…] -&gt; Add -&gt; Server -&gt; Tomcat 8.x [Custom] -&gt; OK</p>
+<li><p>自动部署web项目<br> 在顶部工具栏点击[Deploy MyEclipse J2EE Project Server…] -&gt; Add -&gt; Server -&gt; Tomcat 8.x [Custom] -&gt; OK</p>
 </li>
 </ol>
-<p>Tips：</p>
-<p>在MyEclipse中运行Tomcat时要先在终端关闭Server：sudo sh shutdown.sh 否则会占用端口。</p>
+<p>Tips：<br>在MyEclipse中运行Tomcat时要先在终端关闭Server：sudo sh shutdown.sh 否则会占用端口。</p>
 
       
     </div>

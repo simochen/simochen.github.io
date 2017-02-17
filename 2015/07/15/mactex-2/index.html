@@ -93,7 +93,7 @@
 <meta property="og:url" content="//simochen.github.io/2015/07/15/mactex-2/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="前两天看了《a-not-too-brief-introduction-latex》，今天在学位论文模板的基础上自己改了一份实验报告的模板。">
-<meta property="og:updated_time" content="2017-02-16T18:41:57.000Z">
+<meta property="og:updated_time" content="2017-02-17T05:04:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mactex学习笔记(2)">
 <meta name="twitter:description" content="前两天看了《a-not-too-brief-introduction-latex》，今天在学位论文模板的基础上自己改了一份实验报告的模板。">
@@ -357,21 +357,13 @@
       
 
       
-        <p>前两天看了《a-not-too-brief-introduction-latex》，今天在学位论文模板的基础上自己改了一份实验报告的模板。</p>
-<a id="more"></a>
-<p>主要是对封面进行了更改，加入一些项。</p>
-<p>项的名称在 sjtuthesis.cfg 中定义，如：<br>​    </p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">sjtu</span></span>@label@class&#123;班<span class="tag">\<span class="name">sjtuspace</span></span>级&#125;</div></pre></td></tr></table></figure>
-<p>项的默认参数也在 cfg 中设置：<br>​    </p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">sjtu</span></span>@value@class&#123;（学~生~班~级）&#125;</div></pre></td></tr></table></figure>
-<p>其中，{}内的参数为默认参数，当不给定参数时使用此值。为了避免编译报错，建议为所有项都设置默认参数，除非某些项的参数必须被指定。<br>而在 tex 文件中实际传递参数时用的命令是 <code>\class{..}</code> ，相应的定义在 sjtuthesis.cls 中。    </p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">newcommand</span></span><span class="tag">\<span class="name">class</span><span class="string">[1]</span><span class="string">&#123;\def\sjtu@value@class&#123;#1&#125;</span></span>&#125;</div></pre></td></tr></table></figure>
-<p><code>\newcommand</code> 用于自定义一个新命令，上述定义带有一个参数的 <code>\class</code> 命令。若要使用的命令在 LaTeX中已定义，则需使用重定义命令 <code>\renewcommand</code> 如 <code>\author</code>、<code>\date</code> 等。<br>并且，默认的参数能够相互引用。如 \titlemark 定义了页眉右侧要使用的标记或文字。我希望在实验报告中页眉右侧显示学生学号和姓名。故在 cfg 文件中设置    </p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">sjtu</span></span>@value@titlemark&#123;<span class="tag">\<span class="name">sjtu</span></span>@value@studentnumber ~ <span class="tag">\<span class="name">sjtu</span></span>@value@author&#125;</div></pre></td></tr></table></figure>
-<p>若不希望使用此值，可在 tex 文件中赋另外的值。</p>
-<p><code>\frontmatter</code> 与 <code>\mainmatter</code> 、<code>\backmatter</code> 相对应，其作用为使目录中页码为罗马数字，从而不与正文页码混淆。</p>
-<p>若要使某行文本为页面的最后一行，可使用代码：<br>​    </p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">vskip</span></span> <span class="tag">\<span class="name">stretch</span><span class="string">&#123;1&#125;</span></span> 这一行会出现在当页的最后</div></pre></td></tr></table></figure>
+        <p>前两天看了《a-not-too-brief-introduction-latex》，今天在学位论文模板的基础上自己改了一份实验报告的模板。<br><a id="more"></a><br>主要是对封面进行了更改，加入一些项。<br>项的名称在 sjtuthesis.cfg 中定义，如：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">sjtu</span></span>@label@class&#123;班<span class="tag">\<span class="name">sjtuspace</span></span>级&#125;</div></pre></td></tr></table></figure></p>
+<p>项的默认参数也在 cfg 中设置：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">sjtu</span></span>@value@class&#123;（学~生~班~级）&#125;</div></pre></td></tr></table></figure></p>
+<p>其中，{}内的参数为默认参数，当不给定参数时使用此值。为了避免编译报错，建议为所有项都设置默认参数，除非某些项的参数必须被指定。<br>而在 tex 文件中实际传递参数时用的命令是 <code>\class{..}</code> ，相应的定义在 sjtuthesis.cls 中。<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">newcommand</span></span><span class="tag">\<span class="name">class</span><span class="string">[1]</span><span class="string">&#123;\def\sjtu@value@class&#123;#1&#125;</span></span>&#125;</div></pre></td></tr></table></figure></p>
+<p><code>\newcommand</code> 用于自定义一个新命令，上述定义带有一个参数的 <code>\class</code> 命令。若要使用的命令在 LaTeX中已定义，则需使用重定义命令 <code>\renewcommand</code> 如 <code>\author</code>、<code>\date</code> 等。<br>并且，默认的参数能够相互引用。如 \titlemark 定义了页眉右侧要使用的标记或文字。我希望在实验报告中页眉右侧显示学生学号和姓名。故在 cfg 文件中设置<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">sjtu</span></span>@value@titlemark&#123;<span class="tag">\<span class="name">sjtu</span></span>@value@studentnumber ~ <span class="tag">\<span class="name">sjtu</span></span>@value@author&#125;</div></pre></td></tr></table></figure></p>
+<p>若不希望使用此值，可在 tex 文件中赋另外的值。<br><code>\frontmatter</code> 与 <code>\mainmatter</code> 、<code>\backmatter</code> 相对应，其作用为使目录中页码为罗马数字，从而不与正文页码混淆。</p>
+<p>若要使某行文本为页面的最后一行，可使用代码：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">vskip</span></span> <span class="tag">\<span class="name">stretch</span><span class="string">&#123;1&#125;</span></span> 这一行会出现在当页的最后</div></pre></td></tr></table></figure></p>
+
       
     </div>
 

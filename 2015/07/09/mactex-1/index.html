@@ -93,7 +93,7 @@
 <meta property="og:url" content="//simochen.github.io/2015/07/09/mactex-1/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
-<meta property="og:updated_time" content="2017-02-16T19:21:10.000Z">
+<meta property="og:updated_time" content="2017-02-17T05:08:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mactex学习笔记(1)">
 <meta name="twitter:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
@@ -357,41 +357,31 @@
       
 
       
-        <p>准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。</p>
-<a id="more"></a>
+        <p>准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。<br><a id="more"></a></p>
 <h2 id="缺少字体"><a href="#缺少字体" class="headerlink" title="缺少字体"></a>缺少字体</h2><p>首先测试 temptest.tex 文件（在TexShop中采用XeLaTeX模式编译），编译不通过，错误为部分<code>\..</code>命令后没有加空格，这样会连同后面的内容一同作为命令。加上空格后编译通过，但不能显示中文，模板说明中表明需要：</p>
 <ul>
-<li><p>TeXGyreTermes 西文的:Regular、Italic、Bold、Bold Italic 四种 OTF 字体</p>
-<ul>
+<li>TeXGyreTermes 西文的:Regular、Italic、Bold、Bold Italic 四种 OTF 字体<ul>
 <li>AdobeSongStd、AdobeKaitiStd、AdobeHeitiStd、AdobeFangsongStd 四款中文字体</li>
 </ul>
 </li>
 </ul>
-<p>将字体文件名改为所需的字体名，仍然不行。观察到字体文件的内容中仍显示原来的字体信息，与文件名无关。</p>
-<p>读 temptest.tex 与 sjtuthesis.cls 可知，上述要求的 AdobeSongStd 等字体没有显式的调用，涉及到调用 Adobe 字体的代码为：<br>​<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">LoadClass</span><span class="string">[fancyhdr,fntef,UTF8,adobefonts]</span><span class="string">&#123;ctexbook&#125;</span></span></div></pre></td></tr></table></figure></p>
+<p>将字体文件名改为所需的字体名，仍然不行。观察到字体文件的内容中仍显示原来的字体信息，与文件名无关。<br>读 temptest.tex 与 sjtuthesis.cls 可知，上述要求的 AdobeSongStd 等字体没有显式的调用，涉及到调用 Adobe 字体的代码为：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">LoadClass</span><span class="string">[fancyhdr,fntef,UTF8,adobefonts]</span><span class="string">&#123;ctexbook&#125;</span></span></div></pre></td></tr></table></figure></p>
 <p>尝试将上述代码中的 adobefonts 改为 AdobeSongStd-Light ，编译通过并能显示中文字体，且显示的中文字体不仅为宋体、原来文件设置的页眉的楷体也能够显示。推测这里的 AdobeSongStd-Light 可能仅起到一个入口的调用作用，而非设置字体为宋体。</p>
-<p>后来查阅资料时无意中进入文件夹</p>
-<pre><code>/usr/local/texlive/2015/texmf-dist/tex/latex/ctex/fontset/
-</code></pre><p>其中有若干设置文件，包括 ctex-fontset-adobe.def 、 ctex-fontset-mac.def 、 ctex-fontset-windows.def 等。打开 ctex-fontset-adobe.def 文件。发现其中涉及到的 Adobe 字体名为 AdobeSongStd-Light、AdobeKaitiStd-Regular、AdobeHeitiStd-Regular、AdobeFangsongStd-Regular， 即最近版本使用的 Adobe 字体。于是不再尝试安装旧的 Adobe 字体，而是将调用的代码中的 adobefonts 改为 adobe ，再次编译，能够正常显示各种设定字体。</p>
-<h2 id="未定义命令-sjtuspace"><a href="#未定义命令-sjtuspace" class="headerlink" title="未定义命令 \sjtuspace.."></a>未定义命令 <code>\sjtuspace..</code></h2><p>接着测试 diss.tex 文件，编译报错，错误信息为<br>​<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Undefined control sequence \sjtuspace -&gt;\protect \CTEX@spaceChar\protect \CTEX@spaceChar</div></pre></td></tr></table></figure></p>
-<p>查找错误位置，sjtuthesis.cls 文件中</p>
-<p><code>\newcommand\sjtuspace{\protect\CTEX@spaceChar\protect\CTEX@spaceChar}</code></p>
-<p>一行报错。</p>
-<p>查阅资料，在 bbs.ctex 上有人问了类似的问题，引用回答如下</p>
-<p><strong>回答部分</strong></p>
+<p>后来查阅资料时无意中进入文件夹<br>    /usr/local/texlive/2015/texmf-dist/tex/latex/ctex/fontset/</p>
+<p>其中有若干设置文件，包括 ctex-fontset-adobe.def 、 ctex-fontset-mac.def 、 ctex-fontset-windows.def 等。打开 ctex-fontset-adobe.def 文件。发现其中涉及到的 Adobe 字体名为 AdobeSongStd-Light、AdobeKaitiStd-Regular、AdobeHeitiStd-Regular、AdobeFangsongStd-Regular， 即最近版本使用的 Adobe 字体。于是不再尝试安装旧的 Adobe 字体，而是将调用的代码中的 adobefonts 改为 adobe ，再次编译，能够正常显示各种设定字体。</p>
+<h2 id="未定义命令-sjtuspace"><a href="#未定义命令-sjtuspace" class="headerlink" title="未定义命令 \sjtuspace.."></a>未定义命令 <code>\sjtuspace..</code></h2><p>接着测试 diss.tex 文件，编译报错，错误信息为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Undefined control sequence \sjtuspace -&gt;\protect \CTEX@spaceChar\protect \CTEX@spaceChar</div></pre></td></tr></table></figure></p>
+<p>查找错误位置，sjtuthesis.cls 文件中<br><code>\newcommand\sjtuspace{\protect\CTEX@spaceChar\protect\CTEX@spaceChar}</code><br>一行报错。</p>
+<p>查阅资料，在 bbs.ctex 上有人问了类似的问题，引用回答如下<br><strong>回答部分</strong></p>
 <blockquote>
 <p>这是 ctex 宏包的 Bug，以前没有显现出来，fontspec 2.4 版本以后显现出来了。<br>暂时的解决办法，在 <code>\documentclass</code> 的前面写：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">expandafter</span></span><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">csname</span></span> CTEX@spaceChar<span class="tag">\<span class="name">endcsname</span><span class="string">&#123;\hspace&#123;1em&#125;</span></span>&#125;</div></pre></td></tr></table></figure></p>
-<p>我们会尽快上传一个 ctex 宏包的新版本处理此问题。因为准备在今年转向完全重写的 ctex 宏包 2.0，所以以前的 1.x 的 ctex 宏包一直没有上传过更新。<br>进一步技术细节：<br>ctex 包中设置中文字体的命令要早于 \CTEX@spaceChar 的定义。而可能使用 <code>\CTEX@spaceChar</code> 的宏 <code>\CTEXsetfont</code> 则在 <code>\CTEX@spaceChar</code> 之前定义。<br>因为在线安装，用的是最新的 fontspec 2.4 版本。而 fontspec 改变了内部实现，需要在定义字体时设置字号，触发 <code>\CTEXsetfont</code>，造成问题。<br>​<br> 故在 diss.tex 文件 <code>\documentclass</code> 之前加入一行代码</p>
+<p>我们会尽快上传一个 ctex 宏包的新版本处理此问题。因为准备在今年转向完全重写的 ctex 宏包 2.0，所以以前的 1.x 的 ctex 宏包一直没有上传过更新。<br>进一步技术细节：<br>ctex 包中设置中文字体的命令要早于 \CTEX@spaceChar 的定义。而可能使用 <code>\CTEX@spaceChar</code> 的宏 <code>\CTEXsetfont</code> 则在 <code>\CTEX@spaceChar</code> 之前定义。<br>因为在线安装，用的是最新的 fontspec 2.4 版本。而 fontspec 改变了内部实现，需要在定义字体时设置字号，触发 <code>\CTEXsetfont</code>，造成问题。<br>​<br> 故在 diss.tex 文件 <code>\documentclass</code> 之前加入一行代码<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">expandafter</span></span><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">csname</span></span> CTEX@spaceChar<span class="tag">\<span class="name">endcsname</span><span class="string">&#123;\hspace&#123;1em&#125;</span></span>&#125;</div></pre></td></tr></table></figure></p>
 </blockquote>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">expandafter</span></span><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">csname</span></span> CTEX@spaceChar<span class="tag">\<span class="name">endcsname</span><span class="string">&#123;\hspace&#123;1em&#125;</span></span>&#125;</div></pre></td></tr></table></figure>
 <p>编译通过。</p>
 <h2 id="粗体"><a href="#粗体" class="headerlink" title="粗体"></a>粗体</h2><p>对比生成的 diss.pdf 与参考文档 readme.pdf ，发现 readme.pdf 中黑体的部分在 diss.pdf 中为粗体的 Adobe 宋体。读 ctex-fontset-adobe.def 文件，粗体的部分应由黑体替换。但在文档中 <code>\bf</code> 命令没有自动将粗体替换为黑体。</p>
 <p>两种简单的处理方法：</p>
 <ul>
-<li><p><code>\renewcommand{\bf}{\heiti}</code></p>
-</li>
-<li><p>在要使用黑体的地方用命令 <code>\heiti</code></p>
-</li>
+<li><code>\renewcommand{\bf}{\heiti}</code></li>
+<li>在要使用黑体的地方用命令 <code>\heiti</code></li>
 </ul>
 <p>前一种方法改变了\bf 的定义，不建议使用；后一种方法每次要设置字体，不够友好。</p>
 <p>考虑到是 ctex-fontset-adobe.def 文件中定义粗体的部分没有起作用，在 sjtuthesis.cfg 中自行定义如下：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">setCJKmainfont</span></span></div><div class="line">      [</div><div class="line">	   BoldFont = AdobeHeitiStd-Regular ,</div><div class="line">        ItalicFont = AdobeKaitiStd-Regular</div><div class="line">      ] &#123;AdobeSongStd-Light&#125;</div></pre></td></tr></table></figure></p>

@@ -88,17 +88,13 @@
 
 
 <meta name="description" content="在 Windows10 下安装并配置 Visual Studio 2015 和 OpenCV 2.4.13 。
-安装环境操作系统： Windows 10
-开发环境： Visual Studio 2015
-OpenCV：  2.4.13">
+安装环境操作系统： Windows 10开发环境： Visual Studio 2015OpenCV：  2.4.13">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Win10 + VS2015 + OpenCV2.4.13 配置">
 <meta property="og:url" content="//simochen.github.io/2016/09/28/win10-vs2015-opencv/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="在 Windows10 下安装并配置 Visual Studio 2015 和 OpenCV 2.4.13 。
-安装环境操作系统： Windows 10
-开发环境： Visual Studio 2015
-OpenCV：  2.4.13">
+安装环境操作系统： Windows 10开发环境： Visual Studio 2015OpenCV：  2.4.13">
 <meta property="og:image" content="//simochen.github.io/2016/09/28/win10-vs2015-opencv/26.png">
 <meta property="og:image" content="//simochen.github.io/2016/09/28/win10-vs2015-opencv/27.png">
 <meta property="og:image" content="//simochen.github.io/2016/09/28/win10-vs2015-opencv/2.png">
@@ -122,13 +118,11 @@ OpenCV：  2.4.13">
 <meta property="og:image" content="//simochen.github.io/2016/09/28/win10-vs2015-opencv/23.png">
 <meta property="og:image" content="//simochen.github.io/2016/09/28/win10-vs2015-opencv/24.png">
 <meta property="og:image" content="//simochen.github.io/2016/09/28/win10-vs2015-opencv/25.png">
-<meta property="og:updated_time" content="2017-02-16T19:27:17.000Z">
+<meta property="og:updated_time" content="2017-02-17T05:01:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Win10 + VS2015 + OpenCV2.4.13 配置">
 <meta name="twitter:description" content="在 Windows10 下安装并配置 Visual Studio 2015 和 OpenCV 2.4.13 。
-安装环境操作系统： Windows 10
-开发环境： Visual Studio 2015
-OpenCV：  2.4.13">
+安装环境操作系统： Windows 10开发环境： Visual Studio 2015OpenCV：  2.4.13">
 <meta name="twitter:image" content="//simochen.github.io/2016/09/28/win10-vs2015-opencv/26.png">
 
 
@@ -413,71 +407,20 @@ OpenCV：  2.4.13">
 
       
         <p>在 Windows10 下安装并配置 Visual Studio 2015 和 OpenCV 2.4.13 。</p>
-<h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><p>操作系统： Windows 10</p>
-<p>开发环境： <a href="https://www.visualstudio.com/downloads/" target="_blank" rel="external">Visual Studio 2015</a></p>
-<p>OpenCV：  <a href="http://opencv.org/downloads.html" target="_blank" rel="external">2.4.13</a></p>
+<h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><p>操作系统： Windows 10<br>开发环境： <a href="https://www.visualstudio.com/downloads/" target="_blank" rel="external">Visual Studio 2015</a><br>OpenCV：  <a href="http://opencv.org/downloads.html" target="_blank" rel="external">2.4.13</a></p>
 <a id="more"></a>
-<h2 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h2><h3 id="安装VS2015"><a href="#安装VS2015" class="headerlink" title="安装VS2015"></a>安装VS2015</h3><p>右键vs_community_ENU.exe，以管理员身份运行。</p>
-<p>选择自定义安装。如选择默认安装，则不会安装C++模板。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/26.png" alt="26.png" title="">
-<p>在编程语言的选项中勾选 Visual C++。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/27.png" alt="27.png" title="">
-<p>安装所需时间较长，等待安装完成。安装完成后系统会重启一次。</p>
-<h3 id="安装OpenCV"><a href="#安装OpenCV" class="headerlink" title="安装OpenCV"></a>安装OpenCV</h3><p>双击opencv-2.4.13.exe，出现一个对话框，提示需要将OpenCV包解压到指定位置。在指定解压目录下，自动生成opencv目录。注意不要自己添加opencv目录，以免重复。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/2.png" alt="2.png" title="">
-<p>解压后的OpenCV目录如下图。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/3.png" alt="3.png" title="">
-<h3 id="添加环境变量"><a href="#添加环境变量" class="headerlink" title="添加环境变量"></a>添加环境变量</h3><p>右键开始菜单，选择”系统”。在弹出窗口左侧选择”高级系统设置”。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/4.png" alt="4.png" title="">
-<p>点击“环境变量”，在弹出窗口中双击”系统变量”中的“Path”，加入路径：</p>
-<p><code>D:\workspace\opencv\build\x64\vc12\bin</code></p>
-<p><code>D:\workspace\opencv\build\x86\vc12\bin</code></p>
-<img src="/2016/09/28/win10-vs2015-opencv/5.png" alt="5.png" title="">
-<h3 id="配置VS2015环境"><a href="#配置VS2015环境" class="headerlink" title="配置VS2015环境"></a>配置VS2015环境</h3><h4 id="新建空项目"><a href="#新建空项目" class="headerlink" title="新建空项目"></a>新建空项目</h4><p>新建项目。如果安装VS2015时选择默认安装，则可能找不到 C++ win32控制台程序。这时就需要再下载C++模板。</p>
-<p>在新建项目窗口 –&gt; Installed –&gt; Visual C++ –&gt; Windows –&gt; 双击“Install Universal Windows Platform Tools”。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/6.png" alt="6.png" title="">
-<p>安装过程中需要关闭Visual Studio。</p>
-<p>安装完成后，新建一个C++的空项目。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/10.png" alt="10.png" title="">
-<h4 id="配置include目录"><a href="#配置include目录" class="headerlink" title="配置include目录"></a>配置include目录</h4><p>打开 视图 –&gt; 其他窗口 –&gt; 属性管理器</p>
-<img src="/2016/09/28/win10-vs2015-opencv/11.png" alt="11.png" title="">
-<p>在属性管理器中选择 <code>Debug|Win32</code> –&gt; Microsoft.Cpp.Win32.user。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/12.png" alt="12.png" title="">
-<p>双击 Microsoft.Cpp.Win32.user，在弹出窗口中选择 通用属性 –&gt; VC++目录 –&gt; include目录</p>
-<img src="/2016/09/28/win10-vs2015-opencv/13.png" alt="13.png" title="">
-<p>点击“include目录”右侧的展开按钮，选择“编辑..”。添加如下目录：</p>
-<p><code>D:\workspace\opencv\build\include</code></p>
-<p><code>D:\workspace\opencv\build\include\opencv</code></p>
-<p><code>D:\workspace\opencv\build\include\opencv2</code></p>
-<img src="/2016/09/28/win10-vs2015-opencv/14.png" alt="14.png" title="">
-<h4 id="配置library目录"><a href="#配置library目录" class="headerlink" title="配置library目录"></a>配置library目录</h4><p>编辑 VC++目录 –&gt; library目录 。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/15.png" alt="15.png" title="">
-<p>添加目录：</p>
-<p><code>D:\workspace\opencv\build\x86\vc12\lib</code></p>
-<img src="/2016/09/28/win10-vs2015-opencv/16.png" alt="16.png" title="">
-<p>由于编辑的是 <code>Debug|Win32</code>，因此只加入x86目录下的lib。</p>
-<h4 id="配置附加依赖项"><a href="#配置附加依赖项" class="headerlink" title="配置附加依赖项"></a>配置附加依赖项</h4><p>编辑 链接器 –&gt; 输入 –&gt; 附加依赖项。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/17.png" alt="17.png" title="">
-<p>添加19个Debug版本的lib和19个Release版本的lib。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">opencv_calib3d2413d.lib</div><div class="line">opencv_contrib2413d.lib</div><div class="line">opencv_core2413d.lib</div><div class="line">opencv_features2d2413d.lib</div><div class="line">opencv_flann2413d.lib</div><div class="line">opencv_gpu2413d.lib</div><div class="line">opencv_highgui2413d.lib</div><div class="line">opencv_imgproc2413d.lib</div><div class="line">opencv_legacy2413d.lib</div><div class="line">opencv_ml2413d.lib</div><div class="line">opencv_nonfree2413d.lib</div><div class="line">opencv_objdetect2413d.lib</div><div class="line">opencv_ocl2413d.lib</div><div class="line">opencv_photo2413d.lib</div><div class="line">opencv_stitching2413d.lib</div><div class="line">opencv_superres2413d.lib</div><div class="line">opencv_ts2413d.lib</div><div class="line">opencv_video2413d.lib</div><div class="line">opencv_videostab2413d.lib</div><div class="line"></div><div class="line">opencv_calib3d2413.lib</div><div class="line">opencv_contrib2413.lib</div><div class="line">opencv_core2413.lib</div><div class="line">opencv_features2d2413.lib</div><div class="line">opencv_flann2413.lib</div><div class="line">opencv_gpu2413.lib</div><div class="line">opencv_highgui2413.lib</div><div class="line">opencv_imgproc2413.lib</div><div class="line">opencv_legacy2413.lib</div><div class="line">opencv_objdetect2413.lib</div><div class="line">opencv_ml2413.lib</div><div class="line">opencv_nonfree2413.lib</div><div class="line">opencv_ocl2413.lib</div><div class="line">opencv_photo2413.lib</div><div class="line">opencv_stitching2413.lib</div><div class="line">opencv_superres2413.lib</div><div class="line">opencv_ts2413.lib</div><div class="line">opencv_video2413.lib</div><div class="line">opencv_videostab2413.lib</div></pre></td></tr></table></figure>
+<h2 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h2><h3 id="安装VS2015"><a href="#安装VS2015" class="headerlink" title="安装VS2015"></a>安装VS2015</h3><p>右键vs_community_ENU.exe，以管理员身份运行。<br>选择自定义安装。如选择默认安装，则不会安装C++模板。<br><img src="/2016/09/28/win10-vs2015-opencv/26.png" alt="26.png" title=""><br>在编程语言的选项中勾选 Visual C++。<br><img src="/2016/09/28/win10-vs2015-opencv/27.png" alt="27.png" title=""><br>安装所需时间较长，等待安装完成。安装完成后系统会重启一次。</p>
+<h3 id="安装OpenCV"><a href="#安装OpenCV" class="headerlink" title="安装OpenCV"></a>安装OpenCV</h3><p>双击opencv-2.4.13.exe，出现一个对话框，提示需要将OpenCV包解压到指定位置。在指定解压目录下，自动生成opencv目录。注意不要自己添加opencv目录，以免重复。<br><img src="/2016/09/28/win10-vs2015-opencv/2.png" alt="2.png" title=""><br>解压后的OpenCV目录如下图。<br><img src="/2016/09/28/win10-vs2015-opencv/3.png" alt="3.png" title=""></p>
+<h3 id="添加环境变量"><a href="#添加环境变量" class="headerlink" title="添加环境变量"></a>添加环境变量</h3><p>右键开始菜单，选择”系统”。在弹出窗口左侧选择”高级系统设置”。<br><img src="/2016/09/28/win10-vs2015-opencv/4.png" alt="4.png" title=""><br>点击“环境变量”，在弹出窗口中双击”系统变量”中的“Path”，加入路径：<br><code>D:\workspace\opencv\build\x64\vc12\bin</code><br><code>D:\workspace\opencv\build\x86\vc12\bin</code><br><img src="/2016/09/28/win10-vs2015-opencv/5.png" alt="5.png" title=""></p>
+<h3 id="配置VS2015环境"><a href="#配置VS2015环境" class="headerlink" title="配置VS2015环境"></a>配置VS2015环境</h3><h4 id="新建空项目"><a href="#新建空项目" class="headerlink" title="新建空项目"></a>新建空项目</h4><p>新建项目。如果安装VS2015时选择默认安装，则可能找不到 C++ win32控制台程序。这时就需要再下载C++模板。<br>在新建项目窗口 –&gt; Installed –&gt; Visual C++ –&gt; Windows –&gt; 双击“Install Universal Windows Platform Tools”。<br><img src="/2016/09/28/win10-vs2015-opencv/6.png" alt="6.png" title=""><br>安装过程中需要关闭Visual Studio。<br>安装完成后，新建一个C++的空项目。<br><img src="/2016/09/28/win10-vs2015-opencv/10.png" alt="10.png" title=""></p>
+<h4 id="配置include目录"><a href="#配置include目录" class="headerlink" title="配置include目录"></a>配置include目录</h4><p>打开 视图 –&gt; 其他窗口 –&gt; 属性管理器<br><img src="/2016/09/28/win10-vs2015-opencv/11.png" alt="11.png" title=""><br>在属性管理器中选择 <code>Debug|Win32</code> –&gt; Microsoft.Cpp.Win32.user。<br><img src="/2016/09/28/win10-vs2015-opencv/12.png" alt="12.png" title=""><br>双击 Microsoft.Cpp.Win32.user，在弹出窗口中选择 通用属性 –&gt; VC++目录 –&gt; include目录<br><img src="/2016/09/28/win10-vs2015-opencv/13.png" alt="13.png" title=""><br>点击“include目录”右侧的展开按钮，选择“编辑..”。添加如下目录：<br><code>D:\workspace\opencv\build\include</code><br><code>D:\workspace\opencv\build\include\opencv</code><br><code>D:\workspace\opencv\build\include\opencv2</code><br><img src="/2016/09/28/win10-vs2015-opencv/14.png" alt="14.png" title=""></p>
+<h4 id="配置library目录"><a href="#配置library目录" class="headerlink" title="配置library目录"></a>配置library目录</h4><p>编辑 VC++目录 –&gt; library目录 。<br><img src="/2016/09/28/win10-vs2015-opencv/15.png" alt="15.png" title=""><br>添加目录：<br><code>D:\workspace\opencv\build\x86\vc12\lib</code><br><img src="/2016/09/28/win10-vs2015-opencv/16.png" alt="16.png" title=""><br>由于编辑的是 <code>Debug|Win32</code>，因此只加入x86目录下的lib。</p>
+<h4 id="配置附加依赖项"><a href="#配置附加依赖项" class="headerlink" title="配置附加依赖项"></a>配置附加依赖项</h4><p>编辑 链接器 –&gt; 输入 –&gt; 附加依赖项。<br><img src="/2016/09/28/win10-vs2015-opencv/17.png" alt="17.png" title=""><br>添加19个Debug版本的lib和19个Release版本的lib。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">opencv_calib3d2413d.lib</div><div class="line">opencv_contrib2413d.lib</div><div class="line">opencv_core2413d.lib</div><div class="line">opencv_features2d2413d.lib</div><div class="line">opencv_flann2413d.lib</div><div class="line">opencv_gpu2413d.lib</div><div class="line">opencv_highgui2413d.lib</div><div class="line">opencv_imgproc2413d.lib</div><div class="line">opencv_legacy2413d.lib</div><div class="line">opencv_ml2413d.lib</div><div class="line">opencv_nonfree2413d.lib</div><div class="line">opencv_objdetect2413d.lib</div><div class="line">opencv_ocl2413d.lib</div><div class="line">opencv_photo2413d.lib</div><div class="line">opencv_stitching2413d.lib</div><div class="line">opencv_superres2413d.lib</div><div class="line">opencv_ts2413d.lib</div><div class="line">opencv_video2413d.lib</div><div class="line">opencv_videostab2413d.lib</div><div class="line"></div><div class="line">opencv_calib3d2413.lib</div><div class="line">opencv_contrib2413.lib</div><div class="line">opencv_core2413.lib</div><div class="line">opencv_features2d2413.lib</div><div class="line">opencv_flann2413.lib</div><div class="line">opencv_gpu2413.lib</div><div class="line">opencv_highgui2413.lib</div><div class="line">opencv_imgproc2413.lib</div><div class="line">opencv_legacy2413.lib</div><div class="line">opencv_objdetect2413.lib</div><div class="line">opencv_ml2413.lib</div><div class="line">opencv_nonfree2413.lib</div><div class="line">opencv_ocl2413.lib</div><div class="line">opencv_photo2413.lib</div><div class="line">opencv_stitching2413.lib</div><div class="line">opencv_superres2413.lib</div><div class="line">opencv_ts2413.lib</div><div class="line">opencv_video2413.lib</div><div class="line">opencv_videostab2413.lib</div></pre></td></tr></table></figure></p>
 <img src="/2016/09/28/win10-vs2015-opencv/18.png" alt="18.png" title="">
-<h2 id="程序测试"><a href="#程序测试" class="headerlink" title="程序测试"></a>程序测试</h2><p>打开 视图 –&gt; 解决方案资源管理器。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/19.png" alt="19.png" title="">
-<p>在解决方案资源管理器中，右键源文件 –&gt; 添加 –&gt; 新建项。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/20.png" alt="20.png" title="">
-<p>选择C++文件，添加。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/21.png" alt="21.png" title="">
-<p>在cpp文件中编写测试代码，读取并显示图片：</p>
+<h2 id="程序测试"><a href="#程序测试" class="headerlink" title="程序测试"></a>程序测试</h2><p>打开 视图 –&gt; 解决方案资源管理器。<br><img src="/2016/09/28/win10-vs2015-opencv/19.png" alt="19.png" title=""><br>在解决方案资源管理器中，右键源文件 –&gt; 添加 –&gt; 新建项。<br><img src="/2016/09/28/win10-vs2015-opencv/20.png" alt="20.png" title=""><br>选择C++文件，添加。<br><img src="/2016/09/28/win10-vs2015-opencv/21.png" alt="21.png" title=""><br>在cpp文件中编写测试代码，读取并显示图片：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2\opencv.hpp&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	Mat srcImage = imread(<span class="string">"orange.jpg"</span>, <span class="number">0</span>);</div><div class="line">	imshow(<span class="string">"orange"</span>, srcImage);</div><div class="line">	<span class="keyword">if</span> (!srcImage.data)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"fail to load image!"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	&#125;</div><div class="line">	waitKey(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>选择 生成 –&gt; 生成解决方案。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/22.png" alt="22.png" title="">
-<p>选择 调试 –&gt; 开始调试，或直接 F5。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/23.png" alt="23.png" title="">
-<p>出现错误：丢失 MSVCP120D.dll</p>
-<img src="/2016/09/28/win10-vs2015-opencv/24.png" alt="24.png" title="">
-<p>在网上下载 <a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/2016/09/28/win10-vs2015-opencv/msvcp120d&amp;msvcr120d.rar" target="_blank" rel="external">MSVCP120d.dll</a> 文件复制到 <code>C:\Windows\SysWOW64</code> 目录下。</p>
-<p>重新 F5 运行，读取、显示图片成功。</p>
-<img src="/2016/09/28/win10-vs2015-opencv/25.png" alt="25.png" title="">
+<p>选择 生成 –&gt; 生成解决方案。<br><img src="/2016/09/28/win10-vs2015-opencv/22.png" alt="22.png" title=""><br>选择 调试 –&gt; 开始调试，或直接 F5。<br><img src="/2016/09/28/win10-vs2015-opencv/23.png" alt="23.png" title=""><br>出现错误：丢失 MSVCP120D.dll<br><img src="/2016/09/28/win10-vs2015-opencv/24.png" alt="24.png" title=""></p>
+<p>在网上下载 <a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/2016/09/28/win10-vs2015-opencv/msvcp120d&amp;msvcr120d.rar" target="_blank" rel="external">MSVCP120d.dll</a> 文件复制到 <code>C:\Windows\SysWOW64</code> 目录下。<br>重新 F5 运行，读取、显示图片成功。<br><img src="/2016/09/28/win10-vs2015-opencv/25.png" alt="25.png" title=""></p>
 
       
     </div>
