@@ -2,9 +2,65 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/2016/05/03/sublime_3_python_config/</loc>
+    
+    <lastmod>2017-02-17T07:16:37.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/09/28/win10-vs2015-opencv/</loc>
+    
+    <lastmod>2017-02-17T07:14:42.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/09/29/macos-sierra-office/</loc>
+    
+    <lastmod>2017-02-17T07:14:18.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/10/02/opencv-1/</loc>
+    
+    <lastmod>2017-02-17T07:13:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/10/02/opencv-2/</loc>
+    
+    <lastmod>2017-02-17T07:13:30.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/10/03/opencv-3/</loc>
+    
+    <lastmod>2017-02-17T07:13:13.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/10/19/opencv-4/</loc>
+    
+    <lastmod>2017-02-17T07:12:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2017/02/10/python-nn/</loc>
+    
+    <lastmod>2017-02-17T07:12:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2016/10/19/snap/</loc>
     
-    <lastmod>2017-02-17T07:09:32.000Z</lastmod>
+    <lastmod>2017-02-17T07:11:25.000Z</lastmod>
     
   </url>
   
@@ -30,37 +86,9 @@
   </url>
   
   <url>
-    <loc>//simochen.github.io/2017/02/10/python-nn/</loc>
-    
-    <lastmod>2017-02-17T07:07:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>//simochen.github.io/bookmark/index.html</loc>
     
     <lastmod>2017-02-17T06:38:40.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/10/02/opencv-2/</loc>
-    
-    <lastmod>2017-02-17T06:08:47.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/10/03/opencv-3/</loc>
-    
-    <lastmod>2017-02-17T06:08:24.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/10/19/opencv-4/</loc>
-    
-    <lastmod>2017-02-17T06:07:52.000Z</lastmod>
     
   </url>
   
@@ -93,37 +121,9 @@
   </url>
   
   <url>
-    <loc>//simochen.github.io/2016/05/03/sublime_3_python_config/</loc>
-    
-    <lastmod>2017-02-17T05:03:42.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>//simochen.github.io/2016/09/26/a-story-about-bicycle/</loc>
     
     <lastmod>2017-02-17T05:02:16.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/09/28/win10-vs2015-opencv/</loc>
-    
-    <lastmod>2017-02-17T05:01:18.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/09/29/macos-sierra-office/</loc>
-    
-    <lastmod>2017-02-17T04:58:31.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/10/02/opencv-1/</loc>
-    
-    <lastmod>2017-02-17T04:57:50.000Z</lastmod>
     
   </url>
   

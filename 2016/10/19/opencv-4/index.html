@@ -105,7 +105,7 @@
 <meta property="og:image" content="//simochen.github.io/2016/10/19/opencv-4/midFilter.png">
 <meta property="og:image" content="//simochen.github.io/2016/10/19/opencv-4/resImage.png">
 <meta property="og:image" content="//simochen.github.io/2016/10/19/opencv-4/wiener.png">
-<meta property="og:updated_time" content="2017-02-17T06:07:52.000Z">
+<meta property="og:updated_time" content="2017-02-17T07:12:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenCV 学习笔记（4）">
 <meta name="twitter:description" content="图像复原。">
@@ -360,7 +360,9 @@
       
 
       
-        <p>图像复原。<br><a id="more"></a></p>
+        <blockquote class="blockquote-center"><p>图像复原。 </p>
+</blockquote>
+<a id="more"></a>
 <h2 id="函数说明"><a href="#函数说明" class="headerlink" title="函数说明"></a>函数说明</h2><h3 id="Mat-构造函数"><a href="#Mat-构造函数" class="headerlink" title="Mat 构造函数"></a>Mat 构造函数</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Mat dstImage = Mat(srcImage.size(), srcImage.type());</div></pre></td></tr></table></figure>
 <h3 id="Mat-值拷贝"><a href="#Mat-值拷贝" class="headerlink" title="Mat 值拷贝"></a>Mat 值拷贝</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Mat dstImage;</div><div class="line">srcImage.copyTo(dstImage);</div></pre></td></tr></table></figure>
 <h3 id="Mat-截取"><a href="#Mat-截取" class="headerlink" title="Mat 截取"></a>Mat 截取</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Mat imageROI;</div><div class="line">imageROI = image(<span class="keyword">const</span> Rect&amp; roi);</div><div class="line">imageROI = image(Range rowRange, Range colRange);</div><div class="line">imageROI = image(<span class="keyword">const</span> Range* ranges);</div><div class="line"></div><div class="line">roi = Rect(x, y, width, height);</div><div class="line">roi = Rect(point1, point2);</div><div class="line">rowRange = Range(startrow, endrow);</div><div class="line">rowRange = Range::all();	<span class="comment">// select all the rows</span></div></pre></td></tr></table></figure>
