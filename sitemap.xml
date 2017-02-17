@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/2016/10/03/opencv-3/</loc>
+    
+    <lastmod>2017-02-17T07:24:14.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2016/05/03/sublime_3_python_config/</loc>
     
     <lastmod>2017-02-17T07:16:37.000Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>//simochen.github.io/2016/10/02/opencv-2/</loc>
     
     <lastmod>2017-02-17T07:13:30.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/10/03/opencv-3/</loc>
-    
-    <lastmod>2017-02-17T07:13:13.000Z</lastmod>
     
   </url>
   
