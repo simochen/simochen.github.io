@@ -98,7 +98,7 @@
 <meta property="og:image" content="//simochen.github.io/2016/10/02/opencv-2/srcHist.jpg">
 <meta property="og:image" content="//simochen.github.io/2016/10/02/opencv-2/dstImage.jpg">
 <meta property="og:image" content="//simochen.github.io/2016/10/02/opencv-2/dstHist.jpg">
-<meta property="og:updated_time" content="2017-02-17T04:52:54.000Z">
+<meta property="og:updated_time" content="2017-02-17T06:08:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenCV 学习笔记（2）">
 <meta name="twitter:description" content="直方图计算与均衡化。">
@@ -414,7 +414,7 @@
 <li>src - 8-bit单通道的原图像</li>
 <li>dst - 均衡化直方图后的图像，与原图具有相同的尺寸和类型。</li>
 </ul>
-<h2 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h2><p>计算下图的直方图并进行直方图均衡化。<br><img src="/2016/10/02/opencv-2/orange.jpg" alt="source image" title="source image"><br><a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016/10/02/opencv-2/orange.jpg" target="_blank" rel="external">点此下载</a></p>
+<h2 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h2><p>计算下图的直方图并进行直方图均衡化。<br><img src="/2016/10/02/opencv-2/orange.jpg" alt="source image" title="source image"><br><a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/2016/10/02/opencv-2/orange.jpg" target="_blank" rel="external">点此下载</a></p>
 <p>实现如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">#include &lt;opencv2\opencv.hpp&gt;</div><div class="line">#include &lt;opencv2\core\core.hpp&gt;</div><div class="line">#include &lt;opencv2\highgui\highgui.hpp&gt;</div><div class="line"></div><div class="line">using namespace cv;</div><div class="line">using namespace std;</div><div class="line"></div><div class="line">Mat getHistogram(const Mat &amp;srcImage)</div><div class="line">&#123;</div><div class="line">    //计算直方图</div><div class="line">    MatND hist;</div><div class="line">    int channel = 0;</div><div class="line">    int dims = 1;</div><div class="line">    int size = 256;</div><div class="line">    float hranges[] = &#123; 0, 255 &#125;;</div><div class="line">    const float *ranges[] = &#123; hranges &#125;;</div><div class="line">    calcHist(&amp;srcImage, 1, &amp;channel, Mat(), hist, dims, &amp;size, ranges);</div><div class="line">    //获取最大值和最小值</div><div class="line">    double minVal = 0, maxVal = 0;</div><div class="line">    minMaxLoc(hist, &amp;minVal, &amp;maxVal, 0, 0);</div><div class="line">    //显示直方图</div><div class="line">    Mat dstImage(size, size, CV_8U, Scalar(255));</div><div class="line">    int hpt = static_cast&lt;int&gt;(size);</div><div class="line">    for (int i = 0; i &lt; size; i++) &#123;</div><div class="line">        //计算直方图高度</div><div class="line">        float binVal = hist.at&lt;float&gt;(i);</div><div class="line">        int intVal = static_cast&lt;int&gt;(binVal*hpt / maxVal);</div><div class="line">        //两点之间绘制一条线段</div><div class="line">        line(dstImage, Point(i, size), Point(i, size - intVal), Scalar(0));</div><div class="line">    &#125;</div><div class="line">    return dstImage;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    //读取原图</div><div class="line">    Mat srcImage = imread("orange.jpg", 0);</div><div class="line">    imshow("source Image", srcImage);</div><div class="line">    if (!srcImage.data)</div><div class="line">    &#123;</div><div class="line">        cout &lt;&lt; "fail to load image!" &lt;&lt; endl;</div><div class="line">    &#125;</div><div class="line">    //计算直方图</div><div class="line">    Mat hist1;</div><div class="line">    hist1 = getHistogram(srcImage);</div><div class="line">    imshow("source Histogram", hist1);</div><div class="line">    imwrite("srcHist.jpg", hist1);</div><div class="line">    //计算均衡化图</div><div class="line">    Mat dstImage;</div><div class="line">    equalizeHist(srcImage, dstImage);</div><div class="line">    imshow("equalized Image", dstImage);</div><div class="line">    imwrite("dstImage.jpg", dstImage);</div><div class="line">    //计算均衡化直方图</div><div class="line">    Mat hist2;</div><div class="line">    hist2 = getHistogram(dstImage);</div><div class="line">    imshow("equalized Histogram", hist2);</div><div class="line">    imwrite("dstHist.jpg", hist2);</div><div class="line"></div><div class="line">    waitKey(0);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><ol>
 <li><p>原图</p>
@@ -554,7 +554,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -572,7 +572,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

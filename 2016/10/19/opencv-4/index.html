@@ -105,7 +105,7 @@
 <meta property="og:image" content="//simochen.github.io/2016/10/19/opencv-4/midFilter.png">
 <meta property="og:image" content="//simochen.github.io/2016/10/19/opencv-4/resImage.png">
 <meta property="og:image" content="//simochen.github.io/2016/10/19/opencv-4/wiener.png">
-<meta property="og:updated_time" content="2017-02-17T05:43:16.000Z">
+<meta property="og:updated_time" content="2017-02-17T06:07:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenCV 学习笔记（4）">
 <meta name="twitter:description" content="图像复原。">
@@ -400,8 +400,8 @@
 <li>谐波均值滤波</li>
 <li>中值滤波</li>
 </ol>
-<p>过滤噪声，复原图像。<br><img src="/2016/10/19/opencv-4/lena.jpg" alt="原图像" title="原图像"><br><a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016/10/19/opencv-4/lena.jpg" target="_blank" rel="external">点此下载</a></p>
-<h3 id="复原运动模糊图像"><a href="#复原运动模糊图像" class="headerlink" title="复原运动模糊图像"></a>复原运动模糊图像</h3><p>运动模糊图像如下图所示。采用维纳滤波进行图像复原。<br><img src="/2016/10/19/opencv-4/blur.jpg" alt="运动模糊图像" title="运动模糊图像"><br><a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/_posts/2016/10/19/opencv-4/blur.jpg" target="_blank" rel="external">点此下载</a></p>
+<p>过滤噪声，复原图像。<br><img src="/2016/10/19/opencv-4/lena.jpg" alt="原图像" title="原图像"><br><a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/2016/10/19/opencv-4/lena.jpg" target="_blank" rel="external">点此下载</a></p>
+<h3 id="复原运动模糊图像"><a href="#复原运动模糊图像" class="headerlink" title="复原运动模糊图像"></a>复原运动模糊图像</h3><p>运动模糊图像如下图所示。采用维纳滤波进行图像复原。<br><img src="/2016/10/19/opencv-4/blur.jpg" alt="运动模糊图像" title="运动模糊图像"><br><a href="https://raw.githubusercontent.com/simochen/simochen.github.io/master/2016/10/19/opencv-4/blur.jpg" target="_blank" rel="external">点此下载</a></p>
 <h2 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h2><h3 id="加入椒盐噪声"><a href="#加入椒盐噪声" class="headerlink" title="加入椒盐噪声"></a>加入椒盐噪声</h3><p>设加入噪声的比例为p。在每个像素位置，生成 [0,1) 的随机数，当随机数值小于0.5p时，加入胡椒噪声；当随机数值在 [0.5p, p) 范围内时，加入盐噪声。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//加入椒盐噪声</span></div><div class="line"><span class="function">Mat <span class="title">addNoise</span><span class="params">(<span class="keyword">const</span> Mat &amp;srcImage, <span class="keyword">double</span> p)</span> </span>&#123;</div><div class="line">    Mat dstImage;</div><div class="line">    srcImage.copyTo(dstImage);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; dstImage.rows; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; dstImage.cols; j++) &#123;</div><div class="line">            <span class="comment">//生成 [0,1) 的随机数</span></div><div class="line">            <span class="keyword">double</span> randnum;</div><div class="line">            randnum = rand() / <span class="keyword">double</span>(RAND_MAX);</div><div class="line">            <span class="comment">//加入胡椒噪声</span></div><div class="line">            <span class="keyword">if</span> (randnum &lt; <span class="number">0.5</span> * p) dstImage.at&lt;Vec3b&gt;(i, j) = &#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span> &#125;;</div><div class="line">            <span class="comment">//加入盐噪声</span></div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (randnum &lt; p) dstImage.at&lt;Vec3b&gt;(i, j) = &#123; <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span> &#125;;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dstImage;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>加入椒盐噪声后的图像：<br><img src="/2016/10/19/opencv-4/noiImage.png" alt="加噪图像" title="加噪图像"></p>
@@ -477,8 +477,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/03/opencv-3/" rel="next" title="OpenCV 学习笔记（3）">
-                <i class="fa fa-chevron-left"></i> OpenCV 学习笔记（3）
+              <a href="/2016/10/19/snap/" rel="next" title="Snap.py">
+                <i class="fa fa-chevron-left"></i> Snap.py
               </a>
             
           </div>
@@ -566,7 +566,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -584,7 +584,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
