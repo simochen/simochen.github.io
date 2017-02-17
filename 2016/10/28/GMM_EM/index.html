@@ -97,9 +97,6 @@
 <meta property="og:description" content="matlab下混合高斯模型的EM算法实现。
 参数说明N：样本数M：Gauss数
 高斯模型模型表示$N(\mathbf{x;\mu,\Sigma})=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-">
-<meta property="og:image" content="http://latex.codecogs.com/svg.latex?s.t. \sum_{m=1}^Mc_m=1">
-<meta property="og:image" content="http://latex.codecogs.com/svg.latex?L(\theta">
-<meta property="og:image" content="http://latex.codecogs.com/svg.latex?\gamma_m(n">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?Q(\theta;\hat\theta">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\theta_0">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?k=0">
@@ -117,13 +114,13 @@
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\mu}_m=\frac{1}{\gamma_m}\sum_{n=1}^N\gamma_m(n">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\mathbf{\hat\Sigma}_m=\frac{1}{\gamma_m}\sum_{n=1}^N\gamma_m(n">
 <meta property="og:image" content="http://latex.codecogs.com/svg.latex?\hat c_m=\frac{\gamma_m}{\sum\limits_{m=1}^M\gamma_m}">
-<meta property="og:updated_time" content="2017-02-17T03:44:53.000Z">
+<meta property="og:updated_time" content="2017-02-17T03:49:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GMM的EM算法实现">
 <meta name="twitter:description" content="matlab下混合高斯模型的EM算法实现。
 参数说明N：样本数M：Gauss数
 高斯模型模型表示$N(\mathbf{x;\mu,\Sigma})=\frac{1}{(2\pi)^{\frac{d}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}\exp{-\frac{1}{2}(\mathbf{x-\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x-">
-<meta name="twitter:image" content="http://latex.codecogs.com/svg.latex?s.t. \sum_{m=1}^Mc_m=1">
+<meta name="twitter:image" content="http://latex.codecogs.com/svg.latex?Q(\theta;\hat\theta">
 
 
 
@@ -391,9 +388,9 @@
 <p>得到的参数估计为：<br>$\mathbf{\hat\mu}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n$</p>
 <p>$\mathbf{\hat\Sigma}=\frac{1}{N}\sum_{n=1}^N(\mathbf{x}_n-\mathbf{\hat\mu})(\mathbf{x}_n-\mathbf{\hat\mu})^T$</p>
 <h2 id="混合高斯模型"><a href="#混合高斯模型" class="headerlink" title="混合高斯模型"></a>混合高斯模型</h2><h3 id="模型表示-1"><a href="#模型表示-1" class="headerlink" title="模型表示"></a>模型表示</h3><p>$p(\mathbf{x})=\sum_{m=1}^Mc_mN(\mathbf{x;\mu}_m,\mathbf{\Sigma}_m))$</p>
-<p><img src="http://latex.codecogs.com/svg.latex?s.t. \sum_{m=1}^Mc_m=1" alt=""></p>
-<h3 id="最大似然估计-1"><a href="#最大似然估计-1" class="headerlink" title="最大似然估计"></a>最大似然估计</h3><p><img src="http://latex.codecogs.com/svg.latex?L(\theta" alt="">=\sum<em>{n=1}^N\log\left(\sum</em>{m=1}^Mc_mN(\mathbf{x}_n;\mathbf{\mu}_m,\mathbf{\Sigma}_m)\right))</p>
-<p><img src="http://latex.codecogs.com/svg.latex?\gamma_m(n" alt="">=P(m;\mathbf{x_n},\hat\theta)=\frac{p(\mathbf{x}<em>n;m,\hat\theta)P(m;\hat\theta)}{\sum\limits</em>{k=1}^Mp(\mathbf{x}_n;k,\hat\theta)P(k;\hat\theta)})</p>
+<p>$s.t. \sum_{m=1}^Mc_m=1$</p>
+<h3 id="最大似然估计-1"><a href="#最大似然估计-1" class="headerlink" title="最大似然估计"></a>最大似然估计</h3><p>$L(\theta)=\sum_{n=1}^N\log\left(\sum_{m=1}^Mc_mN(\mathbf{x}_n;\mathbf{\mu}_m,\mathbf{\Sigma}_m)\right)$</p>
+<p>$\gamma_m(n)=P(m;\mathbf{x_n},\hat\theta)=\frac{p(\mathbf{x}_n;m,\hat\theta)P(m;\hat\theta)}{\sum\limits_{k=1}^Mp(\mathbf{x}_n;k,\hat\theta)P(k;\hat\theta)}$</p>
 <p><img src="http://latex.codecogs.com/svg.latex?Q(\theta;\hat\theta" alt="">=K+\sum<em>{n=1}^N\sum</em>{m+1}^M\gamma_m(n)\log c<em>m-\frac{1}{2}\sum</em>{n=1}^N\sum_{m+1}^M\gamma_m(n)\left(\log|\mathbf{\Sigma}_m|+(\mathbf{x}_n-\mathbf{\mu}_m)^T\mathbf{\Sigma}_m^{-1}(\mathbf{x}_n-\mathbf{\mu}_m)\right))</p>
 <h3 id="EM算法步骤"><a href="#EM算法步骤" class="headerlink" title="EM算法步骤"></a>EM算法步骤</h3><ol>
 <li><p>初始化参数<img src="http://latex.codecogs.com/svg.latex?\theta_0" alt="">，设置迭代次数<img src="http://latex.codecogs.com/svg.latex?k=0" alt="">。假设只有单Gauss，估计其模型参数<img src="http://latex.codecogs.com/svg.latex?\mathbf{\mu}_0" alt="">，<img src="http://latex.codecogs.com/svg.latex?\mathbf{\Sigma}_0" alt="">。对于混合高斯模型中的M个Gauss，采用全局初始化参数<img src="http://latex.codecogs.com/svg.latex?\mathbf{\mu}_0" alt="">，<img src="http://latex.codecogs.com/svg.latex?\mathbf{\Sigma}_0" alt="">加一随机移动（使得M个Gauss不同，否则等同于单Gauss），作为它们的初始化参数。</p>
@@ -773,7 +770,7 @@
         run_disqus_script('embed.js');
       
 
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
   
 
 
@@ -789,6 +786,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 

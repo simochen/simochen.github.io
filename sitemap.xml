@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>//simochen.github.io/2016/10/28/GMM_EM/</loc>
+    <loc>//simochen.github.io/2016/10/03/opencv-3/</loc>
     
-    <lastmod>2017-02-17T03:44:53.000Z</lastmod>
+    <lastmod>2017-02-17T03:49:54.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>//simochen.github.io/2016/10/24/latex-under-equation/</loc>
     
-    <lastmod>2017-02-17T03:42:32.000Z</lastmod>
+    <lastmod>2017-02-17T03:49:29.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/10/28/GMM_EM/</loc>
+    
+    <lastmod>2017-02-17T03:49:11.000Z</lastmod>
     
   </url>
   
@@ -19,13 +26,6 @@
     <loc>//simochen.github.io/2016/10/02/opencv-2/</loc>
     
     <lastmod>2017-02-17T03:40:13.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/10/03/opencv-3/</loc>
-    
-    <lastmod>2017-02-17T03:16:07.000Z</lastmod>
     
   </url>
   
