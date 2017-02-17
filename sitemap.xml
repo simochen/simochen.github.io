@@ -2,16 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>//simochen.github.io/bookmark/index.html</loc>
+    <loc>//simochen.github.io/2016/10/19/snap/</loc>
     
-    <lastmod>2017-02-17T06:38:40.000Z</lastmod>
+    <lastmod>2017-02-17T07:09:32.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/10/28/GMM_EM/</loc>
+    
+    <lastmod>2017-02-17T07:08:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/11/02/opencv-5/</loc>
+    
+    <lastmod>2017-02-17T07:08:22.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2016/11/12/opencv-6/</loc>
+    
+    <lastmod>2017-02-17T07:08:04.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>//simochen.github.io/2017/02/10/python-nn/</loc>
     
-    <lastmod>2017-02-17T06:12:58.000Z</lastmod>
+    <lastmod>2017-02-17T07:07:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/bookmark/index.html</loc>
+    
+    <lastmod>2017-02-17T06:38:40.000Z</lastmod>
     
   </url>
   
@@ -33,27 +61,6 @@
     <loc>//simochen.github.io/2016/10/19/opencv-4/</loc>
     
     <lastmod>2017-02-17T06:07:52.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/11/02/opencv-5/</loc>
-    
-    <lastmod>2017-02-17T06:07:05.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/11/12/opencv-6/</loc>
-    
-    <lastmod>2017-02-17T05:54:05.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/10/19/snap/</loc>
-    
-    <lastmod>2017-02-17T05:46:50.000Z</lastmod>
     
   </url>
   
@@ -124,13 +131,6 @@
     <loc>//simochen.github.io/2016/10/24/latex-under-equation/</loc>
     
     <lastmod>2017-02-17T04:51:14.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/10/28/GMM_EM/</loc>
-    
-    <lastmod>2017-02-17T04:51:04.000Z</lastmod>
     
   </url>
   

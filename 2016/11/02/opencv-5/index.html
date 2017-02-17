@@ -99,7 +99,7 @@
 <meta property="og:image" content="//simochen.github.io/2016/11/02/opencv-5/eq_G.png">
 <meta property="og:image" content="//simochen.github.io/2016/11/02/opencv-5/eq_B.png">
 <meta property="og:image" content="//simochen.github.io/2016/11/02/opencv-5/rgbImage.png">
-<meta property="og:updated_time" content="2017-02-17T06:07:05.000Z">
+<meta property="og:updated_time" content="2017-02-17T07:08:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenCV 学习笔记（5）">
 <meta name="twitter:description" content="对灰度图进行伪彩色处理。">
@@ -354,7 +354,9 @@
       
 
       
-        <p>对灰度图进行伪彩色处理。<br><a id="more"></a></p>
+        <blockquote class="blockquote-center"><p>对灰度图进行伪彩色处理。 </p>
+</blockquote>
+<a id="more"></a>
 <h2 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h2><h3 id="定义一个常量"><a href="#定义一个常量" class="headerlink" title="定义一个常量"></a>定义一个常量</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> <span class="meta-string">&lt;常量名&gt;</span> <span class="meta-string">&lt;常量值&gt;</span></span></div><div class="line"><span class="keyword">const</span> &lt;常量类型&gt; &lt;常量名&gt; = &lt;常量值&gt;;</div></pre></td></tr></table></figure>
 <h3 id="枚举类型-enum"><a href="#枚举类型-enum" class="headerlink" title="枚举类型 enum"></a>枚举类型 enum</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">enum</span> &lt;枚举类型名&gt; &#123;&lt;枚举表&gt;&#125;;</div><div class="line"><span class="keyword">enum</span> &#123;&lt;枚举表&gt;&#125; &lt;变量名表&gt;;</div></pre></td></tr></table></figure>
 <p>C++ enum 枚举表中每一个枚举值对应着一个整型数，通常情况下如果其中的枚举常量没有定义数值，那么第一个枚举值对应着常量值0，然后依次递增；如果第一个枚举常量定义了数值，那么其后的值将随之递增，其中每个常量之间用“,”隔开，而不是”;“，最后一个数值不用符号。<br>enum bool {false,true};  bool类型就是C++预定义的枚举。</p>
