@@ -101,7 +101,7 @@ BP 神经网络BP (Back Propagation) 神经网络是一种用残差反向传播�
 <meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/neuron.png">
 <meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/sigmoid.png">
 <meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/tanh.png">
-<meta property="og:updated_time" content="2017-02-17T09:13:27.000Z">
+<meta property="og:updated_time" content="2017-02-17T09:16:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python 搭建 BP 神经网络">
 <meta name="twitter:description" content="Python-NumPy 搭建 BP 神经网络模块。 
@@ -365,8 +365,9 @@ BP 神经网络BP (Back Propagation) 神经网络是一种用残差反向传播�
 <h3 id="人工神经元模型"><a href="#人工神经元模型" class="headerlink" title="人工神经元模型"></a>人工神经元模型</h3><p>神经网络中的基本运算单元为人工神经元。其输出为<br>$$h_w(x)=f(\sum_{i=0}^nw_ix_i)$$<br>其中，$x_0=1$ 为偏置 (bias) 单元；$f(\cdot)$ 为激励函数。</p>
 <p><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/neuron.png" style="zoom:50%"></p>
 <p>常用的激励函数有 $sigmoid$ 和 $tanh$。</p>
-<p><div style="margin: 0 auto; text-align: center;"><br>    <div style="float: left; width: 270px"><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/sigmoid.png" style="width: 240px"></div><div style="float: left; width: 270px"><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/tanh.png" style="width: 240px"></div><br></div><br><br></p>
-<p>$$\sigma(x)=\frac{1}{1+\mathrm{e}^{-x}}\in(0,1)$$<br>$$\tanh(x)=\frac{\mathrm{e}^x-\mathrm{e}^{-x}}{\mathrm{e}^x+\mathrm{e}^{-x}}\in(-1,1)$$</p>
+<div style="margin: 0 auto; text-align: center;"><br>    <div style="float: left; width: 270px"><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/sigmoid.png" style="width: 240px"></div><div style="float: left; width: 270px"><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/tanh.png" style="width: 240px"></div><br></div>
+
+<p>$ $<br>$$\sigma(x)=\frac{1}{1+\mathrm{e}^{-x}}\in(0,1)$$<br>$$\tanh(x)=\frac{\mathrm{e}^x-\mathrm{e}^{-x}}{\mathrm{e}^x+\mathrm{e}^{-x}}\in(-1,1)$$</p>
 <p>两个函数之间存在线性关系：<br>$$\tanh(x)=2\sigma(2x)-1$$</p>
 <p>这两个函数的一个重要特性是它们都是可微分的，这使得网络能够应用梯度下降算法来进行训练。它们的一阶导数分别为<br>$$\frac{\mathrm{d}\sigma(x)}{\mathrm{d}x}=\sigma(x)(1-\sigma(x))$$<br>$$\frac{\mathrm{d}\tanh(x)}{\mathrm{d}x}=1-\tanh(x)^2$$</p>
 <h3 id="神经网络类"><a href="#神经网络类" class="headerlink" title="神经网络类"></a>神经网络类</h3><p>定义神经网络类 $nn$ 如下：</p>
