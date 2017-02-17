@@ -95,16 +95,16 @@ BP 神经网络BP (Back Propagation) 神经网络是一种用残差反向传播�
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="Python-NumPy 搭建 BP 神经网络。
 BP 神经网络BP (Back Propagation) 神经网络是一种用残差反向传播算法训练的多层前馈神经网络。BP网络能学习和存贮大量的输入-输出模式映射关系，而无需已知描述这种映射关系的数学方程。它的学习规则是使用梯度下降法，通过反向传播来不断调整网络的权值和阈值，使网络的损失函数最小。BP神经网络模型拓扑结构包括输入层 (input lay">
-<meta property="og:image" content="//simochen.github.io/2017-02-10-python-nn/NN.png">
+<meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/NN.png">
 <meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/neuron.png">
 <meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/sigmoid.png">
 <meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/tanh.png">
-<meta property="og:updated_time" content="2017-02-17T06:11:31.000Z">
+<meta property="og:updated_time" content="2017-02-17T06:12:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python 搭建 BP 神经网络">
 <meta name="twitter:description" content="Python-NumPy 搭建 BP 神经网络。
 BP 神经网络BP (Back Propagation) 神经网络是一种用残差反向传播算法训练的多层前馈神经网络。BP网络能学习和存贮大量的输入-输出模式映射关系，而无需已知描述这种映射关系的数学方程。它的学习规则是使用梯度下降法，通过反向传播来不断调整网络的权值和阈值，使网络的损失函数最小。BP神经网络模型拓扑结构包括输入层 (input lay">
-<meta name="twitter:image" content="//simochen.github.io/2017-02-10-python-nn/NN.png">
+<meta name="twitter:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/NN.png">
 
 
 
@@ -367,7 +367,7 @@ BP 神经网络BP (Back Propagation) 神经网络是一种用残差反向传播�
       
         <p>Python-NumPy 搭建 BP 神经网络。</p>
 <h2 id="BP-神经网络"><a href="#BP-神经网络" class="headerlink" title="BP 神经网络"></a>BP 神经网络</h2><p>BP (Back Propagation) 神经网络是一种用残差反向传播算法训练的多层前馈神经网络。BP网络能学习和存贮大量的输入-输出模式映射关系，而无需已知描述这种映射关系的数学方程。它的学习规则是使用梯度下降法，通过反向传播来不断调整网络的权值和阈值，使网络的损失函数最小。BP神经网络模型拓扑结构包括输入层 (input layer) 、隐藏层 (hidden layer) 和输出层 (output layer) 。</p>
-<p><img src="2017-02-10-python-nn/NN.png" style="zoom:50%"><br><a id="more"></a></p>
+<p><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/NN.png" style="zoom:50%"><br><a id="more"></a></p>
 <h3 id="人工神经元模型"><a href="#人工神经元模型" class="headerlink" title="人工神经元模型"></a>人工神经元模型</h3><p>神经网络中的基本运算单元为人工神经元。其输出为<br>$$h_w(x)=f(\sum_{i=0}^nw_ix_i)$$<br>其中，$x_0=1$ 为偏置 (bias) 单元；$f(\cdot)$ 为激励函数。</p>
 <p><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/neuron.png" style="zoom:50%"></p>
 <p>常用的激励函数有 $sigmoid$ 和 $tanh$。<br><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/sigmoid.png" style="zoom:60%"><br><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/tanh.png" style="zoom:60%"></p>
