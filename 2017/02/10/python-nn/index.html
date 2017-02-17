@@ -101,7 +101,7 @@ BP 神经网络BP (Back Propagation) 神经网络是一种用残差反向传播�
 <meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/neuron.png">
 <meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/sigmoid.png">
 <meta property="og:image" content="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/tanh.png">
-<meta property="og:updated_time" content="2017-02-17T09:31:02.000Z">
+<meta property="og:updated_time" content="2017-02-17T09:33:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python 搭建 BP 神经网络">
 <meta name="twitter:description" content="Python-NumPy 搭建 BP 神经网络模块。 
@@ -365,7 +365,7 @@ BP 神经网络BP (Back Propagation) 神经网络是一种用残差反向传播�
 <h3 id="人工神经元模型"><a href="#人工神经元模型" class="headerlink" title="人工神经元模型"></a>人工神经元模型</h3><p>神经网络中的基本运算单元为人工神经元。其输出为<br>$$h_w(x)=f(\sum_{i=0}^nw_ix_i)$$<br>其中，$x_0=1$ 为偏置 (bias) 单元；$f(\cdot)$ 为激励函数。</p>
 <p><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/neuron.png" style="zoom:50%"></p>
 <p>常用的激励函数有 $sigmoid$ 和 $tanh$。</p>
-<div style="margin: 0 auto; text-align: center; width: 650px"><br>    <div style="float: left; width: 270px"><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/sigmoid.png" style="width: 240px"></div><div style="float: left; width: 270px"><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/tanh.png" style="width: 240px"></div><br></div>
+<div style="margin: 0 auto; text-align: center; width: 750px"><br>    <div style="float: left; width: 270px"><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/sigmoid.png" style="width: 240px"></div><div style="float: left; width: 270px"><img src="https://github.com/simochen/simochen.github.io/raw/master/2017/02/10/python-nn/tanh.png" style="width: 240px"></div><br></div>
 
 <p>$$\sigma(x)=\frac{1}{1+\mathrm{e}^{-x}}\in(0,1)$$<br>$$\tanh(x)=\frac{\mathrm{e}^x-\mathrm{e}^{-x}}{\mathrm{e}^x+\mathrm{e}^{-x}}\in(-1,1)$$</p>
 <p>两个函数之间存在线性关系：<br>$$\tanh(x)=2\sigma(2x)-1$$</p>
