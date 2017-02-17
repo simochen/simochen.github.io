@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -98,7 +98,7 @@
 <meta property="og:image" content="//simochen.github.io/2016/10/02/opencv-2/srcHist.jpg">
 <meta property="og:image" content="//simochen.github.io/2016/10/02/opencv-2/dstImage.jpg">
 <meta property="og:image" content="//simochen.github.io/2016/10/02/opencv-2/dstHist.jpg">
-<meta property="og:updated_time" content="2017-02-17T02:54:08.000Z">
+<meta property="og:updated_time" content="2017-02-17T03:23:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenCV 学习笔记（2）">
 <meta name="twitter:description" content="直方图计算与均衡化。">
@@ -136,7 +136,7 @@
 
 
 
-  <title> OpenCV 学习笔记（2） | Ink One </title>
+  <title> OpenCV 学习笔记（2） | Ink One </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -378,8 +378,8 @@
 <li>dims - 直方图维度，为正数且不大于 <code>CV_MAX_DIMS</code>（在当前 OpenCV 版本中该值为 32）。</li>
 <li>histSize - 每个维度下直方图项的数量构成的数组。</li>
 <li>ranges - 每个维度下直方图像素值的范围构成的数组。<ul>
-<li>如果直方图设置归一（uniform = true），则对于每个维度 i ，可以标记第0个直方图的下边界为 $L<em>0$ ，最后一个直方图 histSize[i]-1 的上边界为 $U</em>{histSize[i]-1}$ ，即每一个 ranges[i] 都是具有两个元素的数组。</li>
-<li>如果直方图不归一（uniform = false），则每个 ranges[i] 包含 histSize[i]+1 个元素： $L_0$, $U_0=L_1$ , $U_1=L<em>2$ , … , $U</em>{histSize[i]-2}=L<em>{histSize[i]-2}$ , $U</em>{histSize[i]-1}$ 。不在 $L<em>0$ 和 $U</em>{histSize[i]-1}$ 范围内的数组元素不计算在直方图中。</li>
+<li>如果直方图设置归一（uniform = true），则对于每个维度 i ，可以标记第0个直方图的下边界为 $L_0$ ，最后一个直方图 histSize[i]-1 的上边界为 $U_{histSize[i]-1}$ ，即每一个 ranges[i] 都是具有两个元素的数组。</li>
+<li>如果直方图不归一（uniform = false），则每个 ranges[i] 包含 histSize[i]+1 个元素： $L_0$, $U_0=L_1$ , $U_1=L_2$ , … , $U_{histSize[i]-2}=L_{histSize[i]-2}$ , $U_{histSize[i]-1}$ 。不在 $L_0$ 和 $U_{histSize[i]-1}$ 范围内的数组元素不计算在直方图中。</li>
 </ul>
 </li>
 <li>uniform - 标识直方图是否归一</li>
@@ -837,7 +837,24 @@
         }
       });
     </script>
-    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   
 
 
