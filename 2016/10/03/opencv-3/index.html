@@ -103,7 +103,7 @@
 <meta property="og:image" content="//simochen.github.io/2016/10/03/opencv-3/BF.png">
 <meta property="og:image" content="//simochen.github.io/2016/10/03/opencv-3/filSpec.png">
 <meta property="og:image" content="//simochen.github.io/2016/10/03/opencv-3/filImage.png">
-<meta property="og:updated_time" content="2017-02-17T04:46:29.000Z">
+<meta property="og:updated_time" content="2017-02-17T04:47:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenCV 学习笔记（3）">
 <meta name="twitter:description" content="对图像进行傅里叶变换和频域滤波。">
@@ -378,15 +378,8 @@
 <h3 id="周期折叠误差改进"><a href="#周期折叠误差改进" class="headerlink" title="周期折叠误差改进"></a>周期折叠误差改进</h3><ul>
 <li>图像进行傅立叶变换，需将其看作周期函数的一个周期；</li>
 <li>周期函数进行卷积，为避免周期折叠误差，需对函数进行补零扩展。$f(x,y)$、$h(x,y)$ 均补零扩充为 $P\times Q$，$P=2N-1$，$Q=2N-1$.</li>
-<li>具体步骤如下：<ol>
-<li>用 $(-1)^{x+y}$ 乘以输入图像 $f(x,y)$ 来进行中心变换；<img src="/2016/10/03/opencv-3/1.png" alt="1.png" title=""></li>
-<li>由 1. 计算图像的 DFT，得到 $F(u,v)$ ；</li>
-<li>用频域滤波器 $H(u,v)$ 乘以 $F(u,v)$ ；</li>
-<li>将 3. 中得到的结果进行IDFT；</li>
-<li>取 4. 中结果的实部；</li>
-<li>用 $(-1)^{x+y}$ 乘以 5. 中的结果，即可得滤波图像。</li>
-</ol>
-</li>
+<li>具体步骤如下：<br>1.\ 用 $(-1)^{x+y}$ 乘以输入图像 $f(x,y)$ 来进行中心变换；  <img src="/2016/10/03/opencv-3/1.png" alt="1.png" title="">
+2.\ 由 1. 计算图像的 DFT，得到 $F(u,v)$ ；<br>3.\ 用频域滤波器 $H(u,v)$ 乘以 $F(u,v)$ ；<br>4.\ 将 3. 中得到的结果进行IDFT；<br>5.\ 取 4. 中结果的实部；<br>6.\ 用 $(-1)^{x+y}$ 乘以 5. 中的结果，即可得滤波图像。</li>
 </ul>
 <h3 id="高频增强滤波"><a href="#高频增强滤波" class="headerlink" title="高频增强滤波"></a>高频增强滤波</h3><p><strong>实现步骤</strong></p>
 <ol>
