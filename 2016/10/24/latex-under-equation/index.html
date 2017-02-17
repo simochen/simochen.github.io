@@ -99,7 +99,7 @@ f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1">
 
 如果是数学符号，那么直接在_前加\limits命令放在正下方，如sum函数下面的取值范围，一般情况下是放在$\sum$的正下方。如果$\sum$在分母中，则默认会将取值范围置于右下角，如果需要放在正下方。可以如下实现：
 f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1">
-<meta property="og:updated_time" content="2017-02-17T03:49:29.000Z">
+<meta property="og:updated_time" content="2017-02-17T03:54:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LaTeX 把下标放在正下方">
 <meta name="twitter:description" content="在用$\LaTeX$输入数学公式时，有时需要将公式的下标放在正下方：
@@ -370,11 +370,11 @@ f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1">
 <ol>
 <li><p>如果是数学符号，那么直接在<code>_</code>前加<code>\limits</code>命令放在正下方，如sum函数下面的取值范围，一般情况下是放在$\sum$的正下方。如果$\sum$在分母中，则默认会将取值范围置于右下角，如果需要放在正下方。可以如下实现：</p>
 <p><code>f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1}{g(x,y)}}}</code> </p>
-<p>显示为 $f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1}{g(x,y)}}}$</p>
+<p>显示为 $$f(x,y)=\frac{mn}{\sum\limits_{(s,t)\in S_{xy}}{\frac{1}{g(x,y)}}}$$</p>
 </li>
 <li><p>若是普通符号，那么要用<code>\mathop</code>先转成数学符号再用<code>\limits</code>，如</p>
 <p><code>f(x,y)=\mathop{medium}\limits_{(s,t)\in S_{xy}}{g(x,y)})</code></p>
-<p>显示为 $f(x,y)=\mathop{medium}\limits_{(s,t)\in S_{xy}}{g(x,y)}​$</p>
+<p>显示为 $$f(x,y)=\mathop{medium}\limits_{(s,t)\in S_{xy}}{g(x,y)}​$$</p>
 </li>
 <li><p>对于双美元符之间的公式，Latex默认下标是放在正下方。所以就不需要加<code>\limits</code>。</p>
 </li>
