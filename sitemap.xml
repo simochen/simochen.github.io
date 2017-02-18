@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/2017/02/18/django-mysql-config/</loc>
+    
+    <lastmod>2017-02-18T11:23:18.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2017/02/10/python-nn/</loc>
     
     <lastmod>2017-02-17T09:53:55.000Z</lastmod>
