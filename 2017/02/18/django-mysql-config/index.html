@@ -100,7 +100,7 @@
 <meta property="og:image" content="//simochen.github.io/2017/02/18/django-mysql-config/1.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/django-mysql-config/2.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/django-mysql-config/3.png">
-<meta property="og:updated_time" content="2017-02-18T11:52:54.000Z">
+<meta property="og:updated_time" content="2017-02-18T11:57:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django+MySQL 配置">
 <meta name="twitter:description" content="在 Mac OS 下配置 Django 和 MySQL。
@@ -431,21 +431,19 @@
 <p> 这样就创建了一个名叫simo，密码是pass的用户。这个用户的类型是localhost，即在本地登录的用户。</p>
 </li>
 <li><p>创建数据库</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; create database db_django;</div><div class="line">mysql&gt; grant all privileges on db_django.* to simo@localhost identified by <span class="string">'pass'</span>;</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; create database db_django;</div><div class="line">mysql&gt; grant all privileges on db_django.* to simo@localhost identified by &apos;pass&apos;;</div></pre></td></tr></table></figure>
 <p> 创建了一个名叫db_django的数据库，并给予本地用户simo使用这个数据库的权限。</p>
 </li>
 <li><p>修改 settings.py</p>
  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">DATABASES = &#123;</div><div class="line">    <span class="string">'default'</span>: &#123;</div><div class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</div><div class="line">        <span class="string">'NAME'</span>: <span class="string">'db_django'</span>,</div><div class="line">        <span class="string">'USER'</span>: <span class="string">'simo'</span>,</div><div class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'pass'</span>,</div><div class="line">        <span class="string">'HOST'</span>: <span class="string">'127.0.0.1'</span>,</div><div class="line">        <span class="string">'PORT'</span>: <span class="string">'3306'</span>,</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p> 也可以使用root用户。<br> 再次输入：<br> <code>python manage.py dbshell</code></p>
 <blockquote>
-<p>若出现错误 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ERROR 2003 (HY000): Can&apos;t connect to MySQL server on &apos;127.0.0.1&apos; (61)</div></pre></td></tr></table></figure>
+<p>若出现错误</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ERROR 2003 (HY000): Can&apos;t connect to MySQL server on &apos;127.0.0.1&apos; (61)</div></pre></td></tr></table></figure>
+<p>可删去 DATABASES 中的 ‘HOST’ 和 ‘PORT’ 项。<br>如果能正常进入mysql命令行，则说明连接成功。</p>
 </blockquote>
 </li>
 </ol>
-<blockquote>
-<p>可删去 DATABASES 中的 ‘HOST’ 和 ‘PORT’ 项。<br>如果能正常进入mysql命令行，则说明连接成功。</p>
-</blockquote>
 <h3 id="同步数据库"><a href="#同步数据库" class="headerlink" title="同步数据库"></a>同步数据库</h3><p><code>python manage.py migrate</code><br>migrate命令将遍历INSTALLED_APPS设置中的所有项目，在数据库中创建对应的表，并打印出每一条动作信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">System check identified some issues:</div><div class="line"></div><div class="line">WARNINGS:</div><div class="line">?: (mysql.W002) MySQL Strict Mode is not set for database connection &apos;default&apos;</div><div class="line">    HINT: MySQL&apos;s Strict Mode fixes many data integrity problems in MySQL, such as data truncation upon insertion, by escalating warnings into errors. It is strongly recommended you activate it. See: https://docs.djangoproject.com/en/1.10/ref/databases/#mysql-sql-mode</div><div class="line">Operations to perform:</div><div class="line">  Apply all migrations: admin, auth, contenttypes, sessions</div><div class="line">Running migrations:</div><div class="line">  Applying contenttypes.0001_initial... OK</div><div class="line">  Applying auth.0001_initial... OK</div><div class="line">  Applying admin.0001_initial... OK</div><div class="line">  Applying admin.0002_logentry_remove_auto_add... OK</div><div class="line">  Applying contenttypes.0002_remove_content_type_name... OK</div><div class="line">  Applying auth.0002_alter_permission_name_max_length... OK</div><div class="line">  Applying auth.0003_alter_user_email_max_length... OK</div><div class="line">  Applying auth.0004_alter_user_username_opts... OK</div><div class="line">  Applying auth.0005_alter_user_last_login_null... OK</div><div class="line">  Applying auth.0006_require_contenttypes_0002... OK</div><div class="line">  Applying auth.0007_alter_validators_add_error_messages... OK</div><div class="line">  Applying auth.0008_alter_user_username_max_length... OK</div><div class="line">  Applying sessions.0001_initial... OK</div></pre></td></tr></table></figure></p>
 <p>可以在数据库命令行下输入：SHOW TABLES; (MySQL), 或 .schema (SQLite) 来列出 Django 所创建的表。</p>
 <blockquote>
