@@ -385,6 +385,17 @@
 
           
           
+             <span id="/2016/09/28/win10-vs2015-opencv/" class="leancloud_visitors" data-flag-title="Win10 + VS2015 + OpenCV2.4.13 配置">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
             <span class="post-meta-divider">|</span>
@@ -418,7 +429,7 @@
 <h3 id="配置VS2015环境"><a href="#配置VS2015环境" class="headerlink" title="配置VS2015环境"></a>配置VS2015环境</h3><h4 id="新建空项目"><a href="#新建空项目" class="headerlink" title="新建空项目"></a>新建空项目</h4><p>新建项目。如果安装VS2015时选择默认安装，则可能找不到 C++ win32控制台程序。这时就需要再下载C++模板。<br>在新建项目窗口 –&gt; Installed –&gt; Visual C++ –&gt; Windows –&gt; 双击“Install Universal Windows Platform Tools”。<br><img src="/2016/09/28/win10-vs2015-opencv/6.png" alt="6.png" title=""><br>安装过程中需要关闭Visual Studio。<br>安装完成后，新建一个C++的空项目。<br><img src="/2016/09/28/win10-vs2015-opencv/10.png" alt="10.png" title=""></p>
 <h4 id="配置include目录"><a href="#配置include目录" class="headerlink" title="配置include目录"></a>配置include目录</h4><p>打开 视图 –&gt; 其他窗口 –&gt; 属性管理器<br><img src="/2016/09/28/win10-vs2015-opencv/11.png" alt="11.png" title=""><br>在属性管理器中选择 <code>Debug|Win32</code> –&gt; Microsoft.Cpp.Win32.user。<br><img src="/2016/09/28/win10-vs2015-opencv/12.png" alt="12.png" title=""><br>双击 Microsoft.Cpp.Win32.user，在弹出窗口中选择 通用属性 –&gt; VC++目录 –&gt; include目录<br><img src="/2016/09/28/win10-vs2015-opencv/13.png" alt="13.png" title=""><br>点击“include目录”右侧的展开按钮，选择“编辑..”。添加如下目录：<br><code>D:\workspace\opencv\build\include</code><br><code>D:\workspace\opencv\build\include\opencv</code><br><code>D:\workspace\opencv\build\include\opencv2</code><br><img src="/2016/09/28/win10-vs2015-opencv/14.png" alt="14.png" title=""></p>
 <h4 id="配置library目录"><a href="#配置library目录" class="headerlink" title="配置library目录"></a>配置library目录</h4><p>编辑 VC++目录 –&gt; library目录 。<br><img src="/2016/09/28/win10-vs2015-opencv/15.png" alt="15.png" title=""><br>添加目录：<br><code>D:\workspace\opencv\build\x86\vc12\lib</code><br><img src="/2016/09/28/win10-vs2015-opencv/16.png" alt="16.png" title=""><br>由于编辑的是 <code>Debug|Win32</code>，因此只加入x86目录下的lib。</p>
-<h4 id="配置附加依赖项"><a href="#配置附加依赖项" class="headerlink" title="配置附加依赖项"></a>配置附加依赖项</h4><p>编辑 链接器 –&gt; 输入 –&gt; 附加依赖项。<br><img src="/2016/09/28/win10-vs2015-opencv/17.png" alt="17.png" title=""><br>添加19个Debug版本的lib和19个Release版本的lib。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">opencv_calib3d2413d.lib</div><div class="line">opencv_contrib2413d.lib</div><div class="line">opencv_core2413d.lib</div><div class="line">opencv_features2d2413d.lib</div><div class="line">opencv_flann2413d.lib</div><div class="line">opencv_gpu2413d.lib</div><div class="line">opencv_highgui2413d.lib</div><div class="line">opencv_imgproc2413d.lib</div><div class="line">opencv_legacy2413d.lib</div><div class="line">opencv_ml2413d.lib</div><div class="line">opencv_nonfree2413d.lib</div><div class="line">opencv_objdetect2413d.lib</div><div class="line">opencv_ocl2413d.lib</div><div class="line">opencv_photo2413d.lib</div><div class="line">opencv_stitching2413d.lib</div><div class="line">opencv_superres2413d.lib</div><div class="line">opencv_ts2413d.lib</div><div class="line">opencv_video2413d.lib</div><div class="line">opencv_videostab2413d.lib</div><div class="line"></div><div class="line">opencv_calib3d2413.lib</div><div class="line">opencv_contrib2413.lib</div><div class="line">opencv_core2413.lib</div><div class="line">opencv_features2d2413.lib</div><div class="line">opencv_flann2413.lib</div><div class="line">opencv_gpu2413.lib</div><div class="line">opencv_highgui2413.lib</div><div class="line">opencv_imgproc2413.lib</div><div class="line">opencv_legacy2413.lib</div><div class="line">opencv_objdetect2413.lib</div><div class="line">opencv_ml2413.lib</div><div class="line">opencv_nonfree2413.lib</div><div class="line">opencv_ocl2413.lib</div><div class="line">opencv_photo2413.lib</div><div class="line">opencv_stitching2413.lib</div><div class="line">opencv_superres2413.lib</div><div class="line">opencv_ts2413.lib</div><div class="line">opencv_video2413.lib</div><div class="line">opencv_videostab2413.lib</div></pre></td></tr></table></figure></p>
+<h4 id="配置附加依赖项"><a href="#配置附加依赖项" class="headerlink" title="配置附加依赖项"></a>配置附加依赖项</h4><p>编辑 链接器 –&gt; 输入 –&gt; 附加依赖项。<br><img src="/2016/09/28/win10-vs2015-opencv/17.png" alt="17.png" title=""><br>添加19个Debug版本的lib和19个Release版本的lib。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">opencv_calib3d2413d<span class="selector-class">.lib</span></div><div class="line">opencv_contrib2413d<span class="selector-class">.lib</span></div><div class="line">opencv_core2413d<span class="selector-class">.lib</span></div><div class="line">opencv_features2d2413d<span class="selector-class">.lib</span></div><div class="line">opencv_flann2413d<span class="selector-class">.lib</span></div><div class="line">opencv_gpu2413d<span class="selector-class">.lib</span></div><div class="line">opencv_highgui2413d<span class="selector-class">.lib</span></div><div class="line">opencv_imgproc2413d<span class="selector-class">.lib</span></div><div class="line">opencv_legacy2413d<span class="selector-class">.lib</span></div><div class="line">opencv_ml2413d<span class="selector-class">.lib</span></div><div class="line">opencv_nonfree2413d<span class="selector-class">.lib</span></div><div class="line">opencv_objdetect2413d<span class="selector-class">.lib</span></div><div class="line">opencv_ocl2413d<span class="selector-class">.lib</span></div><div class="line">opencv_photo2413d<span class="selector-class">.lib</span></div><div class="line">opencv_stitching2413d<span class="selector-class">.lib</span></div><div class="line">opencv_superres2413d<span class="selector-class">.lib</span></div><div class="line">opencv_ts2413d<span class="selector-class">.lib</span></div><div class="line">opencv_video2413d<span class="selector-class">.lib</span></div><div class="line">opencv_videostab2413d<span class="selector-class">.lib</span></div><div class="line"></div><div class="line">opencv_calib3d2413<span class="selector-class">.lib</span></div><div class="line">opencv_contrib2413<span class="selector-class">.lib</span></div><div class="line">opencv_core2413<span class="selector-class">.lib</span></div><div class="line">opencv_features2d2413<span class="selector-class">.lib</span></div><div class="line">opencv_flann2413<span class="selector-class">.lib</span></div><div class="line">opencv_gpu2413<span class="selector-class">.lib</span></div><div class="line">opencv_highgui2413<span class="selector-class">.lib</span></div><div class="line">opencv_imgproc2413<span class="selector-class">.lib</span></div><div class="line">opencv_legacy2413<span class="selector-class">.lib</span></div><div class="line">opencv_objdetect2413<span class="selector-class">.lib</span></div><div class="line">opencv_ml2413<span class="selector-class">.lib</span></div><div class="line">opencv_nonfree2413<span class="selector-class">.lib</span></div><div class="line">opencv_ocl2413<span class="selector-class">.lib</span></div><div class="line">opencv_photo2413<span class="selector-class">.lib</span></div><div class="line">opencv_stitching2413<span class="selector-class">.lib</span></div><div class="line">opencv_superres2413<span class="selector-class">.lib</span></div><div class="line">opencv_ts2413<span class="selector-class">.lib</span></div><div class="line">opencv_video2413<span class="selector-class">.lib</span></div><div class="line">opencv_videostab2413.lib</div></pre></td></tr></table></figure></p>
 <img src="/2016/09/28/win10-vs2015-opencv/18.png" alt="18.png" title="">
 <h2 id="程序测试"><a href="#程序测试" class="headerlink" title="程序测试"></a>程序测试</h2><p>打开 视图 –&gt; 解决方案资源管理器。<br><img src="/2016/09/28/win10-vs2015-opencv/19.png" alt="19.png" title=""><br>在解决方案资源管理器中，右键源文件 –&gt; 添加 –&gt; 新建项。<br><img src="/2016/09/28/win10-vs2015-opencv/20.png" alt="20.png" title=""><br>选择C++文件，添加。<br><img src="/2016/09/28/win10-vs2015-opencv/21.png" alt="21.png" title=""><br>在cpp文件中编写测试代码，读取并显示图片：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2\opencv.hpp&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	Mat srcImage = imread(<span class="string">"orange.jpg"</span>, <span class="number">0</span>);</div><div class="line">	imshow(<span class="string">"orange"</span>, srcImage);</div><div class="line">	<span class="keyword">if</span> (!srcImage.data)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"fail to load image!"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	&#125;</div><div class="line">	waitKey(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -553,7 +564,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -571,7 +582,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -809,6 +820,113 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("n9Ip6iRj0cxMhHt6L592o3i2-gzGzoHsz", "3XGr7gwL89wUr5etoD1vtue4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

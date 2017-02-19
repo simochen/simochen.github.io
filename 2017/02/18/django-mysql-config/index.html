@@ -100,7 +100,7 @@
 <meta property="og:image" content="//simochen.github.io/2017/02/18/django-mysql-config/1.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/django-mysql-config/2.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/django-mysql-config/3.png">
-<meta property="og:updated_time" content="2017-02-18T11:57:04.000Z">
+<meta property="og:updated_time" content="2017-02-19T06:34:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django+MySQL 配置">
 <meta name="twitter:description" content="在 Mac OS 下配置 Django 和 MySQL。
@@ -365,6 +365,17 @@
 
           
           
+             <span id="/2017/02/18/django-mysql-config/" class="leancloud_visitors" data-flag-title="Django+MySQL 配置">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
             <span class="post-meta-divider">|</span>
@@ -392,7 +403,7 @@
 </blockquote>
 <h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><p>操作系统：macOS Sierra [10.12]<br>开发环境：Python 2.7.13、MySQL 5.5<br>安装：<br>Django(1.10.5): <code>pip install Django</code> (查看版本号：<code>python -m django --version</code>)<br>MySQL-python(1.2.5):<br><code>brew install mysql-connector-c</code><br><code>pip install MySQL-python</code></p>
 <a id="more"></a>
-<h2 id="创建第一个项目"><a href="#创建第一个项目" class="headerlink" title="创建第一个项目"></a>创建第一个项目</h2><h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><p>在命令行中输入：<br><code>django-admin startproject demo</code><br>新建的项目结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">demo/</div><div class="line">    manage.py</div><div class="line">    demo/</div><div class="line">        __init__.py</div><div class="line">        settings.py</div><div class="line">        urls.py</div><div class="line">        wsgi.py</div></pre></td></tr></table></figure></p>
+<h2 id="创建第一个项目"><a href="#创建第一个项目" class="headerlink" title="创建第一个项目"></a>创建第一个项目</h2><h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><p>在命令行中输入：<br><code>django-admin startproject demo</code><br>新建的项目结构如下：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">demo/</div><div class="line">    manage<span class="selector-class">.py</span></div><div class="line">    demo/</div><div class="line">        __init__<span class="selector-class">.py</span></div><div class="line">        settings<span class="selector-class">.py</span></div><div class="line">        urls<span class="selector-class">.py</span></div><div class="line">        wsgi.py</div></pre></td></tr></table></figure></p>
 <p><strong>文件说明</strong><br>详细解释：</p>
 <ul>
 <li>外层的demo/目录与Django无关，只是你项目的容器，可以任意命名。</li>
@@ -403,8 +414,8 @@
 <li>demo/urls.py:路由文件，所有的任务都是从这里开始分配，相当于Django驱动站点的内容表格，非常重要！</li>
 <li>demo/wsgi.py:一个基于WSGI的web服务器进入点，提供底层的网络通信功能，通常不用关心。</li>
 </ul>
-<h3 id="开发服务器"><a href="#开发服务器" class="headerlink" title="开发服务器"></a>开发服务器</h3><p><code>cd demo</code> 进入 demo/ 目录，输入命令：<br><code>python manage.py runserver</code><br>将看到下面的提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Performing system checks...</div><div class="line"></div><div class="line">System check identified no issues (0 silenced).</div><div class="line"></div><div class="line">You have 13 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.</div><div class="line">Run &apos;python manage.py migrate&apos; to apply them.</div><div class="line"></div><div class="line">February 18, 2017 - 02:26:37</div><div class="line">Django version 1.10.5, using settings &apos;demo.settings&apos;</div><div class="line">Starting development server at http://127.0.0.1:8000/</div><div class="line">Quit the server with CONTROL-C.</div></pre></td></tr></table></figure></p>
-<p>Django提供了一个用于开发的web服务器，无需配置线上服务器，就能让站点运行起来。<br>这是一个简易的测试服务器。在浏览器访问 <a href="http://127.0.0.1:8000/" target="_blank" rel="external">http://127.0.0.1:8000/</a> ，将看到Django的欢迎界面。<br><img src="/2017/02/18/django-mysql-config/1.png" alt="Django 欢迎界面" title="Django 欢迎界面"><br>django开发服务器默认运行在内部的8000端口，如果你想指定，请在命令中显示给出，例如：<br><code>python manage.py runserver 0.0.0.0:8008</code><br>运行后Django将运行在8008端口，整个子网内都将可以访问，而不是本机。<br>注：Django的开发服务器具有自动重载功能，当代码有修改，每隔一段时间服务器将自动更新。但是，有一些例如增加文件的动作，不会触发服务器重载，这时就需要手动重启。</p>
+<h3 id="开发服务器"><a href="#开发服务器" class="headerlink" title="开发服务器"></a>开发服务器</h3><p><code>cd demo</code> 进入 demo/ 目录，输入命令：<br><code>python manage.py runserver</code><br>将看到下面的提示：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Performing system checks...</div><div class="line"></div><div class="line">System <span class="keyword">check</span> <span class="keyword">identified</span> <span class="keyword">no</span> issues (<span class="number">0</span> silenced).</div><div class="line"></div><div class="line">You have <span class="number">13</span> unapplied <span class="keyword">migration</span>(s). Your <span class="keyword">project</span> may <span class="keyword">not</span> <span class="keyword">work</span> properly <span class="keyword">until</span> you <span class="keyword">apply</span> the migrations <span class="keyword">for</span> app(s): <span class="keyword">admin</span>, auth, contenttypes, sessions.</div><div class="line">Run <span class="string">'python manage.py migrate'</span> <span class="keyword">to</span> <span class="keyword">apply</span> them.</div><div class="line"></div><div class="line">February <span class="number">18</span>, <span class="number">2017</span> - <span class="number">02</span>:<span class="number">26</span>:<span class="number">37</span></div><div class="line">Django <span class="keyword">version</span> <span class="number">1.10</span><span class="number">.5</span>, <span class="keyword">using</span> <span class="keyword">settings</span> <span class="string">'demo.settings'</span></div><div class="line"><span class="keyword">Starting</span> development <span class="keyword">server</span> <span class="keyword">at</span> <span class="keyword">http</span>://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8000</span>/</div><div class="line">Quit the <span class="keyword">server</span> <span class="keyword">with</span> CONTROL-C.</div></pre></td></tr></table></figure></p>
+<p>Django提供了一个用于开发的web服务器，无需配置线上服务器，就能让站点运行起来。<br>这是一个简易的测试服务器。在浏览器访问 <a href="http://127.0.0.1:8000/" target="_blank" rel="external">http://127.0.0.1:8000/</a> ，将看到Django的欢迎界面。<br><img src="/2017/02/18/django-mysql-config/1.png" alt="Django 欢迎界面" title="Django 欢迎界面"><br>django开发服务器默认运行在内部的8000端口，如果希望指定端口，请在命令中显示给出，例如：<br><code>python manage.py runserver 8080</code><br>运行后Django将运行在8080端口。<br>如果想指定服务器的IP，将其与端口一并给出：<br><code>python manage.py runserver 0.0.0.0:8000</code><br>整个子网内都将可以访问，而不只本机。<br>注：Django的开发服务器具有自动重载功能，当代码有修改，每隔一段时间服务器将自动更新。但是，有一些例如增加文件的动作，不会触发服务器重载，这时就需要手动重启。</p>
 <h3 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h3><p>app与project的区别：</p>
 <ul>
 <li>一个app实现某个功能，比如博客、公共档案数据库或者简单的投票系统；</li>
@@ -412,7 +423,7 @@
 <li>一个project可以包含多个app；</li>
 <li>一个app可以属于多个project.</li>
 </ul>
-<p>app的存放位置可以是任何地点，但是通常我们将它们都放在与manage.py同级目录下，这样方便导入文件。<br>在 demo/ 目录下输入：<br><code>python manage.py startapp demoapp</code><br>生成 demoapp 目录，结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">demoapp/</div><div class="line">    __init__.py</div><div class="line">    admin.py</div><div class="line">    apps.py</div><div class="line">    migrations/</div><div class="line">        __init__.py</div><div class="line">    models.py</div><div class="line">    tests.py</div><div class="line">    views.py</div></pre></td></tr></table></figure></p>
+<p>app的存放位置可以是任何地点，但是通常我们将它们都放在与manage.py同级目录下，这样方便导入文件。<br>在 demo/ 目录下输入：<br><code>python manage.py startapp demoapp</code><br>生成 demoapp 目录，结构如下：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">demoapp/</div><div class="line">    __init__<span class="selector-class">.py</span></div><div class="line">    admin<span class="selector-class">.py</span></div><div class="line">    apps<span class="selector-class">.py</span></div><div class="line">    migrations/</div><div class="line">        __init__<span class="selector-class">.py</span></div><div class="line">    models<span class="selector-class">.py</span></div><div class="line">    tests<span class="selector-class">.py</span></div><div class="line">    views.py</div></pre></td></tr></table></figure></p>
 <h3 id="修改-settings-py"><a href="#修改-settings-py" class="headerlink" title="修改 settings.py"></a>修改 settings.py</h3><ol>
 <li><p>将 demoapp 加入到 INSTALLED_APPS</p>
  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">INSTALLED_APPS = [</div><div class="line">    <span class="string">'django.contrib.admin'</span>,</div><div class="line">    <span class="string">'django.contrib.auth'</span>,</div><div class="line">    <span class="string">'django.contrib.contenttypes'</span>,</div><div class="line">    <span class="string">'django.contrib.sessions'</span>,</div><div class="line">    <span class="string">'django.contrib.messages'</span>,</div><div class="line">    <span class="string">'django.contrib.staticfiles'</span>,</div><div class="line">    <span class="string">'demoapp'</span></div><div class="line">]</div></pre></td></tr></table></figure>
@@ -420,9 +431,11 @@
 <li><p>将默认的sqlite数据库改成mysql</p>
  <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">DATABASES = &#123;</div><div class="line">    <span class="string">'default'</span>: &#123;</div><div class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</div><div class="line">        <span class="string">'NAME'</span>: <span class="string">'&lt;db_name&gt;'</span>,</div><div class="line">        <span class="string">'USER'</span>: <span class="string">'root'</span>,</div><div class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'&lt;password&gt;'</span>,</div><div class="line">        <span class="string">'HOST'</span>: <span class="string">'127.0.0.1'</span>,</div><div class="line">        <span class="string">'PORT'</span>: <span class="string">'3306'</span>,</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
+<li><p><em>建议</em>将 TIME_ZONE 设置为所在的时区[‘Asia/Shanghai’(‘PRC’)]。参考<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank" rel="external">时区列表</a>。</p>
+</li>
 </ol>
-<h3 id="测试连接"><a href="#测试连接" class="headerlink" title="测试连接"></a>测试连接</h3><p>在 demo/ 目录下输入：<br><code>python manage.py dbshell</code><br>报错：找不到链接库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CommandError: You appear not to have the &apos;mysql&apos; program installed or on your path.</div></pre></td></tr></table></figure></p>
-<p>修改 ./bash_profile 文件：<br><code>vi ~/.bash_profile</code><br>进入编辑状态，在最后添加<br><code>export DYDL_LIBRARY_PATH=&quot;$DYDL_LIBRARY_PATH:/usr/local/mysql/lib&quot;</code><br>在命令行输入：<br><code>ln -s /usr/local/mysql/bin/* /usr/local/bin</code><br>报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ERROR 1049 (42000): Unknown database &apos;&lt;db_name&gt;&apos;</div></pre></td></tr></table></figure></p>
+<h3 id="测试连接"><a href="#测试连接" class="headerlink" title="测试连接"></a>测试连接</h3><p>在 demo/ 目录下输入：<br><code>python manage.py dbshell</code><br>报错：找不到链接库<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CommandError: You appear <span class="keyword">not</span> <span class="built_in">to</span> have <span class="keyword">the</span> <span class="string">'mysql'</span> program installed <span class="keyword">or</span> <span class="keyword">on</span> <span class="title">your</span> <span class="title">path</span>.</div></pre></td></tr></table></figure></p>
+<p>修改 ./bash_profile 文件：<br><code>vi ~/.bash_profile</code><br>进入编辑状态，在最后添加<br><code>export DYDL_LIBRARY_PATH=&quot;$DYDL_LIBRARY_PATH:/usr/local/mysql/lib&quot;</code><br>在命令行输入：<br><code>ln -s /usr/local/mysql/bin/* /usr/local/bin</code><br>报错：<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ERROR </span>1049 (42000): Unknown database '&lt;db_name&gt;'</div></pre></td></tr></table></figure></p>
 <p>需要先在MySQL中创建该数据库。</p>
 <ol>
 <li>root登录数据库：<br> <code>mysql -u root -p</code><br> 显示 mysql&gt; 说明登录成功，退出命令是exit，MySQL会输出“Bye”。</li>
@@ -439,23 +452,17 @@
 <p> 也可以使用root用户。<br> 再次输入：<br> <code>python manage.py dbshell</code></p>
 <blockquote>
 <p>若出现错误</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ERROR 2003 (HY000): Can&apos;t connect to MySQL server on &apos;127.0.0.1&apos; (61)</div></pre></td></tr></table></figure>
+ <figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ERROR </span>2003 (HY000): Can't connect to MySQL server on '127.0.0.1' (61)</div></pre></td></tr></table></figure>
 <p>可删去 DATABASES 中的 ‘HOST’ 和 ‘PORT’ 项。<br>如果能正常进入mysql命令行，则说明连接成功。</p>
 </blockquote>
 </li>
 </ol>
-<h3 id="同步数据库"><a href="#同步数据库" class="headerlink" title="同步数据库"></a>同步数据库</h3><p><code>python manage.py migrate</code><br>migrate命令将遍历INSTALLED_APPS设置中的所有项目，在数据库中创建对应的表，并打印出每一条动作信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">System check identified some issues:</div><div class="line"></div><div class="line">WARNINGS:</div><div class="line">?: (mysql.W002) MySQL Strict Mode is not set for database connection &apos;default&apos;</div><div class="line">    HINT: MySQL&apos;s Strict Mode fixes many data integrity problems in MySQL, such as data truncation upon insertion, by escalating warnings into errors. It is strongly recommended you activate it. See: https://docs.djangoproject.com/en/1.10/ref/databases/#mysql-sql-mode</div><div class="line">Operations to perform:</div><div class="line">  Apply all migrations: admin, auth, contenttypes, sessions</div><div class="line">Running migrations:</div><div class="line">  Applying contenttypes.0001_initial... OK</div><div class="line">  Applying auth.0001_initial... OK</div><div class="line">  Applying admin.0001_initial... OK</div><div class="line">  Applying admin.0002_logentry_remove_auto_add... OK</div><div class="line">  Applying contenttypes.0002_remove_content_type_name... OK</div><div class="line">  Applying auth.0002_alter_permission_name_max_length... OK</div><div class="line">  Applying auth.0003_alter_user_email_max_length... OK</div><div class="line">  Applying auth.0004_alter_user_username_opts... OK</div><div class="line">  Applying auth.0005_alter_user_last_login_null... OK</div><div class="line">  Applying auth.0006_require_contenttypes_0002... OK</div><div class="line">  Applying auth.0007_alter_validators_add_error_messages... OK</div><div class="line">  Applying auth.0008_alter_user_username_max_length... OK</div><div class="line">  Applying sessions.0001_initial... OK</div></pre></td></tr></table></figure></p>
+<h3 id="同步数据库"><a href="#同步数据库" class="headerlink" title="同步数据库"></a>同步数据库</h3><p><code>python manage.py migrate</code><br>migrate命令将遍历INSTALLED_APPS设置中的所有项目，在数据库中创建对应的表，并打印出每一条动作信息。<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Operations <span class="keyword">to</span> perform:</div><div class="line">  Apply <span class="literal">all</span> migrations: admin, auth, contenttypes, sessions</div><div class="line">Running migrations:</div><div class="line">  Applying contenttypes<span class="number">.0001</span>_initial<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0001</span>_initial<span class="params">...</span> OK</div><div class="line">  Applying admin<span class="number">.0001</span>_initial<span class="params">...</span> OK</div><div class="line">  Applying admin<span class="number">.0002</span>_logentry_remove_auto_add<span class="params">...</span> OK</div><div class="line">  Applying contenttypes<span class="number">.0002</span>_remove_content_type_name<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0002</span>_alter_permission_name_max_length<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0003</span>_alter_user_email_max_length<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0004</span>_alter_user_username_opts<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0005</span>_alter_user_last_login_null<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0006</span>_require_contenttypes_0002<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0007</span>_alter_validators_add_error_messages<span class="params">...</span> OK</div><div class="line">  Applying auth<span class="number">.0008</span>_alter_user_username_max_length<span class="params">...</span> OK</div><div class="line">  Applying sessions<span class="number">.0001</span>_initial<span class="params">...</span> OK</div></pre></td></tr></table></figure></p>
 <p>可以在数据库命令行下输入：SHOW TABLES; (MySQL), 或 .schema (SQLite) 来列出 Django 所创建的表。</p>
 <blockquote>
-<p>对于极简主义者，完全可以在INSTALLED_APPS内注释掉任何或者全部的Django提供的通用应用。这样，migrate也不会再创建对应的数据表。<br>migrations的功能非常强大，允许用户随时修改模型，而不需要删除或者新建数据库或数据表，在不丢失数据的同时，实时动态更新数据库。修改模型时的操作分三步：</p>
-<ul>
-<li>在models.py中修改模型；</li>
-<li>运行<code>python manage.py makemigrations demoapp</code>为改动创建迁移记录；</li>
-<li>运行<code>python manage.py migrate</code>，将迁移同步到数据库，实施修改动作。</li>
-</ul>
-<p>之所以要将创建和实施迁移的动作分成两个命令两步走是因为用户也许要通过版本控制系统（例如github，svn）提交项目代码，如果没有一个中间过程的保存文件（migrations），那么github如何知道以及记录、同步、实施所进行过的模型修改动作呢？毕竟，github不和数据库直接打交道，也没法和本地的数据库打交道。但是分开之后，只需要将migration文件（例如上面的0001）上传到github，它就会知道一切。</p>
+<p>对于极简主义者，完全可以在INSTALLED_APPS内注释掉任何或者全部的Django提供的通用应用。这样，migrate也不会创建对应的数据表。</p>
 </blockquote>
-<h3 id="admin-站点"><a href="#admin-站点" class="headerlink" title="admin 站点"></a>admin 站点</h3><h4 id="创建管理员用户"><a href="#创建管理员用户" class="headerlink" title="创建管理员用户"></a>创建管理员用户</h4><p>首先创建一个可以登录admin站点的用户：<br><code>python manage.py createsuperuser</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Username (leave blank to use &apos;&lt;username&gt;&apos;): admin</div><div class="line">Email address: someone@example.com</div><div class="line">Password: ********</div><div class="line">Password (again): ********</div><div class="line">Superuser created successfully.</div></pre></td></tr></table></figure></p>
+<h3 id="admin-站点"><a href="#admin-站点" class="headerlink" title="admin 站点"></a>admin 站点</h3><h4 id="创建管理员用户"><a href="#创建管理员用户" class="headerlink" title="创建管理员用户"></a>创建管理员用户</h4><p>首先创建一个可以登录admin站点的用户：<br><code>python manage.py createsuperuser</code><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Username (leave blank to <span class="keyword">use</span> <span class="string">'&lt;username&gt;'</span>): <span class="keyword">admin</span></div><div class="line">Email address: someone@example.com</div><div class="line"><span class="keyword">Password</span>: ********</div><div class="line"><span class="keyword">Password</span> (again): ********</div><div class="line">Superuser created successfully.</div></pre></td></tr></table></figure></p>
 <h4 id="启动开发服务器"><a href="#启动开发服务器" class="headerlink" title="启动开发服务器"></a>启动开发服务器</h4><p><code>python manage.py runserver</code><br>服务器启动后，在浏览器访问 <a href="http://127.0.0.1:8000/admin/" target="_blank" rel="external">http://127.0.0.1:8000/admin/</a> 。进入admin站点：<br><img src="/2017/02/18/django-mysql-config/2.png" alt="admin登录界面" title="admin登录界面"><br>使用刚刚创建的管理员用户登录：<br><img src="/2017/02/18/django-mysql-config/3.png" alt="admin站点" title="admin站点"><br>当前已经有两个可编辑的内容：Groups和Users。它们是django.contrib.auth模块提供的身份认证框架。</p>
 
       
@@ -508,6 +515,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/18/first-django-app/" rel="prev" title="第一个 Django app">
+                第一个 Django app <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -584,7 +595,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -602,7 +613,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -840,6 +851,113 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("n9Ip6iRj0cxMhHt6L592o3i2-gzGzoHsz", "3XGr7gwL89wUr5etoD1vtue4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
