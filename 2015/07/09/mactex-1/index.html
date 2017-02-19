@@ -93,7 +93,7 @@
 <meta property="og:url" content="//simochen.github.io/2015/07/09/mactex-1/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
-<meta property="og:updated_time" content="2017-02-17T05:08:55.000Z">
+<meta property="og:updated_time" content="2017-02-19T07:00:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mactex学习笔记(1)">
 <meta name="twitter:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
@@ -389,7 +389,7 @@
 <li>在要使用黑体的地方用命令 <code>\heiti</code></li>
 </ul>
 <p>前一种方法改变了\bf 的定义，不建议使用；后一种方法每次要设置字体，不够友好。</p>
-<p>考虑到是 ctex-fontset-adobe.def 文件中定义粗体的部分没有起作用，在 sjtuthesis.cfg 中自行定义如下：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">setCJKmainfont</span></span></div><div class="line">      [</div><div class="line">	   BoldFont = AdobeHeitiStd-Regular ,</div><div class="line">        ItalicFont = AdobeKaitiStd-Regular</div><div class="line">      ] &#123;AdobeSongStd-Light&#125;</div></pre></td></tr></table></figure></p>
+<p>考虑到是 ctex-fontset-adobe.def 文件中定义粗体的部分没有起作用，在 sjtuthesis.cfg 中自行定义如下：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">setCJKmainfont</span></span></div><div class="line">    [</div><div class="line">		BoldFont = AdobeHeitiStd-Regular ,</div><div class="line">    	ItalicFont = AdobeKaitiStd-Regular</div><div class="line">    ] &#123;AdobeSongStd-Light&#125;</div></pre></td></tr></table></figure></p>
 <p>生成的 pdf 文件中粗体能够良好显示为 Adobe 黑体。</p>
 
       
