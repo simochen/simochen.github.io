@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/2017/02/18/first-django-app/</loc>
+    
+    <lastmod>2017-02-19T07:17:22.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2017/02/10/python-nn/</loc>
     
     <lastmod>2017-02-19T07:09:50.000Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>//simochen.github.io/2015/04/19/java-install-and-config/</loc>
     
     <lastmod>2017-02-19T06:59:19.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2017/02/18/first-django-app/</loc>
-    
-    <lastmod>2017-02-19T06:43:47.000Z</lastmod>
     
   </url>
   
