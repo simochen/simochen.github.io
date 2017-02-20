@@ -106,7 +106,9 @@ App 搭建初步编写测试视图在 demo/demoapp/views.py 文件中，输入�
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/http404.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/detail.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/detail_form.png">
-<meta property="og:updated_time" content="2017-02-20T05:30:19.000Z">
+<meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/results.png">
+<meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/vote_without_choice.png">
+<meta property="og:updated_time" content="2017-02-20T05:46:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一个 Django App">
 <meta name="twitter:description" content="使用 Django 编写一个问卷调查网站。 
@@ -556,6 +558,13 @@ App 搭建初步编写测试视图在 demo/demoapp/views.py 文件中，输入�
 </blockquote>
 </li>
 </ul>
+<p>当对某个问题投票后，vote() 视图重定向到了问题的结果显示页面。编写 results 视图：</p>
+<p><strong>demoapp/views.py</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> get_object_or_404, render</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">results</span><span class="params">(request, question_id)</span>:</span></div><div class="line">    question = get_object_or_404(Question, pk=question_id)</div><div class="line">    <span class="keyword">return</span> render(request, <span class="string">'demoapp/results.html'</span>, &#123;<span class="string">'question'</span>: question&#125;)</div></pre></td></tr></table></figure></p>
+<p>这个视图和 detail() 几乎完全一样，唯一的不同就是模板的名称。创建 demoapp/results.html 模板：</p>
+<p><strong>demoapp/templates/demoapp/results.html</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; question.question_text &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">&#123;% for choice in question.choice_set.all %&#125;</div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>&#123;&#123; choice.choice_text &#125;&#125; -- &#123;&#123; choice.votes &#125;&#125; vote&#123;&#123; choice.votes|pluralize &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">&#123;% endfor %&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;% url 'demoapp:detail' question.id %&#125;"</span>&gt;</span>Vote again?<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在浏览器中访问 /demoapp/1/。投票后，你会看到一个结果页面，每次投票，结果页面内容会更新。如果你提交的时候没有选择项目，则会得到一个错误提示。</p>
+<img src="/2017/02/18/first-django-app/results.png" alt="投票结果页面" title="投票结果页面">
+<img src="/2017/02/18/first-django-app/vote_without_choice.png" alt="未选择项目错误提示" title="未选择项目错误提示">
 
       
     </div>
