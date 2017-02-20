@@ -105,7 +105,7 @@ App 搭建初步编写测试视图在 demo/demoapp/views.py 文件中，输入�
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/4.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/http404.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/detail.png">
-<meta property="og:updated_time" content="2017-02-20T03:25:23.000Z">
+<meta property="og:updated_time" content="2017-02-20T03:26:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一个 Django App">
 <meta name="twitter:description" content="使用 Django 编写一个问卷调查网站。 
@@ -520,6 +520,7 @@ App 搭建初步编写测试视图在 demo/demoapp/views.py 文件中，输入�
 <p><strong>demoapp/templates/demoapp/detail.html</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; question.question_text &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">&#123;% for choice in question.choice_set.all %&#125;</div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>&#123;&#123; choice.choice_text &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">&#123;% endfor %&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <img src="/2017/02/18/first-django-app/detail.png" alt="“What's up” detail页面" title="“What's up” detail页面">
 <p>模板系统中使用圆点“.”来访问对象的属性。在例子 <code></code> 中，DJango首先会在 question 对象中尝试查找一个字典，如果失败，则尝试查找属性(本例中查找成功)，如果再失败，则尝试作为列表的索引进行查询。</p>
+<p>在 `{% for %}` 循环中的方法调用 question.choice_set.all 其实就是Python代码 question.choice_set.all()，它将返回一组可迭代的 Choice 对象，并用在 `{% for %}` 标签中。参考<a href="https://docs.djangoproject.com/en/1.10/topics/templates/" target="_blank" rel="external">template guide</a>以获得更多关于模板的信息。</p>
 
       
     </div>
