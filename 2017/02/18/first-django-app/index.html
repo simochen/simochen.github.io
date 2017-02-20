@@ -104,7 +104,7 @@ App 搭建初步编写测试视图在 demo/demoapp/views.py 文件中，输入�
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/3.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/4.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/http404.png">
-<meta property="og:updated_time" content="2017-02-20T02:51:53.000Z">
+<meta property="og:updated_time" content="2017-02-20T02:52:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一个 Django App">
 <meta name="twitter:description" content="使用 Django 编写一个问卷调查网站。 
@@ -506,6 +506,15 @@ App 搭建初步编写测试视图在 demo/demoapp/views.py 文件中，输入�
 <p>这里有个新概念：如果请求的问题ID不存在，那么会弹出一个 Http404 错误。<br>稍后会讨论应该在 demoapp/detail.html 里面写什么代码，现在可以简单的先如下编写，用来测试上面的404错误：</p>
 <p><strong>demoapp/templates/demoapp/detail.html</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; question &#125;&#125;</div></pre></td></tr></table></figure></p>
 <img src="/2017/02/18/first-django-app/http404.png" alt="404错误页面" title="404错误页面">
+<p><strong>快捷方式：<code>get_object_or_404()</code></strong><br>调用 get()，当对象不存在时弹出 Http404 同样是一套常用的操作，Django 也为此提供了快捷方式，重写 detail() 视图，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> get_object_or_404, render</div><div class="line"></div><div class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Question</div><div class="line"><span class="comment"># ...</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">detail</span><span class="params">(request, question_id)</span>:</span></div><div class="line">    question = get_object_or_404(Question, pk=question_id) </div><div class="line">    <span class="comment"># Question: 获取对象的类名(model)；pk=question_id: 查询方式</span></div><div class="line">    <span class="keyword">return</span> render(request, <span class="string">'demoapp/detail.html'</span>, &#123;<span class="string">'question'</span>: question&#125;)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>和render一样，也需要在Django内置的shortcuts模块中导入get_object_or_404().</p>
+</blockquote>
+<p>get_object_or_404()函数将<strong>Django模型</strong>作为第一个参数，后面可以跟上任意个数的<strong>关键字参数</strong>（这些关键字参数是传递给模型管理器的get()函数的），如果对象不存在则弹出Http404错误。</p>
+<blockquote>
+<p>理念：<br>为什么要使用 <code>get_object_or_404()</code> 快捷方式，而不是让系统自动的捕获 ObjectDoesNotExist 异常或者让模型API弹出 Http404 异常？<br>因为后两者会耦合模型层和视图层。Django的一个非常重要的设计目标是维持各层级之间的松耦合。参考<a href="https://docs.djangoproject.com/en/1.10/topics/http/shortcuts/#module-django.shortcuts" target="_blank" rel="external">django.shortcuts</a>模块以获得更多信息。</p>
+</blockquote>
+<p>还有一个和 <code>get_object_or_404()</code> 类似的 <code>get_list_or_404()</code> 函数，只不过使用 filter() 而不是 get()，当查询列表为空时弹出404错误。（filter是模型API中用来过滤查询结果的函数，它的结果是一个列表集。而get则是查询一个结果的方法，和filter是一个和多个的区别.）</p>
 
       
     </div>
