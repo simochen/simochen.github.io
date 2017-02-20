@@ -104,7 +104,8 @@ App 搭建初步编写测试视图在 demo/demoapp/views.py 文件中，输入�
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/3.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/4.png">
 <meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/http404.png">
-<meta property="og:updated_time" content="2017-02-20T02:53:27.000Z">
+<meta property="og:image" content="//simochen.github.io/2017/02/18/first-django-app/detail.png">
+<meta property="og:updated_time" content="2017-02-20T02:54:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一个 Django App">
 <meta name="twitter:description" content="使用 Django 编写一个问卷调查网站。 
@@ -517,6 +518,7 @@ App 搭建初步编写测试视图在 demo/demoapp/views.py 文件中，输入�
 <p>还有一个和 <code>get_object_or_404()</code> 类似的 <code>get_list_or_404()</code> 函数，只不过使用 filter() 而不是 get()，当查询列表为空时弹出404错误。（filter是模型API中用来过滤查询结果的函数，它的结果是一个列表集。而get则是查询一个结果的方法，和filter是一个和多个的区别.）</p>
 <h3 id="使用模板系统"><a href="#使用模板系统" class="headerlink" title="使用模板系统"></a>使用模板系统</h3><p>回到 demoapp 的 detail 视图，它将上下文变量 question 传递给 demoapp/detail.html 模板，编辑模板如下：</p>
 <p><strong>demoapp/templates/demoapp/detail.html</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;&#123; question.question_text &#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">&#123;% for choice in question.choice_set.all %&#125;</div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span>&#123;&#123; choice.choice_text &#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">&#123;% endfor %&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<img src="/2017/02/18/first-django-app/detail.png" alt="“What's up” detail页面" title="“What's up” detail页面">
 
       
     </div>
