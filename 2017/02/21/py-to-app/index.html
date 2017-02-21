@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="LaTeX,MacTex," />
+  <meta name="keywords" content="Python,MacOS,PyQt," />
 
 
 
@@ -87,16 +87,31 @@
 
 
 
-<meta name="description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
+<meta name="description" content="在 MacOS 上打包 Python，特别地，基于 PyQt 的程序，并添加对 Retina 的支持。
+
+安装软件Qt5在官网上下载 Qt5 在线安装器 qt-unified-mac-x64-online.dmg，按照提示安装 Qt5 组件。
+SIP在官网下载tar.gz源代码包，解压缩并进入文件夹：12tar -xzvf sip-4.19.1.tar.gzcd sip-4.19.1
+执行安装：1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mactex学习笔记(1)">
-<meta property="og:url" content="//simochen.github.io/2015/07/09/mactex-1/index.html">
+<meta property="og:title" content="PyInstaller 打包 Python 程序">
+<meta property="og:url" content="//simochen.github.io/2017/02/21/py-to-app/index.html">
 <meta property="og:site_name" content="Ink One">
-<meta property="og:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
-<meta property="og:updated_time" content="2017-02-19T07:00:42.000Z">
+<meta property="og:description" content="在 MacOS 上打包 Python，特别地，基于 PyQt 的程序，并添加对 Retina 的支持。
+
+安装软件Qt5在官网上下载 Qt5 在线安装器 qt-unified-mac-x64-online.dmg，按照提示安装 Qt5 组件。
+SIP在官网下载tar.gz源代码包，解压缩并进入文件夹：12tar -xzvf sip-4.19.1.tar.gzcd sip-4.19.1
+执行安装：1">
+<meta property="og:image" content="//simochen.github.io/2017/02/21/py-to-app/origin_win.png">
+<meta property="og:image" content="//simochen.github.io/2017/02/21/py-to-app/retina_win.png">
+<meta property="og:updated_time" content="2017-02-21T05:23:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mactex学习笔记(1)">
-<meta name="twitter:description" content="准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。">
+<meta name="twitter:title" content="PyInstaller 打包 Python 程序">
+<meta name="twitter:description" content="在 MacOS 上打包 Python，特别地，基于 PyQt 的程序，并添加对 Retina 的支持。
+
+安装软件Qt5在官网上下载 Qt5 在线安装器 qt-unified-mac-x64-online.dmg，按照提示安装 Qt5 组件。
+SIP在官网下载tar.gz源代码包，解压缩并进入文件夹：12tar -xzvf sip-4.19.1.tar.gzcd sip-4.19.1
+执行安装：1">
+<meta name="twitter:image" content="//simochen.github.io/2017/02/21/py-to-app/origin_win.png">
 
 
 
@@ -124,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="//simochen.github.io/2015/07/09/mactex-1/"/>
+  <link rel="canonical" href="//simochen.github.io/2017/02/21/py-to-app/"/>
 
 
 
 
 
-  <title> mactex学习笔记(1) | Ink One </title>
+  <title> PyInstaller 打包 Python 程序 | Ink One </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -266,7 +281,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="//simochen.github.io/2015/07/09/mactex-1/">
+  <link itemprop="mainEntityOfPage" href="//simochen.github.io/2017/02/21/py-to-app/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="simochen">
@@ -290,7 +305,7 @@
             
             
               
-                mactex学习笔记(1)
+                PyInstaller 打包 Python 程序
               
             
           </h1>
@@ -305,8 +320,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-07-09T13:34:58+08:00">
-                2015-07-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-21T09:57:39+08:00">
+                2017-02-21
               </time>
             
 
@@ -324,8 +339,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2015/07/09/mactex-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/09/mactex-1/" itemprop="commentCount"></span>
+                <a href="/2017/02/21/py-to-app/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/02/21/py-to-app/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -333,7 +348,7 @@
 
           
           
-             <span id="/2015/07/09/mactex-1/" class="leancloud_visitors" data-flag-title="mactex学习笔记(1)">
+             <span id="/2017/02/21/py-to-app/" class="leancloud_visitors" data-flag-title="PyInstaller 打包 Python 程序">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -362,36 +377,21 @@
       
 
       
-        <p>准大四最近在学习latex，用的是mac系统下的mactex。从饮水思源BBS上下载了学长贡献的毕业论文模板。在使用过程中遇到一些问题，问题和解决的过程记录如下。<br><a id="more"></a></p>
-<h2 id="缺少字体"><a href="#缺少字体" class="headerlink" title="缺少字体"></a>缺少字体</h2><p>首先测试 temptest.tex 文件（在TexShop中采用XeLaTeX模式编译），编译不通过，错误为部分<code>\..</code>命令后没有加空格，这样会连同后面的内容一同作为命令。加上空格后编译通过，但不能显示中文，模板说明中表明需要：</p>
-<ul>
-<li>TeXGyreTermes 西文的:Regular、Italic、Bold、Bold Italic 四种 OTF 字体<ul>
-<li>AdobeSongStd、AdobeKaitiStd、AdobeHeitiStd、AdobeFangsongStd 四款中文字体</li>
-</ul>
-</li>
-</ul>
-<p>将字体文件名改为所需的字体名，仍然不行。观察到字体文件的内容中仍显示原来的字体信息，与文件名无关。<br>读 temptest.tex 与 sjtuthesis.cls 可知，上述要求的 AdobeSongStd 等字体没有显式的调用，涉及到调用 Adobe 字体的代码为：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">LoadClass</span><span class="string">[fancyhdr,fntef,UTF8,adobefonts]</span><span class="string">&#123;ctexbook&#125;</span></span></div></pre></td></tr></table></figure></p>
-<p>尝试将上述代码中的 adobefonts 改为 AdobeSongStd-Light ，编译通过并能显示中文字体，且显示的中文字体不仅为宋体、原来文件设置的页眉的楷体也能够显示。推测这里的 AdobeSongStd-Light 可能仅起到一个入口的调用作用，而非设置字体为宋体。</p>
-<p>后来查阅资料时无意中进入文件夹<br>    /usr/local/texlive/2015/texmf-dist/tex/latex/ctex/fontset/</p>
-<p>其中有若干设置文件，包括 ctex-fontset-adobe.def 、 ctex-fontset-mac.def 、 ctex-fontset-windows.def 等。打开 ctex-fontset-adobe.def 文件。发现其中涉及到的 Adobe 字体名为 AdobeSongStd-Light、AdobeKaitiStd-Regular、AdobeHeitiStd-Regular、AdobeFangsongStd-Regular， 即最近版本使用的 Adobe 字体。于是不再尝试安装旧的 Adobe 字体，而是将调用的代码中的 adobefonts 改为 adobe ，再次编译，能够正常显示各种设定字体。</p>
-<h2 id="未定义命令-sjtuspace"><a href="#未定义命令-sjtuspace" class="headerlink" title="未定义命令 \sjtuspace.."></a>未定义命令 <code>\sjtuspace..</code></h2><p>接着测试 diss.tex 文件，编译报错，错误信息为<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Undefined control sequence <span class="tag">\<span class="name">sjtuspace</span></span> -&gt;<span class="tag">\<span class="name">protect</span></span> <span class="tag">\<span class="name">CTEX</span></span>@spaceChar<span class="tag">\<span class="name">protect</span></span> <span class="tag">\<span class="name">CTEX</span></span>@spaceChar</div></pre></td></tr></table></figure></p>
-<p>查找错误位置，sjtuthesis.cls 文件中<br><code>\newcommand\sjtuspace{\protect\CTEX@spaceChar\protect\CTEX@spaceChar}</code><br>一行报错。</p>
-<p>查阅资料，在 bbs.ctex 上有人问了类似的问题，引用回答如下<br><strong>回答部分</strong></p>
-<blockquote>
-<p>这是 ctex 宏包的 Bug，以前没有显现出来，fontspec 2.4 版本以后显现出来了。<br>暂时的解决办法，在 <code>\documentclass</code> 的前面写：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">expandafter</span></span><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">csname</span></span> CTEX@spaceChar<span class="tag">\<span class="name">endcsname</span><span class="string">&#123;\hspace&#123;1em&#125;</span></span>&#125;</div></pre></td></tr></table></figure></p>
-<p>我们会尽快上传一个 ctex 宏包的新版本处理此问题。因为准备在今年转向完全重写的 ctex 宏包 2.0，所以以前的 1.x 的 ctex 宏包一直没有上传过更新。<br>进一步技术细节：<br>ctex 包中设置中文字体的命令要早于 \CTEX@spaceChar 的定义。而可能使用 <code>\CTEX@spaceChar</code> 的宏 <code>\CTEXsetfont</code> 则在 <code>\CTEX@spaceChar</code> 之前定义。<br>因为在线安装，用的是最新的 fontspec 2.4 版本。而 fontspec 改变了内部实现，需要在定义字体时设置字号，触发 <code>\CTEXsetfont</code>，造成问题。<br>​<br> 故在 diss.tex 文件 <code>\documentclass</code> 之前加入一行代码<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">expandafter</span></span><span class="tag">\<span class="name">def</span></span><span class="tag">\<span class="name">csname</span></span> CTEX@spaceChar<span class="tag">\<span class="name">endcsname</span><span class="string">&#123;\hspace&#123;1em&#125;</span></span>&#125;</div></pre></td></tr></table></figure></p>
+        <blockquote class="blockquote-center"><p>在 MacOS 上打包 Python，特别地，基于 PyQt 的程序，并添加对 Retina 的支持。</p>
 </blockquote>
-<p>编译通过。</p>
-<h2 id="粗体"><a href="#粗体" class="headerlink" title="粗体"></a>粗体</h2><p>对比生成的 diss.pdf 与参考文档 readme.pdf ，发现 readme.pdf 中黑体的部分在 diss.pdf 中为粗体的 Adobe 宋体。读 ctex-fontset-adobe.def 文件，粗体的部分应由黑体替换。但在文档中 <code>\bf</code> 命令没有自动将粗体替换为黑体。</p>
-<p>两种简单的处理方法：</p>
-<ul>
-<li><code>\renewcommand{\bf}{\heiti}</code></li>
-<li>在要使用黑体的地方用命令 <code>\heiti</code></li>
-</ul>
-<p>前一种方法改变了\bf 的定义，不建议使用；后一种方法每次要设置字体，不够友好。</p>
-<p>考虑到是 ctex-fontset-adobe.def 文件中定义粗体的部分没有起作用，在 sjtuthesis.cfg 中自行定义如下：<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">setCJKmainfont</span></span></div><div class="line">    [</div><div class="line">		BoldFont = AdobeHeitiStd-Regular ,</div><div class="line">    	ItalicFont = AdobeKaitiStd-Regular</div><div class="line">    ] &#123;AdobeSongStd-Light&#125;</div></pre></td></tr></table></figure></p>
-<p>生成的 pdf 文件中粗体能够良好显示为 Adobe 黑体。</p>
-
+<h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><h3 id="Qt5"><a href="#Qt5" class="headerlink" title="Qt5"></a>Qt5</h3><p>在<a href="https://www.qt.io/download/" target="_blank" rel="external">官网</a>上下载 Qt5 在线安装器 qt-unified-mac-x64-online.dmg，按照提示安装 Qt5 组件。</p>
+<h3 id="SIP"><a href="#SIP" class="headerlink" title="SIP"></a>SIP</h3><p>在<a href="https://riverbankcomputing.com/software/sip/download" target="_blank" rel="external">官网</a>下载<code>tar.gz</code>源代码包，解压缩并进入文件夹：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">tar</span> <span class="selector-tag">-xzvf</span> <span class="selector-tag">sip-4</span><span class="selector-class">.19</span><span class="selector-class">.1</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></div><div class="line"><span class="selector-tag">cd</span> <span class="selector-tag">sip-4</span><span class="selector-class">.19</span><span class="selector-class">.1</span></div></pre></td></tr></table></figure></p>
+<p>执行安装：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">python</span> configure.<span class="keyword">py</span></div><div class="line"><span class="keyword">make</span></div><div class="line"><span class="keyword">make</span> install</div></pre></td></tr></table></figure></p>
+<h3 id="PyQt5"><a href="#PyQt5" class="headerlink" title="PyQt5"></a>PyQt5</h3><p>在<a href="https://www.riverbankcomputing.com/software/pyqt/download5" target="_blank" rel="external">官网</a>下载<code>tar.gz</code>源代码包，解压缩并进入文件夹：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">tar</span> <span class="selector-tag">-xzvf</span> <span class="selector-tag">PyQt5_gpl-5</span><span class="selector-class">.8</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></div><div class="line"><span class="selector-tag">cd</span> <span class="selector-tag">PyQt5_gpl-5</span><span class="selector-class">.8</span></div></pre></td></tr></table></figure></p>
+<p>执行安装：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">python</span> configure.<span class="keyword">py</span></div><div class="line"><span class="keyword">make</span></div><div class="line"><span class="keyword">make</span> install</div></pre></td></tr></table></figure></p>
+<h3 id="PyInstaller"><a href="#PyInstaller" class="headerlink" title="PyInstaller"></a>PyInstaller</h3><p>在终端执行：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip <span class="keyword">install</span> pyinstaller</div></pre></td></tr></table></figure></p>
+<h2 id="打包程序"><a href="#打包程序" class="headerlink" title="打包程序"></a>打包程序</h2><h3 id="app-打包"><a href="#app-打包" class="headerlink" title=".app 打包"></a>.app 打包</h3><p>使用 PyInstaller 将项目源码打包成 <code>.app</code> 。参考<a href="https://pyinstaller.readthedocs.io/en/stable/usage.html" target="_blank" rel="external">PyInstaller官方文档</a>，首先对主文件(程序的入口文件)运行一次打包：<br><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">pyinstaller</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">windowed</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">onefile</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">clean</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">noconfirm</span> <span class="comment">main</span><span class="string">.</span><span class="comment">py</span></div></pre></td></tr></table></figure></p>
+<p>在主文件目录下生成同名 <code>.spec</code> 文件，运行命令：<br>pyinstaller –windowed –onefile –clean –noconfirm main.spec</p>
+<p>在 dist/ 目录下生成了 <code>main.app</code> 文件，双击运行。<br><img src="/2017/02/21/py-to-app/origin_win.png" alt="app界面" title="app界面"></p>
+<h3 id="添加图标和-Retina-支持"><a href="#添加图标和-Retina-支持" class="headerlink" title="添加图标和 Retina 支持"></a>添加图标和 Retina 支持</h3><p>上述生成的 app 界面显示很模糊，解决办法是在修改 <code>spec</code> 文件。<br>默认生成的内容为：<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># ...</span></div><div class="line"><span class="attr">app</span> = BUNDLE(exe,</div><div class="line">             <span class="attr">name='main.app',</span></div><div class="line">             <span class="attr">icon=None,</span></div><div class="line">             <span class="attr">bundle_identifier=None)</span></div></pre></td></tr></table></figure></p>
+<p>可修改 <code>icon</code> 项来自定义 app 图标。</p>
+<p>添加 Retina 支持的办法是向其中添加：<br><code>info_plist={ &#39;NSHighResolutionCapable&#39;: &#39;True&#39; }</code><br>如下所示：<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">app = BUNDLE(<span class="name">exe</span>,</div><div class="line">             name='main.app',</div><div class="line">             icon='icon.icns',</div><div class="line">             bundle_identifier=None,</div><div class="line">             info_plist=&#123;</div><div class="line">                'NSHighResolutionCapable': 'True',</div><div class="line">                &#125;)</div></pre></td></tr></table></figure></p>
+<img src="/2017/02/21/py-to-app/retina_win.png" alt="retina支持" title="retina支持">
       
     </div>
 
@@ -414,9 +414,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/LaTeX/" rel="tag"># LaTeX</a>
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
-            <a href="/tags/MacTex/" rel="tag"># MacTex</a>
+            <a href="/tags/MacOS/" rel="tag"># MacOS</a>
+          
+            <a href="/tags/PyQt/" rel="tag"># PyQt</a>
           
         </div>
       
@@ -429,8 +431,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/19/java-install-and-config/" rel="next" title="Java1.8和MyEclipse、tomcat的安装及配置">
-                <i class="fa fa-chevron-left"></i> Java1.8和MyEclipse、tomcat的安装及配置
+              <a href="/2017/02/18/first-django-app/" rel="next" title="第一个 Django App">
+                <i class="fa fa-chevron-left"></i> 第一个 Django App
               </a>
             
           </div>
@@ -438,10 +440,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/07/15/mactex-2/" rel="prev" title="mactex学习笔记(2)">
-                mactex学习笔记(2) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -582,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#缺少字体"><span class="nav-number">1.</span> <span class="nav-text">缺少字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未定义命令-sjtuspace"><span class="nav-number">2.</span> <span class="nav-text">未定义命令 \sjtuspace..</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#粗体"><span class="nav-number">3.</span> <span class="nav-text">粗体</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装软件"><span class="nav-number">1.</span> <span class="nav-text">安装软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Qt5"><span class="nav-number">2.</span> <span class="nav-text">Qt5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SIP"><span class="nav-number">3.</span> <span class="nav-text">SIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PyQt5"><span class="nav-number">4.</span> <span class="nav-text">PyQt5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PyInstaller"><span class="nav-number">5.</span> <span class="nav-text">PyInstaller</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打包程序"><span class="nav-number"></span> <span class="nav-text">打包程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#app-打包"><span class="nav-number">1.</span> <span class="nav-text">.app 打包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加图标和-Retina-支持"><span class="nav-number">2.</span> <span class="nav-text">添加图标和 Retina 支持</span></a></li></ol></div>
             
 
           </div>
@@ -730,9 +728,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'simochen';
-      var disqus_identifier = '2015/07/09/mactex-1/';
+      var disqus_identifier = '2017/02/21/py-to-app/';
 
-      var disqus_title = "mactex学习笔记(1)";
+      var disqus_title = "PyInstaller 打包 Python 程序";
 
 
       function run_disqus_script(disqus_script) {
