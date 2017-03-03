@@ -1,0 +1,999 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Algorithm,NLP,C," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="word2vec 用于从语料库中学习词向量。下面采用了注释的方式对源码进行解读。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="word2vec 源码理解">
+<meta property="og:url" content="//simochen.github.io/2017/03/01/word2vec/index.html">
+<meta property="og:site_name" content="Ink One">
+<meta property="og:description" content="word2vec 用于从语料库中学习词向量。下面采用了注释的方式对源码进行解读。">
+<meta property="og:updated_time" content="2017-03-03T17:14:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="word2vec 源码理解">
+<meta name="twitter:description" content="word2vec 用于从语料库中学习词向量。下面采用了注释的方式对源码进行解读。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="//simochen.github.io/2017/03/01/word2vec/"/>
+
+
+
+
+
+  <title> word2vec 源码理解 | Ink One </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-84655686-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ink One</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmark">
+          <a href="/bookmark/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bookmark"></i> <br />
+            
+            书签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="//simochen.github.io/2017/03/01/word2vec/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="simochen">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Ink One">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Ink One" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                word2vec 源码理解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-01T20:36:56+08:00">
+                2017-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/01/word2vec/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/01/word2vec/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/03/01/word2vec/" class="leancloud_visitors" data-flag-title="word2vec 源码理解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://code.google.com/p/word2vec/" target="_blank" rel="external">word2vec</a> 用于从语料库中学习词向量。下面采用了注释的方式对源码进行解读。</p>
+<a id="more"></a>
+<h2 id="word2vec-c"><a href="#word2vec-c" class="headerlink" title="word2vec.c"></a>word2vec.c</h2><h3 id="库-amp-参数定义"><a href="#库-amp-参数定义" class="headerlink" title="库&amp;参数定义"></a>库&amp;参数定义</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  Copyright 2013 Google Inc. All Rights Reserved.</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Licensed under the Apache License, Version 2.0 (the "License");</span></div><div class="line"><span class="comment">//  you may not use this file except in compliance with the License.</span></div><div class="line"><span class="comment">//  You may obtain a copy of the License at</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//      http://www.apache.org/licenses/LICENSE-2.0</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Unless required by applicable law or agreed to in writing, software</span></div><div class="line"><span class="comment">//  distributed under the License is distributed on an "AS IS" BASIS,</span></div><div class="line"><span class="comment">//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div><div class="line"><span class="comment">//  See the License for the specific language governing permissions and</span></div><div class="line"><span class="comment">//  limitations under the License.</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_STRING 100</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> EXP_TABLE_SIZE 1000</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_EXP 6</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_SENTENCE_LENGTH 1000</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_CODE_LENGTH 40</span></div><div class="line"></div><div class="line"><span class="comment">//最大hash值，词表大小应当小于此值</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> vocab_hash_size = <span class="number">30000000</span>;  <span class="comment">// Maximum 30 * 0.7 = 21M words in the vocabulary</span></div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">float</span> real;                    <span class="comment">// Precision of float numbers</span></div><div class="line"></div><div class="line"><span class="comment">//词表中的单词</span></div><div class="line"><span class="keyword">struct</span> vocab_word &#123;</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> cn;	<span class="comment">//词频</span></div><div class="line">  <span class="keyword">int</span> *point;	<span class="comment">//Huffman编码对应的节点路径</span></div><div class="line">  <span class="keyword">char</span> *word, *code, codelen;	<span class="comment">//Huffman编码</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">char</span> train_file[MAX_STRING], output_file[MAX_STRING];</div><div class="line"><span class="keyword">char</span> save_vocab_file[MAX_STRING], read_vocab_file[MAX_STRING];</div><div class="line"><span class="keyword">struct</span> vocab_word *vocab;</div><div class="line"><span class="keyword">int</span> binary = <span class="number">0</span>, cbow = <span class="number">1</span>, debug_mode = <span class="number">2</span>, window = <span class="number">5</span>, min_count = <span class="number">5</span>, num_threads = <span class="number">12</span>, min_reduce = <span class="number">1</span>;</div><div class="line"><span class="keyword">int</span> *vocab_hash;</div><div class="line"><span class="keyword">long</span> <span class="keyword">long</span> vocab_max_size = <span class="number">1000</span>, vocab_size = <span class="number">0</span>, layer1_size = <span class="number">100</span>;</div><div class="line"><span class="keyword">long</span> <span class="keyword">long</span> train_words = <span class="number">0</span>, word_count_actual = <span class="number">0</span>, iter = <span class="number">5</span>, file_size = <span class="number">0</span>, classes = <span class="number">0</span>;</div><div class="line">real alpha = <span class="number">0.025</span>, starting_alpha, sample = <span class="number">1e-3</span>;</div><div class="line">real *syn0, *syn1, *syn1neg, *expTable;</div><div class="line"><span class="keyword">clock_t</span> start;</div><div class="line"></div><div class="line"><span class="keyword">int</span> hs = <span class="number">0</span>, negative = <span class="number">5</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> table_size = <span class="number">1e8</span>;</div><div class="line"><span class="keyword">int</span> *table;	<span class="comment">//每个单词的能量分布表，table在负采样中使用</span></div></pre></td></tr></table></figure>
+<h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</div><div class="line">  <span class="keyword">int</span> i;</div><div class="line">  <span class="keyword">if</span> (argc == <span class="number">1</span>) &#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"WORD VECTOR estimation toolkit v 0.1c\n\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Options:\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Parameters for training:\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//输入文件：语料库(中文需分词)</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-train &lt;file&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tUse text data from &lt;file&gt; to train the model\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//输出文件：词向量或词聚类</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-output &lt;file&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tUse &lt;file&gt; to save the resulting word vectors / word clusters\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//词向量的维度，默认值为100</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-size &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tSet size of word vectors; default is 100\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//窗口大小，默认值为5</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-window &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tSet max skip length between words; default is 5\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//采样阈值，频率高于阈值的词会被下采样</span></div><div class="line">    <span class="comment">//默认值为1e-3，通常在(0, 1e-5)范围内取值</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-sample &lt;float&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tSet threshold for occurrence of words. Those that appear with higher frequency in the training data\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\twill be randomly down-sampled; default is 1e-3, useful range is (0, 1e-5)\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//是否使用层级Softmax，默认值为0(不使用)</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-hs &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tUse Hierarchical Softmax; default is 0 (not used)\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//负样本数，默认值为5，通常取3-10 (0表示不使用)</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-negative &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tNumber of negative examples; default is 5, common values are 3 - 10 (0 = not used)\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//线程数，默认值为12</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-threads &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tUse &lt;int&gt; threads (default 12)\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//迭代次数，默认值为5</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-iter &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tRun more training iterations (default 5)\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//最小次数，出现次数小于该值的词将被删去，默认值为5</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-min-count &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tThis will discard words that appear less than &lt;int&gt; times; default is 5\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//初始学习速率，对于skip-gram模型，默认值0.025；对于CBOW，默认值为0.05</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-alpha &lt;float&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tSet the starting learning rate; default is 0.025 for skip-gram and 0.05 for CBOW\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//输出类别数，默认值为0(输出词向量)</span></div><div class="line">    <span class="comment">//若设定类别数&gt;0，则输出单词所属的类别而不是词向量</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-classes &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tOutput word classes rather than word vectors; default number of classes is 0 (vectors are written)\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//debug模式，默认为2，表示在训练过程中会输出更多信息</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-debug &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tSet the debug mode (default = 2 = more info during training)\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//是否将结果向量保存为binary模式，默认为0(否)</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-binary &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tSave the resulting vectors in binary moded; default is 0 (off)\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//保存词汇表到文件</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-save-vocab &lt;file&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tThe vocabulary will be saved to &lt;file&gt;\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//词汇表从文件中读取，而不是由训练数据创建</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-read-vocab &lt;file&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tThe vocabulary will be read from &lt;file&gt;, not constructed from the training data\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//是否使用CBOW模型，默认值为1，表示使用(0表示使用skip-gram模型)</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t-cbow &lt;int&gt;\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\t\tUse the continuous bag of words model; default is 1 (use 0 for skip-gram model)\n"</span>);</div><div class="line">    </div><div class="line">    <span class="comment">//使用示例</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\nExamples:\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"./word2vec -train data.txt -output vec.txt -size 200 -window 5 -sample 1e-4 -negative 5 -hs 0 -binary 0 -cbow 1 -iter 3\n\n"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">  &#125;</div><div class="line">  output_file[<span class="number">0</span>] = <span class="number">0</span>;</div><div class="line">  save_vocab_file[<span class="number">0</span>] = <span class="number">0</span>;</div><div class="line">  read_vocab_file[<span class="number">0</span>] = <span class="number">0</span>;</div><div class="line">  <span class="comment">//layer1_size：词向量维度</span></div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-size"</span>, argc, argv)) &gt; <span class="number">0</span>) layer1_size = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-train"</span>, argc, argv)) &gt; <span class="number">0</span>) <span class="built_in">strcpy</span>(train_file, argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-save-vocab"</span>, argc, argv)) &gt; <span class="number">0</span>) <span class="built_in">strcpy</span>(save_vocab_file, argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-read-vocab"</span>, argc, argv)) &gt; <span class="number">0</span>) <span class="built_in">strcpy</span>(read_vocab_file, argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-debug"</span>, argc, argv)) &gt; <span class="number">0</span>) debug_mode = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-binary"</span>, argc, argv)) &gt; <span class="number">0</span>) binary = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="comment">//cbow：采用模型 (0:skip-gram, 1:CBOW)</span></div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-cbow"</span>, argc, argv)) &gt; <span class="number">0</span>) cbow = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> (cbow) alpha = <span class="number">0.05</span>;</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-alpha"</span>, argc, argv)) &gt; <span class="number">0</span>) alpha = atof(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-output"</span>, argc, argv)) &gt; <span class="number">0</span>) <span class="built_in">strcpy</span>(output_file, argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-window"</span>, argc, argv)) &gt; <span class="number">0</span>) window = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-sample"</span>, argc, argv)) &gt; <span class="number">0</span>) sample = atof(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-hs"</span>, argc, argv)) &gt; <span class="number">0</span>) hs = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-negative"</span>, argc, argv)) &gt; <span class="number">0</span>) negative = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-threads"</span>, argc, argv)) &gt; <span class="number">0</span>) num_threads = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-iter"</span>, argc, argv)) &gt; <span class="number">0</span>) iter = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-min-count"</span>, argc, argv)) &gt; <span class="number">0</span>) min_count = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="keyword">if</span> ((i = ArgPos((<span class="keyword">char</span> *)<span class="string">"-classes"</span>, argc, argv)) &gt; <span class="number">0</span>) classes = atoi(argv[i + <span class="number">1</span>]);</div><div class="line">  <span class="comment">//为词表vocab分配内存空间(vacab_max_size=1000)</span></div><div class="line">  vocab = (<span class="keyword">struct</span> vocab_word *)<span class="built_in">calloc</span>(vocab_max_size, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> vocab_word));</div><div class="line">  <span class="comment">//为vocab_hash分配内存空间(vocab_hash_size=30M)</span></div><div class="line">  vocab_hash = (<span class="keyword">int</span> *)<span class="built_in">calloc</span>(vocab_hash_size, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">  <span class="comment">//EXP_TABLE_SIZE=1000, MAX_EXP=6</span></div><div class="line">  expTable = (real *)<span class="built_in">malloc</span>((EXP_TABLE_SIZE + <span class="number">1</span>) * <span class="keyword">sizeof</span>(real));</div><div class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; EXP_TABLE_SIZE; i++) &#123;</div><div class="line">    <span class="comment">// Precompute the exp() table</span></div><div class="line">    <span class="comment">//expTable[i]: 将[-6,6]均分为1000格，再应用exp，即取值在[e^-6 ~ e^6)范围内</span></div><div class="line">    expTable[i] = <span class="built_in">exp</span>((i / (real)EXP_TABLE_SIZE * <span class="number">2</span> - <span class="number">1</span>) * MAX_EXP); </div><div class="line">    <span class="comment">// Precompute f(x) = x / (x + 1)</span></div><div class="line">    <span class="comment">//expTable[i]取值在sigmoid(-6)~sigmoid(6),即近似0~1之间</span></div><div class="line">    expTable[i] = expTable[i] / (expTable[i] + <span class="number">1</span>);</div><div class="line">  &#125;</div><div class="line">  TrainModel();</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>malloc</strong><br>需要包含头文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p><code>malloc()</code>函数声明(函数原型)：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">void</span> *<span class="title">malloc</span><span class="params">(<span class="keyword">size_t</span> size)</span></span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>说明：malloc 向系统申请分配指定size个字节的内存空间。返回类型是 void<em> 类型。void</em> 表示未确定类型的指针。C,C++规定，void* 类型可以强制转换为任何其它类型的指针。<br>从函数声明上可以看出。malloc 和 new 至少有两个不同: new 返回指定类型的指针，并且可以自动计算所需要大小。比如：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="keyword">int</span> *p;</div><div class="line">&gt; p = <span class="keyword">new</span> <span class="keyword">int</span>;  <span class="comment">//返回类型为int* 类型(整数型指针)，分配大小为 sizeof(int);</span></div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>或：　<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="keyword">int</span>* parr;</div><div class="line">&gt; parr = <span class="keyword">new</span> <span class="keyword">int</span> [<span class="number">100</span>];   <span class="comment">//返回类型为 int* 类型(整数型指针)，分配大小为 sizeof(int) * 100;　</span></div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>而 malloc 则必须由我们计算要字节数，并且在返回后强行转换为实际类型的指针。　<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="keyword">int</span>* p;　</div><div class="line">&gt; p = (<span class="keyword">int</span> *) <span class="built_in">malloc</span> (<span class="keyword">sizeof</span>(<span class="keyword">int</span>));　</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<p><strong>calloc</strong><br>函数<code>malloc()</code>和<code>calloc()</code>都可以用来动态分配内存空间,但两者稍有区别。<br><code>malloc()</code>函数有一个参数,即要分配的内存空间的大小:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">void</span> *<span class="title">malloc</span><span class="params">(<span class="keyword">size_t</span> size)</span></span>; </div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p><code>calloc()</code>函数有两个参数,分别为元素的数目和每个元素的大小,这两个参数的乘积就是要分配的内存空间的大小。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">void</span> *<span class="title">calloc</span><span class="params">(<span class="keyword">size_t</span> numElements, <span class="keyword">size_t</span> sizeOfElement)</span></span>; </div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>如果调用成功，函数<code>malloc()</code>和函数<code>calloc()</code>都将返回所分配的内存空间的首地址。<br>函数<code>malloc()</code>和函数<code>calloc()</code>的主要区别是前者不能初始化所分配的内存空间，而后者能。如果由<code>malloc()</code>函数分配的内存空间原来没有被使用过，则其中的每一位可能都是 0；反之，如果这部分内存曾经被分配过，则其中可能遗留有各种各样的数据。也就是说，使用<code>malloc()</code>函数的程序开始时(内存空间还没有被重新分配)能正常进行，但经过一段时间(内存空间还已经被重新分配)可能会出现问题。<br>函数<code>calloc()</code>会将所分配的内存空间中的每一位都初始化为零，也就是说，如果是为字符类型或整数类型的元素分配内存，则这些元素将会被初始化为 0；如果是为指针类型的元素分配内存，则这些元素通常会被初始化为空指针；如果是为实型数据分配内存，则这些元素会被初始化为浮点型的零。 </p>
+</blockquote>
+<h4 id="ArgPos"><a href="#ArgPos" class="headerlink" title="ArgPos"></a>ArgPos</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//返回参数的位置，若未找到则返回-1</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">ArgPos</span><span class="params">(<span class="keyword">char</span> *str, <span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</div><div class="line">  <span class="keyword">int</span> a;</div><div class="line">  <span class="comment">//str == argv[a]时，返回a</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">1</span>; a &lt; argc; a++) <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(str, argv[a])) &#123;</div><div class="line">    <span class="keyword">if</span> (a == argc - <span class="number">1</span>) &#123;</div><div class="line">      <span class="built_in">printf</span>(<span class="string">"Argument missing for %s\n"</span>, str);</div><div class="line">      <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> a;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="TrainModel-训练模型"><a href="#TrainModel-训练模型" class="headerlink" title="TrainModel 训练模型"></a>TrainModel 训练模型</h3><blockquote>
+<p><strong>pthread</strong></p>
+<ol>
+<li><p><code>pthread_t</code> - 线程id</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;    <span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span> <span class="keyword">pthread_t</span></div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>pthread_attr_t</code> - 线程属性</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt;    <span class="keyword">typedef</span> <span class="keyword">struct</span></div><div class="line">&gt;    &#123;</div><div class="line">&gt;      <span class="keyword">int</span> __detachstate;   <span class="comment">//线程的分离状态</span></div><div class="line">&gt;      <span class="keyword">int</span> __schedpolicy;   <span class="comment">//线程调度策略</span></div><div class="line">&gt;      <span class="keyword">struct</span> sched_param __schedparam;  <span class="comment">//线程的调度参数</span></div><div class="line">&gt;      <span class="keyword">int</span> __inheritsched;  <span class="comment">//线程的继承性</span></div><div class="line">&gt;      <span class="keyword">int</span> __scope;       <span class="comment">//线程的作用域</span></div><div class="line">&gt;      <span class="keyword">size_t</span> __guardsize;</div><div class="line">&gt;      <span class="keyword">int</span> __stackaddr_set;</div><div class="line">&gt;      <span class="keyword">void</span> *__stackaddr;    <span class="comment">//线程堆栈的位置</span></div><div class="line">&gt;      <span class="keyword">size_t</span> __stacksize;   <span class="comment">//线程栈的大小</span></div><div class="line">&gt;    &#125;<span class="keyword">pthread_attr_t</span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>pthread_create()</code> - 创建线程</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;    int pthread_create(pthread_t *restrict tidp,const pthread_attr_t *restrict attr,void *(*start_rtn)(void *),void *restrict arg);</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>参数：<ul>
+<li><code>pthread_t *restrict tidp</code> : 新创建的线程的线程id指针；</li>
+<li><code>const pthread_attr_t *restrict attr</code> : 设置创建线程的属性；</li>
+<li><code>void*(*start_rtn)(void*)</code> : 返回值是void类型的指针函数，新创建的线程从 <code>start_rtn</code> 函数的地址开始运行。</li>
+<li><code>void *restrict arg</code> : <code>start_rtn</code>的指针参数，如果需要向<code>start_rtn</code>函数传递的参数不止一个，那么需要把这些参数放到一个结构中，然后把这个结构的地址作为<code>arg</code>的参数传入。</li>
+</ul>
+</li>
+<li>返回值：若是成功建立线程返回0，否则返回错误的编号。<br>由 <code>restrict</code> 修饰的指针是最初唯一对指针所指向的对象进行存取的方法，仅当第二个指针基于第一个时，才能对对象进行存取。对对象的存取都限定于基于由 restrict 修饰的指针表达式中。 由 restrict 修饰的指针主要用于函数形参，或指向由 malloc() 分配的内存空间。restrict 数据类型不改变程序的语义。 编译器能通过作出 restrict 修饰的指针是存取对象的唯一方法的假设，更好地优化某些类型的例程。<br><code>pthread_create</code>中，把第二个参数设置为<code>NULL</code>的话，将采用默认的属性配置。默认属性为非分离(joinable)、1MB堆栈、与父进程有相同优先级。</li>
+</ul>
+</li>
+<li><p><code>pthread_join</code> - 阻塞当前的线程，直到另一个线程运行结束</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;    <span class="function"><span class="keyword">int</span> <span class="title">pthread_join</span><span class="params">(<span class="keyword">pthread_t</span> thread, <span class="keyword">void</span> **retval)</span></span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p><code>pthread_join()</code>函数，以阻塞的方式等待<code>thread</code>指定的线程结束。当函数返回时，被等待线程的资源被收回。如果线程已经结束，那么该函数会立即返回。并且thread指定的线程必须是joinable的。</p>
+<ul>
+<li>参数 ：<ul>
+<li><code>thread</code>: 线程标识符，即线程ID，标识唯一线程</li>
+<li><code>retval</code>: 用户定义的指针，用来存储被等待线程的返回值。</li>
+</ul>
+</li>
+<li>返回值 ： 成功则返回0， 否则返回错误号。<br>代码中如果没有<code>pthread_join</code>，主线程会很快结束从而使整个进程结束，使创建的线程没有机会开始执行就结束了。加入<code>pthread_join</code>后，主线程会一直等待直到<code>thread</code>线程结束自己才结束，使创建的线程有机会执行。</li>
+</ul>
+</li>
+</ol>
+<p><strong>clock</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="keyword">clock_t</span> clock(<span class="keyword">void</span>)</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>函数说明：<br>函数返回从“开启这个程序进程”到“程序中调用<code>clock()</code>函数”之间的CPU时钟计时单元（clock tick）数；如果获取失败，则返回-1。为了获取 CPU 所使用的秒数，需要除以 <code>CLOCKS_PER_SEC</code>。<br><code>clock_t</code> 定义：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">clock_t</span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//训练模型</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">TrainModel</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">long</span> a, b, c, d;</div><div class="line">  FILE *fo;</div><div class="line">  <span class="comment">//线程id数组</span></div><div class="line">  <span class="keyword">pthread_t</span> *pt = (<span class="keyword">pthread_t</span> *)<span class="built_in">malloc</span>(num_threads * <span class="keyword">sizeof</span>(<span class="keyword">pthread_t</span>));</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"Starting training using file %s\n"</span>, train_file);</div><div class="line">  <span class="comment">//初始学习速率</span></div><div class="line">  starting_alpha = alpha;</div><div class="line">  <span class="keyword">if</span> (read_vocab_file[<span class="number">0</span>] != <span class="number">0</span>) ReadVocab();	<span class="comment">//从文件读入词表</span></div><div class="line">  <span class="keyword">else</span> LearnVocabFromTrainFile();	<span class="comment">//从训练文件学习词表</span></div><div class="line">  <span class="keyword">if</span> (save_vocab_file[<span class="number">0</span>] != <span class="number">0</span>) SaveVocab();	<span class="comment">//保存词表</span></div><div class="line">  <span class="keyword">if</span> (output_file[<span class="number">0</span>] == <span class="number">0</span>) <span class="keyword">return</span>;	<span class="comment">//不需要输出，直接返回</span></div><div class="line">  InitNet();	<span class="comment">//初始化网络</span></div><div class="line">  <span class="keyword">if</span> (negative &gt; <span class="number">0</span>) InitUnigramTable();	<span class="comment">//初始化单词的能量分布表</span></div><div class="line">  start = clock();</div><div class="line">  <span class="comment">//创建线程并阻塞</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; num_threads; a++) pthread_create(&amp;pt[a], <span class="literal">NULL</span>, TrainModelThread, (<span class="keyword">void</span> *)a);</div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; num_threads; a++) pthread_join(pt[a], <span class="literal">NULL</span>);</div><div class="line">  fo = fopen(output_file, <span class="string">"wb"</span>);</div><div class="line">  <span class="keyword">if</span> (classes == <span class="number">0</span>) &#123;	<span class="comment">//不需要聚类，输出词向量</span></div><div class="line">    <span class="comment">// Save the word vectors</span></div><div class="line">    <span class="built_in">fprintf</span>(fo, <span class="string">"%lld %lld\n"</span>, vocab_size, layer1_size);</div><div class="line">    <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) &#123;</div><div class="line">      <span class="built_in">fprintf</span>(fo, <span class="string">"%s "</span>, vocab[a].word);</div><div class="line">      <span class="keyword">if</span> (binary) <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; layer1_size; b++) fwrite(&amp;syn0[a * layer1_size + b], <span class="keyword">sizeof</span>(real), <span class="number">1</span>, fo);</div><div class="line">      <span class="keyword">else</span> <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; layer1_size; b++) <span class="built_in">fprintf</span>(fo, <span class="string">"%lf "</span>, syn0[a * layer1_size + b]);</div><div class="line">      <span class="built_in">fprintf</span>(fo, <span class="string">"\n"</span>);</div><div class="line">    &#125;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;	<span class="comment">//使用K-means进行聚类</span></div><div class="line">    <span class="comment">// Run K-means on the word vectors</span></div><div class="line">    <span class="keyword">int</span> clcn = classes, iter = <span class="number">10</span>, closeid;</div><div class="line">    <span class="keyword">int</span> *centcn = (<span class="keyword">int</span> *)<span class="built_in">malloc</span>(classes * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));	<span class="comment">//属于某个类别的数量</span></div><div class="line">    <span class="keyword">int</span> *cl = (<span class="keyword">int</span> *)<span class="built_in">calloc</span>(vocab_size, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));	<span class="comment">//词到类别的映射</span></div><div class="line">    real closev, x;</div><div class="line">    <span class="comment">//中心向量数组</span></div><div class="line">    real *cent = (real *)<span class="built_in">calloc</span>(classes * layer1_size, <span class="keyword">sizeof</span>(real));</div><div class="line">    <span class="comment">//初始随机分布类别</span></div><div class="line">    <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) cl[a] = a % clcn;</div><div class="line">    <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; iter; a++) &#123;	<span class="comment">//K-means 迭代次数</span></div><div class="line">      <span class="comment">//迭代开始时，中心向量置0</span></div><div class="line">      <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; clcn * layer1_size; b++) cent[b] = <span class="number">0</span>;</div><div class="line">      <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; clcn; b++) centcn[b] = <span class="number">1</span>;</div><div class="line">      <span class="comment">//计算新的类别中心</span></div><div class="line">      <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; vocab_size; c++) &#123;</div><div class="line">        <span class="keyword">for</span> (d = <span class="number">0</span>; d &lt; layer1_size; d++) cent[layer1_size * cl[c] + d] += syn0[c * layer1_size + d];</div><div class="line">        centcn[cl[c]]++;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; clcn; b++) &#123;	<span class="comment">//遍历类别</span></div><div class="line">        closev = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) &#123;</div><div class="line">          cent[layer1_size * b + c] /= centcn[b];</div><div class="line">          closev += cent[layer1_size * b + c] * cent[layer1_size * b + c];</div><div class="line">        &#125;</div><div class="line">        closev = <span class="built_in">sqrt</span>(closev);</div><div class="line">        <span class="comment">//x_i = x_i / sqrt(sum_&#123;j=1&#125;^&#123;classes&#125;(x_j^2))</span></div><div class="line">        <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) cent[layer1_size * b + c] /= closev;</div><div class="line">      &#125;</div><div class="line">      <span class="comment">//对所有词语重新分类</span></div><div class="line">      <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; vocab_size; c++) &#123;</div><div class="line">        closev = <span class="number">-10</span>;</div><div class="line">        closeid = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (d = <span class="number">0</span>; d &lt; clcn; d++) &#123;</div><div class="line">          x = <span class="number">0</span>;</div><div class="line">          <span class="comment">//计算词向量和中心向量的内积</span></div><div class="line">          <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; layer1_size; b++) x += cent[layer1_size * d + b] * syn0[c * layer1_size + b];</div><div class="line">          <span class="keyword">if</span> (x &gt; closev) &#123;</div><div class="line">            closev = x;	<span class="comment">//内积最小值</span></div><div class="line">            closeid = d;<span class="comment">//所属类别</span></div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">        cl[c] = closeid;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// Save the K-means classes</span></div><div class="line">    <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) <span class="built_in">fprintf</span>(fo, <span class="string">"%s %d\n"</span>, vocab[a].word, cl[a]);</div><div class="line">    <span class="built_in">free</span>(centcn);</div><div class="line">    <span class="built_in">free</span>(cent);</div><div class="line">    <span class="built_in">free</span>(cl);</div><div class="line">  &#125;</div><div class="line">  fclose(fo);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="ReadVocab-读入词表"><a href="#ReadVocab-读入词表" class="headerlink" title="ReadVocab 读入词表"></a>ReadVocab 读入词表</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//从文件中读入词表，该文件已经统计好了每个单词的词频</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">ReadVocab</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> a, i = <span class="number">0</span>;</div><div class="line">  <span class="keyword">char</span> c;</div><div class="line">  <span class="comment">//MAX_STRING=100, 最大单词长度</span></div><div class="line">  <span class="keyword">char</span> word[MAX_STRING];</div><div class="line">  FILE *fin = fopen(read_vocab_file, <span class="string">"rb"</span>);</div><div class="line">  <span class="keyword">if</span> (fin == <span class="literal">NULL</span>) &#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Vocabulary file not found\n"</span>);</div><div class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//vocab_hash_size=30M, 初始化vocab_hash每个元素为-1</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_hash_size; a++) vocab_hash[a] = <span class="number">-1</span>;</div><div class="line">  vocab_size = <span class="number">0</span>;</div><div class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">    ReadWord(word, fin);	<span class="comment">//从文件中读取一个单词</span></div><div class="line">    <span class="keyword">if</span> (feof(fin)) <span class="keyword">break</span>;</div><div class="line">    a = AddWordToVocab(word);	<span class="comment">//将单词加入词表，返回该单词的词表索引</span></div><div class="line">    <span class="built_in">fscanf</span>(fin, <span class="string">"%lld%c"</span>, &amp;vocab[a].cn, &amp;c); <span class="comment">//从文件中读取单词的词频</span></div><div class="line">    i++;</div><div class="line">  &#125;</div><div class="line">  SortVocab();	<span class="comment">//根据词频对词表进行排序</span></div><div class="line">  <span class="keyword">if</span> (debug_mode &gt; <span class="number">0</span>) &#123;		<span class="comment">//打印词表大小和训练单词数</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Vocab size: %lld\n"</span>, vocab_size);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Words in train file: %lld\n"</span>, train_words);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//读取训练文件</span></div><div class="line">  fin = fopen(train_file, <span class="string">"rb"</span>);</div><div class="line">  <span class="keyword">if</span> (fin == <span class="literal">NULL</span>) &#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"ERROR: training data file not found!\n"</span>);</div><div class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">  &#125;</div><div class="line">  fseek(fin, <span class="number">0</span>, SEEK_END);	<span class="comment">//将读写位置移动到文件末尾</span></div><div class="line">  file_size = ftell(fin);	<span class="comment">//计算文件字节数</span></div><div class="line">  fclose(fin);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>fseek</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">int</span> <span class="title">fseek</span><span class="params">(FILE * stream, <span class="keyword">long</span> offset, <span class="keyword">int</span> whence)</span></span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>函数说明：<br><code>fseek()</code>用来移动文件流的读写位置. </p>
+<p>1、参数stream 为已打开的文件指针,<br>2、参数offset 为根据参数whence 来移动读写位置的位移数。参数 whence 为下列其中一种:</p>
+<ul>
+<li><code>SEEK_SET</code> 从距文件开头offset 位移量为新的读写位置. </li>
+<li><code>SEEK_CUR</code> 以目前的读写位置往后增加offset 个位移量.</li>
+<li><code>SEEK_END</code> 将读写位置指向文件尾后再增加offset 个位移量. 当whence 值为<code>SEEK_CUR</code> 或<code>SEEK_END</code> 时, 参数offset 允许负值的出现.</li>
+</ul>
+<p>下列是较<strong>特别</strong>的使用方式：<br>1) 欲将读写位置移动到文件开头时:fseek(FILE <em>stream, 0, SEEK_SET);<br>2) 欲将读写位置移动到文件尾时:fseek(FILE </em>stream, 0, 0SEEK_END);</p>
+<p>返回值：当调用成功时则返回0, 若有错误则返回-1, errno 会存放错误代码.</p>
+<p><strong>ftell</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">long</span> <span class="title">ftell</span><span class="params">(FILE * stream)</span></span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>函数说明：<br> <code>ftell()</code> 用于得到文件位置指针当前位置相对于文件首的偏移字节数。</p>
+</blockquote>
+<p><strong>ReadWord 从文件中读入一个单词</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 从文件中读入一个单词, 假定 space + tab + EOL 是单词的边界</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">ReadWord</span><span class="params">(<span class="keyword">char</span> *word, FILE *fin)</span> </span>&#123;</div><div class="line">  <span class="keyword">int</span> a = <span class="number">0</span>, ch;</div><div class="line">  <span class="keyword">while</span> (!feof(fin)) &#123;</div><div class="line">    <span class="comment">//从文件中读取一个字符，读取后光标位置后移一位</span></div><div class="line">    <span class="comment">//返回读取到的字符，读取到文件末尾时返回EOF</span></div><div class="line">    <span class="comment">//int ch; 类型不能为char, 因为EOF不是字符</span></div><div class="line">    ch = fgetc(fin);</div><div class="line">    <span class="keyword">if</span> (ch == <span class="number">13</span>) <span class="keyword">continue</span>;	<span class="comment">//ascii:13 = CR(回车)</span></div><div class="line">    <span class="keyword">if</span> ((ch == <span class="string">' '</span>) || (ch == <span class="string">'\t'</span>) || (ch == <span class="string">'\n'</span>)) &#123;</div><div class="line">      <span class="comment">//a&gt;0, 即已经读到字符时，跳出读取循环</span></div><div class="line">      <span class="keyword">if</span> (a &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="comment">//ungetc()函数用于将一个字符退回到输入流中</span></div><div class="line">        <span class="comment">//这个退回的字符会由下一个读取文件流的函数取得</span></div><div class="line">        <span class="keyword">if</span> (ch == <span class="string">'\n'</span>) ungetc(ch, fin);</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> (ch == <span class="string">'\n'</span>) &#123;</div><div class="line">        <span class="comment">//若读取到换行符，则返回句子结束符号&lt;/s&gt;</span></div><div class="line">        <span class="built_in">strcpy</span>(word, (<span class="keyword">char</span> *)<span class="string">"&lt;/s&gt;"</span>);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">continue</span>;	<span class="comment">//a=0, 即单词开头读到space或tab时，跳过</span></div><div class="line">    &#125;</div><div class="line">    word[a] = ch;</div><div class="line">    a++;</div><div class="line">    <span class="keyword">if</span> (a &gt;= MAX_STRING - <span class="number">1</span>) a--;   <span class="comment">// Truncate too long words</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">//在单词最后(除&lt;/s&gt;外)添加0</span></div><div class="line">  <span class="comment">//注:word的类型为char*, 故word[a]的类型为char</span></div><div class="line">  <span class="comment">//0≠'0', 而是作为ascii码读入. ascii:0 = null零, 即'\0' </span></div><div class="line">  word[a] = <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>AddWordToVocab 将一个单词加入词表</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 将一个单词加入词表</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">AddWordToVocab</span><span class="params">(<span class="keyword">char</span> *word)</span> </span>&#123;</div><div class="line">  <span class="comment">//strlen计算给定字符串的长度，不包括'\0'</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> hash, length = <span class="built_in">strlen</span>(word) + <span class="number">1</span>;</div><div class="line">  <span class="keyword">if</span> (length &gt; MAX_STRING) length = MAX_STRING;	<span class="comment">//限制单词长度</span></div><div class="line">  <span class="comment">//vocab_size:当前词表长度</span></div><div class="line">  <span class="comment">//给当前单词分配空间</span></div><div class="line">  vocab[vocab_size].word = (<span class="keyword">char</span> *)<span class="built_in">calloc</span>(length, <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</div><div class="line">  <span class="built_in">strcpy</span>(vocab[vocab_size].word, word);</div><div class="line">  vocab[vocab_size].cn = <span class="number">0</span>;</div><div class="line">  vocab_size++;	<span class="comment">//词表长度+1</span></div><div class="line">  <span class="comment">// Reallocate memory if needed</span></div><div class="line">  <span class="comment">//若有需要，重新分配内存</span></div><div class="line">  <span class="keyword">if</span> (vocab_size + <span class="number">2</span> &gt;= vocab_max_size) &#123;</div><div class="line">    <span class="comment">//词表大小动态扩张</span></div><div class="line">    vocab_max_size += <span class="number">1000</span>;</div><div class="line">    vocab = (<span class="keyword">struct</span> vocab_word *)<span class="built_in">realloc</span>(vocab, vocab_max_size * <span class="keyword">sizeof</span>(<span class="keyword">struct</span> vocab_word));</div><div class="line">  &#125;</div><div class="line">  hash = GetWordHash(word);	<span class="comment">//获得单词的hash值</span></div><div class="line">  <span class="comment">//如果hash值冲突，使用开放地址法解决冲突</span></div><div class="line">  <span class="keyword">while</span> (vocab_hash[hash] != <span class="number">-1</span>) hash = (hash + <span class="number">1</span>) % vocab_hash_size;</div><div class="line">  <span class="comment">//由单词的hash值索引到其所在词汇表的位置</span></div><div class="line">  vocab_hash[hash] = vocab_size - <span class="number">1</span>;</div><div class="line">  <span class="keyword">return</span> vocab_size - <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>realloc</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">void</span>* <span class="title">realloc</span><span class="params">(<span class="keyword">void</span>* ptr, <span class="keyword">size_t</span> newsize)</span></span>;  </div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>给一个已经分配了地址的指针重新分配空间,参数ptr为原有的空间地址,newsize是重新申请的地址长度.</p>
+<ul>
+<li><code>realloc</code>可以对给定的指针所指的空间进行扩大或者缩小，无论是扩张或是缩小，原有内存的中内容将保持不变.当然，对于缩小，则被缩小的那一部分的内容会丢失.<code>realloc</code>并不保证调整后的内存空间和原来的内存空间保持同一内存地址.相反，<code>realloc</code>返回的指针很可能指向一个新的地址.</li>
+<li><code>realloc</code>是从堆上分配内存的.当扩大一块内存空间时，<code>realloc()</code>试图直接从堆上现存的数据后面的那些字节中获得附加的字节，如果能够满足，自然天下太平；如果数据后面的字节不够，问题就出来了，那么就使用堆上第一个有足够大小的自由块，现存的数据然后就被拷贝至新的位置，而老块则放回到堆上.这句话传递的一个重要的信息就是数据可能被移动.</li>
+</ul>
+</blockquote>
+<p><strong>GetWordHash 返回单词的hash值</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Returns hash value of a word</span></div><div class="line"><span class="comment">//返回单词的hash值</span></div><div class="line"><span class="comment">//期望单词和hash值一一对应，但也可能冲突，与词表大小和vocab_hash_size有关</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">GetWordHash</span><span class="params">(<span class="keyword">char</span> *word)</span> </span>&#123;</div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> a, hash = <span class="number">0</span>;</div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; <span class="built_in">strlen</span>(word); a++) hash = hash * <span class="number">257</span> + word[a];</div><div class="line">  hash = hash % vocab_hash_size;</div><div class="line">  <span class="keyword">return</span> hash;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>SortVocab 排序词表</strong></p>
+<blockquote>
+<p><strong>qsort</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; void qsort( void *base, size_t num, size_t width, int (__cdecl *compare )</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p><code>qsort</code> 根据你给的比较条件给一个快速排序，主要是通过指针移动实现排序功能。排序之后的结果仍然放在原来数组中。<br>注意：只能对连续内存的数据进行排序.</p>
+<p>【参数】</p>
+<ul>
+<li><code>base</code> : 需要排序的目标数组名（或者也可以理解成开始排序的地址，因为可以写&amp;s[i]这样的表达式）</li>
+<li><code>num</code> : 参与排序的目标数组元素个数</li>
+<li><code>width</code> : 单个元素的大小（或者目标数组中每一个元素长度），推荐使用sizeof(s[0]）这样的表达式</li>
+<li><code>compare</code> : 函数指针，指向比较函数</li>
+</ul>
+<p>比较函数形式为：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; int compare (const void *elem1, const void *elem2 ) );</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<p>【使用方法】<br>例：对int类型数组排序:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&gt; int num[100];</div><div class="line">&gt; int cmp ( const void *a , const void *b )</div><div class="line">&gt; &#123;</div><div class="line">&gt;   return *(int *)a - *(int *)b;  //升序排序</div><div class="line">&gt; //return *(int *)b - *(int *)a; //降序排序</div><div class="line">&gt;</div><div class="line">&gt; /*可见：参数列表是两个空指针，现在要指向你的数组元素。所以转型为当前的类型，然后取值。</div><div class="line">&gt;   升序排列时，若第一个参数指针指向的“值”大于第二个参数指针指向的“值”，则返回正；若第一个参数指针指向的“值”等于第二个参数指针指向的“值”，则返回零；若第一个参数指针指向的“值”小于第二个参数指针指向的“值”，则返回负。返回值为正表示ture，执行交换，a移到b后面。</div><div class="line">&gt;   降序排列时，则刚好相反。</div><div class="line">&gt; */</div><div class="line">&gt; &#125;</div><div class="line">&gt; qsort(num,100,sizeof(num[0]),cmp);</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Used later for sorting by word counts</span></div><div class="line"><span class="comment">//返回词频差值vocab_word[b].cn-vocab_word[a].cn, 表示降序排列</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">VocabCompare</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *a, <span class="keyword">const</span> <span class="keyword">void</span> *b)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> ((<span class="keyword">struct</span> vocab_word *)b)-&gt;cn - ((<span class="keyword">struct</span> vocab_word *)a)-&gt;cn;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 根据词频对词表进行排序</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">SortVocab</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">int</span> a, size;</div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> hash;</div><div class="line">  <span class="comment">// Sort the vocabulary and keep &lt;/s&gt; at the first position</span></div><div class="line">  qsort(&amp;vocab[<span class="number">1</span>], vocab_size - <span class="number">1</span>, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> vocab_word), VocabCompare);</div><div class="line">  <span class="comment">//vocab_hash中的所有元素置为-1</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_hash_size; a++) vocab_hash[a] = <span class="number">-1</span>;</div><div class="line">  size = vocab_size;   <span class="comment">//当前词表大小</span></div><div class="line">  train_words = <span class="number">0</span>;	   <span class="comment">//记录训练单词数</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; size; a++) &#123;	<span class="comment">//遍历词表</span></div><div class="line">    <span class="comment">// 词频小于 min_count 的单词将从词表中删去</span></div><div class="line">    <span class="keyword">if</span> ((vocab[a].cn &lt; min_count) &amp;&amp; (a != <span class="number">0</span>)) &#123;</div><div class="line">      vocab_size--;</div><div class="line">      <span class="built_in">free</span>(vocab[a].word);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="comment">// Hash will be re-computed, as after the sorting it is not actual</span></div><div class="line">      <span class="comment">//重新计算hash值，因为排序后原来的值已经不准确</span></div><div class="line">      hash=GetWordHash(vocab[a].word);</div><div class="line">      <span class="keyword">while</span> (vocab_hash[hash] != <span class="number">-1</span>) hash = (hash + <span class="number">1</span>) % vocab_hash_size;</div><div class="line">      <span class="comment">//排序后词频大的词在词表的前部，被删去的词集中在词表后部，故a不变</span></div><div class="line">      vocab_hash[hash] = a;</div><div class="line">      train_words += vocab[a].cn;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//重新分配内存，词表后部被释放</span></div><div class="line">  vocab = (<span class="keyword">struct</span> vocab_word *)<span class="built_in">realloc</span>(vocab, (vocab_size + <span class="number">1</span>) * <span class="keyword">sizeof</span>(<span class="keyword">struct</span> vocab_word));</div><div class="line">  <span class="comment">// Allocate memory for the binary tree construction</span></div><div class="line">  <span class="comment">//为二叉树建立分配内存</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) &#123;</div><div class="line">    vocab[a].code = (<span class="keyword">char</span> *)<span class="built_in">calloc</span>(MAX_CODE_LENGTH, <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</div><div class="line">    vocab[a].point = (<span class="keyword">int</span> *)<span class="built_in">calloc</span>(MAX_CODE_LENGTH, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="LearnVocabFromTrainFile-从训练文件中学习词表"><a href="#LearnVocabFromTrainFile-从训练文件中学习词表" class="headerlink" title="LearnVocabFromTrainFile 从训练文件中学习词表"></a>LearnVocabFromTrainFile 从训练文件中学习词表</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//从训练文件(中文需要分词)中统计每个单词的词频</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">LearnVocabFromTrainFile</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">char</span> word[MAX_STRING];</div><div class="line">  FILE *fin;</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> a, i;</div><div class="line">  <span class="comment">//初始化vocab_hash中的元素为-1</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_hash_size; a++) vocab_hash[a] = <span class="number">-1</span>;</div><div class="line">  fin = fopen(train_file, <span class="string">"rb"</span>);</div><div class="line">  <span class="keyword">if</span> (fin == <span class="literal">NULL</span>) &#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"ERROR: training data file not found!\n"</span>);</div><div class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</div><div class="line">  &#125;</div><div class="line">  vocab_size = <span class="number">0</span>;	<span class="comment">//起始词表大小为0</span></div><div class="line">  AddWordToVocab((<span class="keyword">char</span> *)<span class="string">"&lt;/s&gt;"</span>);	<span class="comment">//向词表中加入"&lt;/s&gt;"，此时词频为0</span></div><div class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">    ReadWord(word, fin);   <span class="comment">//从文件中读入一个单词</span></div><div class="line">    <span class="keyword">if</span> (feof(fin)) <span class="keyword">break</span>;</div><div class="line">    train_words++;		<span class="comment">//训练单词数+1</span></div><div class="line">    <span class="comment">//如果debug_mode &gt; 1, 每读入100k个单词，打印信息</span></div><div class="line">    <span class="keyword">if</span> ((debug_mode &gt; <span class="number">1</span>) &amp;&amp; (train_words % <span class="number">100000</span> == <span class="number">0</span>)) &#123;</div><div class="line">      <span class="built_in">printf</span>(<span class="string">"%lldK%c"</span>, train_words / <span class="number">1000</span>, <span class="number">13</span>);</div><div class="line">      fflush(<span class="built_in">stdout</span>);	<span class="comment">//清空标准输出缓冲区</span></div><div class="line">    &#125;</div><div class="line">    i = SearchVocab(word);	<span class="comment">//检索word在词表中的位置</span></div><div class="line">    <span class="keyword">if</span> (i == <span class="number">-1</span>) &#123;	<span class="comment">//词表中未检索到，则将该单词加入词表</span></div><div class="line">      a = AddWordToVocab(word);</div><div class="line">      vocab[a].cn = <span class="number">1</span>;</div><div class="line">    &#125; <span class="keyword">else</span> vocab[i].cn++;</div><div class="line">    <span class="comment">//如果词表大小超过0.7*vocab_hash_size, 缩减词表</span></div><div class="line">    <span class="comment">//否则可能存在较多的冲突hash值(?)</span></div><div class="line">    <span class="keyword">if</span> (vocab_size &gt; vocab_hash_size * <span class="number">0.7</span>) ReduceVocab();</div><div class="line">  &#125;</div><div class="line">  SortVocab();	<span class="comment">//根据词频排序词表</span></div><div class="line">  <span class="keyword">if</span> (debug_mode &gt; <span class="number">0</span>) &#123;	<span class="comment">//打印词表大小和训练单词数</span></div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Vocab size: %lld\n"</span>, vocab_size);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Words in train file: %lld\n"</span>, train_words);</div><div class="line">  &#125;</div><div class="line">  file_size = ftell(fin);	<span class="comment">//计算训练文件字节数</span></div><div class="line">  fclose(fin);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>fflush</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">int</span> <span class="title">fflush</span><span class="params">(FILE* stream)</span></span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<p>【函数说明】<br><code>fflush()</code>用于清空文件缓冲区，如果文件是以写的方式打开的，则把缓冲区内容写入文件。<br>【参数】stream为文件指针。<br>【返回值】成功返回0，失败返回EOF，错误代码存于errno 中。指定的流没有缓冲区或者只读打开时也返回0值。</p>
+<p><code>fflush()</code>也可用于标准输入（stdin）和标准输出（stdout），用来清空标准输入输出缓冲区。<br>stdin 是 standard input 的缩写，即标准输入，一般是指键盘；标准输入缓冲区即是用来暂存从键盘输入的内容的缓冲区。stdout 是 standard output 的缩写，即标准输出，一般是指显示器；标准输出缓冲区即是用来暂存将要显示的内容的缓冲区。</p>
+</blockquote>
+<p><strong>SearchVocab 在词表中检索单词</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 返回一个词在词表中的位置; 如果没有找到则返回-1</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">SearchVocab</span><span class="params">(<span class="keyword">char</span> *word)</span> </span>&#123;</div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> hash = GetWordHash(word);	<span class="comment">//获得单词的hash值</span></div><div class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">    <span class="keyword">if</span> (vocab_hash[hash] == <span class="number">-1</span>) <span class="keyword">return</span> <span class="number">-1</span>;	<span class="comment">//未找到，返回-1</span></div><div class="line">    <span class="comment">//如果字符串相同，则strcmp返回0</span></div><div class="line">    <span class="keyword">if</span> (!<span class="built_in">strcmp</span>(word, vocab[vocab_hash[hash]].word)) <span class="keyword">return</span> vocab_hash[hash];</div><div class="line">    hash = (hash + <span class="number">1</span>) % vocab_hash_size;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>strcmp</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">int</span> <span class="title">strcmp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s1, <span class="keyword">const</span> <span class="keyword">char</span> *s2)</span></span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p><code>strcmp()</code> 用来比较字符串（区分大小写）.</p>
+<p>【参数】s1, s2 为需要比较的两个字符串。<br>字符串大小的比较是以ASCII 码表上的顺序来决定，此顺序亦为字符的值。<code>strcmp()</code>首先将s1 第一个字符值减去s2 第一个字符值，若差值为0 则再继续比较下个字符，若差值不为0 则将差值返回。例如字符串”Ac”和”ba”比较则会返回字符”A”(65)和’b’(98)的差值(－33)。<br>【返回值】若参数s1 和s2 字符串相同则返回0。s1 若大于s2 则返回大于0 的值。s1 若小于s2 则返回小于0 的值。</p>
+</blockquote>
+<p><strong>ReduceVocab 移除词频过小的词以缩减词表</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Reduces the vocabulary by removing infrequent tokens</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">ReduceVocab</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">int</span> a, b = <span class="number">0</span>;</div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> hash;</div><div class="line">  <span class="comment">//移除词频小于min_reduce的单词，词表未排序</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) <span class="keyword">if</span> (vocab[a].cn &gt; min_reduce) &#123;</div><div class="line">    vocab[b].cn = vocab[a].cn;</div><div class="line">    vocab[b].word = vocab[a].word;</div><div class="line">    b++;</div><div class="line">  &#125; <span class="keyword">else</span> <span class="built_in">free</span>(vocab[a].word);</div><div class="line">  vocab_size = b;</div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_hash_size; a++) vocab_hash[a] = <span class="number">-1</span>;</div><div class="line">  <span class="comment">//这里的a等于上述的b，词表大小已缩减</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) &#123;</div><div class="line">    <span class="comment">// Hash will be re-computed, as it is not actual</span></div><div class="line">    hash = GetWordHash(vocab[a].word);</div><div class="line">    <span class="keyword">while</span> (vocab_hash[hash] != <span class="number">-1</span>) hash = (hash + <span class="number">1</span>) % vocab_hash_size;</div><div class="line">    vocab_hash[hash] = a;</div><div class="line">  &#125;</div><div class="line">  fflush(<span class="built_in">stdout</span>);</div><div class="line">  min_reduce++;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="SaveVocab-保存词表"><a href="#SaveVocab-保存词表" class="headerlink" title="SaveVocab 保存词表"></a>SaveVocab 保存词表</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//保存词表到文件</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">SaveVocab</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> i;</div><div class="line">  FILE *fo = fopen(save_vocab_file, <span class="string">"wb"</span>);</div><div class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; vocab_size; i++) <span class="built_in">fprintf</span>(fo, <span class="string">"%s %lld\n"</span>, vocab[i].word, vocab[i].cn);</div><div class="line">  fclose(fo);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="InitNet-初始化网络"><a href="#InitNet-初始化网络" class="headerlink" title="InitNet 初始化网络"></a>InitNet 初始化网络</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//初始化网络</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitNet</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> a, b;</div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> next_random = <span class="number">1</span>;</div><div class="line">  <span class="comment">//申请动态数组</span></div><div class="line">  <span class="comment">//vocab_size:词表大小(词数);layer1_size:词向量维度</span></div><div class="line">  a = posix_memalign((<span class="keyword">void</span> **)&amp;syn0, <span class="number">128</span>, (<span class="keyword">long</span> <span class="keyword">long</span>)vocab_size * layer1_size * <span class="keyword">sizeof</span>(real));</div><div class="line">  <span class="comment">//内存分配失败</span></div><div class="line">  <span class="keyword">if</span> (syn0 == <span class="literal">NULL</span>) &#123;<span class="built_in">printf</span>(<span class="string">"Memory allocation failed\n"</span>); <span class="built_in">exit</span>(<span class="number">1</span>);&#125;</div><div class="line">  <span class="keyword">if</span> (hs) &#123;	<span class="comment">//采用层级softmax</span></div><div class="line">    a = posix_memalign((<span class="keyword">void</span> **)&amp;syn1, <span class="number">128</span>, (<span class="keyword">long</span> <span class="keyword">long</span>)vocab_size * layer1_size * <span class="keyword">sizeof</span>(real));</div><div class="line">    <span class="keyword">if</span> (syn1 == <span class="literal">NULL</span>) &#123;<span class="built_in">printf</span>(<span class="string">"Memory allocation failed\n"</span>); <span class="built_in">exit</span>(<span class="number">1</span>);&#125;</div><div class="line">    <span class="comment">//初始化syn1的每个元素为0</span></div><div class="line">    <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; layer1_size; b++)</div><div class="line">     syn1[a * layer1_size + b] = <span class="number">0</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (negative&gt;<span class="number">0</span>) &#123;	<span class="comment">//存在负样本</span></div><div class="line">    a = posix_memalign((<span class="keyword">void</span> **)&amp;syn1neg, <span class="number">128</span>, (<span class="keyword">long</span> <span class="keyword">long</span>)vocab_size * layer1_size * <span class="keyword">sizeof</span>(real));</div><div class="line">    <span class="keyword">if</span> (syn1neg == <span class="literal">NULL</span>) &#123;<span class="built_in">printf</span>(<span class="string">"Memory allocation failed\n"</span>); <span class="built_in">exit</span>(<span class="number">1</span>);&#125;</div><div class="line">    <span class="comment">//初始化syn1neg的每个元素为0</span></div><div class="line">    <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; layer1_size; b++)</div><div class="line">     syn1neg[a * layer1_size + b] = <span class="number">0</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; layer1_size; b++) &#123;</div><div class="line">    next_random = next_random * (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)<span class="number">25214903917</span> + <span class="number">11</span>;</div><div class="line">    <span class="comment">//随机初始化syn0中的元素，在(-0.5/layer1_size, 0.5/layer1_size)区间内</span></div><div class="line">    syn0[a * layer1_size + b] = (((next_random &amp; <span class="number">0xFFFF</span>) / (real)<span class="number">65536</span>) - <span class="number">0.5</span>) / layer1_size;</div><div class="line">  &#125;</div><div class="line">  CreateBinaryTree();	<span class="comment">//建立huffman树，对每个单词进行编码</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>CreateBinaryTree 利用词频建立huffman树</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 利用词频(the word counts)建立二叉Huffman树</span></div><div class="line"><span class="comment">// 词频大的单词将具有越短的编码(short uniqe binary codes)</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">CreateBinaryTree</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="comment">//MAX_CODE_LENGTH=40, 最长编码; point: 从根到叶节点的路径</span></div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> a, b, i, min1i, min2i, pos1, pos2, point[MAX_CODE_LENGTH];</div><div class="line">  <span class="comment">//路径上每个节点的编码?</span></div><div class="line">  <span class="keyword">char</span> code[MAX_CODE_LENGTH];</div><div class="line">  <span class="comment">//huffman树的总节点数n与叶子节点数n0的关系：n=2*n0-1</span></div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> *count = (<span class="keyword">long</span> <span class="keyword">long</span> *)<span class="built_in">calloc</span>(vocab_size * <span class="number">2</span> + <span class="number">1</span>, <span class="keyword">sizeof</span>(<span class="keyword">long</span> <span class="keyword">long</span>));</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> *binary = (<span class="keyword">long</span> <span class="keyword">long</span> *)<span class="built_in">calloc</span>(vocab_size * <span class="number">2</span> + <span class="number">1</span>, <span class="keyword">sizeof</span>(<span class="keyword">long</span> <span class="keyword">long</span>));</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> *parent_node = (<span class="keyword">long</span> <span class="keyword">long</span> *)<span class="built_in">calloc</span>(vocab_size * <span class="number">2</span> + <span class="number">1</span>, <span class="keyword">sizeof</span>(<span class="keyword">long</span> <span class="keyword">long</span>));</div><div class="line">  <span class="comment">//词频，注：vocab获取时已从高频到低频排序</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) count[a] = vocab[a].cn;</div><div class="line">  <span class="comment">//其余词频初始化为极大值(1e15)</span></div><div class="line">  <span class="keyword">for</span> (a = vocab_size; a &lt; vocab_size * <span class="number">2</span>; a++) count[a] = <span class="number">1e15</span>;</div><div class="line">  pos1 = vocab_size - <span class="number">1</span>;  <span class="comment">//初始词频最小的节点</span></div><div class="line">  pos2 = vocab_size;	 <span class="comment">//初始词频为1e15</span></div><div class="line">  <span class="comment">// Following algorithm constructs the Huffman tree by adding one node at a time</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size - <span class="number">1</span>; a++) &#123;</div><div class="line">    <span class="comment">// 首先，找出两个权值(词频)最小的两个节点'min1, min2'</span></div><div class="line">    <span class="keyword">if</span> (pos1 &gt;= <span class="number">0</span>) &#123;	<span class="comment">//权值最小的节点</span></div><div class="line">      <span class="keyword">if</span> (count[pos1] &lt; count[pos2]) &#123;</div><div class="line">        min1i = pos1;</div><div class="line">        pos1--;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        min1i = pos2;</div><div class="line">        pos2++;</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      min1i = pos2;</div><div class="line">      pos2++;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (pos1 &gt;= <span class="number">0</span>) &#123;	<span class="comment">//权值次小的节点</span></div><div class="line">      <span class="keyword">if</span> (count[pos1] &lt; count[pos2]) &#123;</div><div class="line">        min2i = pos1;</div><div class="line">        pos1--;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        min2i = pos2;</div><div class="line">        pos2++;</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      min2i = pos2;</div><div class="line">      pos2++;</div><div class="line">    &#125;</div><div class="line">    count[vocab_size + a] = count[min1i] + count[min2i];</div><div class="line">    parent_node[min1i] = vocab_size + a;</div><div class="line">    parent_node[min2i] = vocab_size + a;</div><div class="line">    binary[min2i] = <span class="number">1</span>;	<span class="comment">//右孩子节点编码为1，默认是0</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// Now assign binary code to each vocabulary word</span></div><div class="line">  <span class="comment">//给词表中的单词编码</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) &#123;</div><div class="line">    b = a;</div><div class="line">    i = <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">      code[i] = binary[b];</div><div class="line">      point[i] = b;</div><div class="line">      i++;</div><div class="line">      b = parent_node[b];</div><div class="line">      <span class="keyword">if</span> (b == vocab_size * <span class="number">2</span> - <span class="number">2</span>) <span class="keyword">break</span>;	<span class="comment">//根节点</span></div><div class="line">    &#125;</div><div class="line">    vocab[a].codelen = i;	<span class="comment">//编码路径长度</span></div><div class="line">    <span class="comment">//(2*vocab_size-2)-vocab_size，表示根节点</span></div><div class="line">    vocab[a].point[<span class="number">0</span>] = vocab_size - <span class="number">2</span>;</div><div class="line">    <span class="keyword">for</span> (b = <span class="number">0</span>; b &lt; i; b++) &#123;</div><div class="line">      <span class="comment">//逆序：从根到叶节点</span></div><div class="line">      vocab[a].code[i - b - <span class="number">1</span>] = code[b];</div><div class="line">      vocab[a].point[i - b] = point[b] - vocab_size;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">free</span>(count);</div><div class="line">  <span class="built_in">free</span>(binary);</div><div class="line">  <span class="built_in">free</span>(parent_node);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>free</strong><br><code>free()</code> 函数用来释放动态分配的内存空间，其原型为：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">void</span> <span class="title">free</span> <span class="params">(<span class="keyword">void</span>* ptr)</span></span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p><code>free()</code> 可以释放由 <code>malloc()</code>、<code>calloc()</code>、<code>realloc()</code>分配的内存空间，以便其他程序再次使用。</p>
+</blockquote>
+<h4 id="InitUnigramTable"><a href="#InitUnigramTable" class="headerlink" title="InitUnigramTable"></a>InitUnigramTable</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//初始化单词的能量分布表</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitUnigramTable</span><span class="params">()</span> </span>&#123;</div><div class="line">  <span class="keyword">int</span> a, i;</div><div class="line">  <span class="keyword">double</span> train_words_pow = <span class="number">0</span>;</div><div class="line">  <span class="comment">//papar p.4 :</span></div><div class="line">  <span class="comment">//"the unigram distribution U(w) raised to the 3/4rd power(e.g., U(w)^(3/4) / Z)"</span></div><div class="line">  <span class="comment">//"outperformed significantly the unigram and uniform distributions"</span></div><div class="line">  <span class="keyword">double</span> d1, power = <span class="number">0.75</span>;</div><div class="line">  <span class="comment">//分配内存，table_size = 1e8</span></div><div class="line">  table = (<span class="keyword">int</span> *)<span class="built_in">malloc</span>(table_size * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">  <span class="comment">//遍历词汇表，统计词的幂次(能量)总值train_words_pow</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; vocab_size; a++) train_words_pow += <span class="built_in">pow</span>(vocab[a].cn, power);</div><div class="line">  i = <span class="number">0</span>;</div><div class="line">  d1 = <span class="built_in">pow</span>(vocab[i].cn, power) / train_words_pow;</div><div class="line">  <span class="comment">//遍历table. a表示table的位置，i表示词表的位置</span></div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; table_size; a++) &#123;</div><div class="line">    table[a] = i;	<span class="comment">//词表i位置的单词占用table的a位置</span></div><div class="line">    <span class="comment">//table反映的是单词能量的分布，一个单词能量越大，占用的table位置越多</span></div><div class="line">    <span class="keyword">if</span> (a / (<span class="keyword">double</span>)table_size &gt; d1) &#123;</div><div class="line">      i++;</div><div class="line">      d1 += <span class="built_in">pow</span>(vocab[i].cn, power) / train_words_pow;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (i &gt;= vocab_size) i = vocab_size - <span class="number">1</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="TrainModelThread"><a href="#TrainModelThread" class="headerlink" title="TrainModelThread"></a>TrainModelThread</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//这个线程函数执行之前，已经生成了根据词频排序的词表，每个单词的huffman编码</span></div><div class="line"><span class="function"><span class="keyword">void</span> *<span class="title">TrainModelThread</span><span class="params">(<span class="keyword">void</span> *id)</span> </span>&#123;</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> a, b, d, cw, word, last_word, sentence_length = <span class="number">0</span>, sentence_position = <span class="number">0</span>;</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> word_count = <span class="number">0</span>, last_word_count = <span class="number">0</span>, sen[MAX_SENTENCE_LENGTH + <span class="number">1</span>];</div><div class="line">  <span class="keyword">long</span> <span class="keyword">long</span> l1, l2, c, target, label, local_iter = iter;</div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> next_random = (<span class="keyword">long</span> <span class="keyword">long</span>)id;</div><div class="line">  real f, g;</div><div class="line">  <span class="keyword">clock_t</span> now;</div><div class="line">  real *neu1 = (real *)<span class="built_in">calloc</span>(layer1_size, <span class="keyword">sizeof</span>(real));</div><div class="line">  real *neu1e = (real *)<span class="built_in">calloc</span>(layer1_size, <span class="keyword">sizeof</span>(real));</div><div class="line">  <span class="comment">//读取训练文件</span></div><div class="line">  FILE *fi = fopen(train_file, <span class="string">"rb"</span>);</div><div class="line">  <span class="comment">//每个线程对应一段文本，根据线程id(0~num_threads-1)找到所负责的文本的起始位置</span></div><div class="line">  fseek(fi, file_size / (<span class="keyword">long</span> <span class="keyword">long</span>)num_threads * (<span class="keyword">long</span> <span class="keyword">long</span>)id, SEEK_SET);</div><div class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">    <span class="keyword">if</span> (word_count - last_word_count &gt; <span class="number">10000</span>) &#123;</div><div class="line">      word_count_actual += word_count - last_word_count;</div><div class="line">      last_word_count = word_count;</div><div class="line">      <span class="comment">//若debug_mode大于1，输出学习速率，训练进度和训练速度</span></div><div class="line">      <span class="keyword">if</span> ((debug_mode &gt; <span class="number">1</span>)) &#123;</div><div class="line">        now=clock();</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%cAlpha: %f  Progress: %.2f%%  Words/thread/sec: %.2fk  "</span>, <span class="number">13</span>, alpha,</div><div class="line">         word_count_actual / (real)(iter * train_words + <span class="number">1</span>) * <span class="number">100</span>,</div><div class="line">         word_count_actual / ((real)(now - start + <span class="number">1</span>) / (real)CLOCKS_PER_SEC * <span class="number">1000</span>));</div><div class="line">        fflush(<span class="built_in">stdout</span>);</div><div class="line">      &#125;</div><div class="line">      <span class="comment">//学习速率线性衰减</span></div><div class="line">      alpha = starting_alpha * (<span class="number">1</span> - word_count_actual / (real)(iter * train_words + <span class="number">1</span>));</div><div class="line">      <span class="comment">//下界为0.0001*starting_alpha(初始学习速率)</span></div><div class="line">      <span class="keyword">if</span> (alpha &lt; starting_alpha * <span class="number">0.0001</span>) alpha = starting_alpha * <span class="number">0.0001</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (sentence_length == <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">        word = ReadWordIndex(fi);<span class="comment">//从文件流中读取一个词，并返回这个词在词表中的索引</span></div><div class="line">        <span class="keyword">if</span> (feof(fi)) <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">if</span> (word == <span class="number">-1</span>) <span class="keyword">continue</span>;<span class="comment">//如果该词在词表中不存在(未出现过的词或被删除的低频词),跳过</span></div><div class="line">        word_count++;	<span class="comment">//单词计数+1</span></div><div class="line">        <span class="keyword">if</span> (word == <span class="number">0</span>) <span class="keyword">break</span>;<span class="comment">//在词表中的索引为0，表示句子末尾(换行符)，跳出循环</span></div><div class="line">        <span class="comment">// The subsampling randomly discards frequent words while keeping the ranking same</span></div><div class="line">        <span class="comment">//子采样：对高频词进行下采样，同时保持排序不变</span></div><div class="line">        <span class="keyword">if</span> (sample &gt; <span class="number">0</span>) &#123;	<span class="comment">//下采样阈值</span></div><div class="line">          <span class="comment">//ran = (sqrt(freq/sample)+1)*(sample/freq)</span></div><div class="line">          real ran = (<span class="built_in">sqrt</span>(vocab[word].cn / (sample * train_words)) + <span class="number">1</span>) * (sample * train_words) / vocab[word].cn;</div><div class="line">          next_random = next_random * (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)<span class="number">25214903917</span> + <span class="number">11</span>;</div><div class="line">          <span class="keyword">if</span> (ran &lt; (next_random &amp; <span class="number">0xFFFF</span>) / (real)<span class="number">65536</span>) <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        sen[sentence_length] = word;</div><div class="line">        sentence_length++;</div><div class="line">        <span class="keyword">if</span> (sentence_length &gt;= MAX_SENTENCE_LENGTH) <span class="keyword">break</span>;</div><div class="line">      &#125;</div><div class="line">      sentence_position = <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//文件结束或者已经处理了分配的单词数</span></div><div class="line">    <span class="keyword">if</span> (feof(fi) || (word_count &gt; train_words / num_threads)) &#123;</div><div class="line">      word_count_actual += word_count - last_word_count;</div><div class="line">      local_iter--;	<span class="comment">//剩余循环数-1</span></div><div class="line">      <span class="keyword">if</span> (local_iter == <span class="number">0</span>) <span class="keyword">break</span>;	<span class="comment">//剩余循环数为0则退出</span></div><div class="line">      <span class="comment">//单词计数和句子长度重置为0</span></div><div class="line">      word_count = <span class="number">0</span>;</div><div class="line">      last_word_count = <span class="number">0</span>;</div><div class="line">      sentence_length = <span class="number">0</span>;</div><div class="line">      <span class="comment">//每个线程定位到各自负责的文本的起始位置</span></div><div class="line">      fseek(fi, file_size / (<span class="keyword">long</span> <span class="keyword">long</span>)num_threads * (<span class="keyword">long</span> <span class="keyword">long</span>)id, SEEK_SET);</div><div class="line">      <span class="keyword">continue</span>;</div><div class="line">    &#125;</div><div class="line">    word = sen[sentence_position];</div><div class="line">    <span class="keyword">if</span> (word == <span class="number">-1</span>) <span class="keyword">continue</span>;	<span class="comment">//该词在词表中不存在，则跳过</span></div><div class="line">    <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) neu1[c] = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) neu1e[c] = <span class="number">0</span>;</div><div class="line">    next_random = next_random * (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)<span class="number">25214903917</span> + <span class="number">11</span>;</div><div class="line">    <span class="comment">//b为[0,window-1]的随机数</span></div><div class="line">    b = next_random % window;</div><div class="line">    <span class="keyword">if</span> (cbow) &#123;  <span class="comment">//train the cbow architecture</span></div><div class="line">      <span class="comment">// in -&gt; hidden</span></div><div class="line">      cw = <span class="number">0</span>;</div><div class="line">      <span class="comment">//扫描目标单词的左右(window-b)个单词</span></div><div class="line">      <span class="keyword">for</span> (a = b; a &lt; window * <span class="number">2</span> + <span class="number">1</span> - b; a++) <span class="keyword">if</span> (a != window) &#123;</div><div class="line">        <span class="comment">//c∈[sen_pos-(window-b), sen_pos-1]∪[sen_pos+1,sen_pos+(window-b)]</span></div><div class="line">        c = sentence_position - window + a;</div><div class="line">        <span class="comment">//忽略溢出边界的词</span></div><div class="line">        <span class="keyword">if</span> (c &lt; <span class="number">0</span>) <span class="keyword">continue</span>;</div><div class="line">        <span class="keyword">if</span> (c &gt;= sentence_length) <span class="keyword">continue</span>;</div><div class="line">        last_word = sen[c];</div><div class="line">        <span class="keyword">if</span> (last_word == <span class="number">-1</span>) <span class="keyword">continue</span>;	<span class="comment">//忽略词表中不存在的词</span></div><div class="line">        <span class="comment">//layer1_size:词向量维度; 默认值为100</span></div><div class="line">        <span class="comment">//neu1为隐层向量，即上下文(窗口内除自身外的词)对应vector之和</span></div><div class="line">        <span class="comment">//syn0[vocab_size*layer1_size]存放词表中所有单词的词向量</span></div><div class="line">        <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) neu1[c] += syn0[c + last_word * layer1_size];</div><div class="line">        cw++;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> (cw) &#123;	<span class="comment">//如果存在有效的上下文</span></div><div class="line">        <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) neu1[c] /= cw;<span class="comment">//neu1为上下文向量均值</span></div><div class="line">        <span class="comment">//采用层级softmax，d遍历huffman树从根节点到word父节点的路径</span></div><div class="line">        <span class="keyword">if</span> (hs) <span class="keyword">for</span> (d = <span class="number">0</span>; d &lt; vocab[word].codelen; d++) &#123;</div><div class="line">          f = <span class="number">0</span>;</div><div class="line">          <span class="comment">//vocab[word].point[0] = root = vocab_size-2</span></div><div class="line">          <span class="comment">//vocab[word].point[vocab[word].codelen] = index(vocab[word])-vocab_size</span></div><div class="line">          <span class="comment">//由于遍历不包括叶节点，故vocab[word].point[d]不会取得负值</span></div><div class="line">          l2 = vocab[word].point[d] * layer1_size;</div><div class="line">          <span class="comment">// Propagate hidden -&gt; output</span></div><div class="line">          <span class="comment">//f = neu1'*syn1 (syn1:隐藏层到输出层的权重)</span></div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) f += neu1[c] * syn1[c + l2];</div><div class="line">          <span class="comment">//MAX_EXP=6, 内积不在范围内的跳过(不用于更新网络)</span></div><div class="line">          <span class="keyword">if</span> (f &lt;= -MAX_EXP) <span class="keyword">continue</span>;</div><div class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (f &gt;= MAX_EXP) <span class="keyword">continue</span>;</div><div class="line">          <span class="comment">//EXP_TABLE_SIZE=1000</span></div><div class="line">          <span class="comment">//从[-6,6]范围映射到[0,1000]范围内，再代入expTable</span></div><div class="line">          <span class="comment">//即f = σ(neu1'*syn1)</span></div><div class="line">          <span class="keyword">else</span> f = expTable[(<span class="keyword">int</span>)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / <span class="number">2</span>))];</div><div class="line">          <span class="comment">//将节点d的label定义为 1-vocab[word].code[d]; </span></div><div class="line">          <span class="comment">//也可定义为 vocab[word].code[d]</span></div><div class="line">          <span class="comment">//loss = - (1-code[d])*log(f) - code[d]*log(1-f)</span></div><div class="line">          <span class="comment">//d(loss)/d(neu1) = - (1-code[d]-f) * syn1</span></div><div class="line">          <span class="comment">//d(loss)/d(syn1) = - (1-code[d]-f) * neu1</span></div><div class="line">          <span class="comment">// 'g' is the gradient multiplied by the learning rate</span></div><div class="line">          g = (<span class="number">1</span> - vocab[word].code[d] - f) * alpha;</div><div class="line">          <span class="comment">// Propagate errors output -&gt; hidden</span></div><div class="line">          <span class="comment">//反向传播误差，从huffman树传到隐藏层. 把当前非叶节点的误差传播给隐藏层</span></div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) neu1e[c] += g * syn1[c + l2];</div><div class="line">          <span class="comment">// Learn weights hidden -&gt; output</span></div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) syn1[c + l2] += g * neu1[c];</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// NEGATIVE SAMPLING</span></div><div class="line">        <span class="comment">//随机生成negative个(也有可能少一点，如果随机时候撞上了原来的word)负例</span></div><div class="line">        <span class="comment">//原来的word为正例，label为1，其它随机生成的label为0</span></div><div class="line">        <span class="keyword">if</span> (negative &gt; <span class="number">0</span>) <span class="keyword">for</span> (d = <span class="number">0</span>; d &lt; negative + <span class="number">1</span>; d++) &#123;</div><div class="line">          <span class="keyword">if</span> (d == <span class="number">0</span>) &#123;</div><div class="line">            target = word;	<span class="comment">//word:单词索引</span></div><div class="line">            label = <span class="number">1</span>;	<span class="comment">//正样本</span></div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">            next_random = next_random * (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)<span class="number">25214903917</span> + <span class="number">11</span>;</div><div class="line">            target = table[(next_random &gt;&gt; <span class="number">16</span>) % table_size];</div><div class="line">            <span class="keyword">if</span> (target == <span class="number">0</span>) target = next_random % (vocab_size - <span class="number">1</span>) + <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> (target == word) <span class="keyword">continue</span>;</div><div class="line">            label = <span class="number">0</span>;	<span class="comment">//负样本</span></div><div class="line">          &#125;</div><div class="line">          l2 = target * layer1_size;</div><div class="line">          f = <span class="number">0</span>;</div><div class="line">          <span class="comment">// f = neu1' * syn1neg</span></div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) f += neu1[c] * syn1neg[c + l2];</div><div class="line">          <span class="comment">//f -&gt; σ(f)</span></div><div class="line">          <span class="comment">//loss = - label*log(f) - (1-label)*log(1-f)</span></div><div class="line">          <span class="comment">//d(loss)/d(neu1) = - (label-f) * syn1neg</span></div><div class="line">          <span class="comment">//d(loss)/d(syn1neg) = - (label-f) * neu1</span></div><div class="line">          <span class="keyword">if</span> (f &gt; MAX_EXP) g = (label - <span class="number">1</span>) * alpha;	<span class="comment">//σ(f)≈1</span></div><div class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (f &lt; -MAX_EXP) g = (label - <span class="number">0</span>) * alpha; <span class="comment">//σ(f)≈0</span></div><div class="line">          <span class="comment">//g = (label-f) * alpha</span></div><div class="line">          <span class="keyword">else</span> g = (label - expTable[(<span class="keyword">int</span>)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / <span class="number">2</span>))]) * alpha;</div><div class="line">          <span class="comment">//反向传播误差，从huffman树传到隐藏层</span></div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];</div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) syn1neg[c + l2] += g * neu1[c];</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// hidden -&gt; in</span></div><div class="line">        <span class="comment">//由隐层到输入层的梯度传播. </span></div><div class="line">        <span class="comment">//因为隐层为输入层变量的平均，故输入层的梯度即为隐层梯度(注意每次循环 neu1e 都被置零)</span></div><div class="line">        <span class="comment">//扫描目标单词的左右(window-b)个单词</span></div><div class="line">        <span class="keyword">for</span> (a = b; a &lt; window * <span class="number">2</span> + <span class="number">1</span> - b; a++) <span class="keyword">if</span> (a != window) &#123;</div><div class="line">          c = sentence_position - window + a;</div><div class="line">          <span class="keyword">if</span> (c &lt; <span class="number">0</span>) <span class="keyword">continue</span>;</div><div class="line">          <span class="keyword">if</span> (c &gt;= sentence_length) <span class="keyword">continue</span>;</div><div class="line">          last_word = sen[c];</div><div class="line">          <span class="keyword">if</span> (last_word == <span class="number">-1</span>) <span class="keyword">continue</span>;</div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) syn0[c + last_word * layer1_size] += neu1e[c];</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;  <span class="comment">//train skip-gram</span></div><div class="line">      <span class="keyword">for</span> (a = b; a &lt; window * <span class="number">2</span> + <span class="number">1</span> - b; a++) <span class="keyword">if</span> (a != window) &#123;</div><div class="line">        c = sentence_position - window + a;</div><div class="line">        <span class="keyword">if</span> (c &lt; <span class="number">0</span>) <span class="keyword">continue</span>;</div><div class="line">        <span class="keyword">if</span> (c &gt;= sentence_length) <span class="keyword">continue</span>;</div><div class="line">        last_word = sen[c];</div><div class="line">        <span class="keyword">if</span> (last_word == <span class="number">-1</span>) <span class="keyword">continue</span>;</div><div class="line">        l1 = last_word * layer1_size;</div><div class="line">        <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) neu1e[c] = <span class="number">0</span>;</div><div class="line">        <span class="comment">// HIERARCHICAL SOFTMAX</span></div><div class="line">        <span class="keyword">if</span> (hs) <span class="keyword">for</span> (d = <span class="number">0</span>; d &lt; vocab[word].codelen; d++) &#123;</div><div class="line">          f = <span class="number">0</span>;</div><div class="line">          l2 = vocab[word].point[d] * layer1_size;</div><div class="line">          <span class="comment">// Propagate hidden -&gt; output</span></div><div class="line">          <span class="comment">//paper p.3</span></div><div class="line">          <span class="comment">//"unlike the standard softmax formulation of the Skip-gram which"</span></div><div class="line">          <span class="comment">//"assigns two representations v_w' and v_w to each word w,"</span></div><div class="line">          <span class="comment">//"the hierarchical softmax formulation has</span></div><div class="line">          <span class="comment">//"one representation v_w for each word w and"</span></div><div class="line">          <span class="comment">//"one representation v_n' for every inner node n of the binary tree"</span></div><div class="line">          <span class="comment">//f = σ(syn0' * syn1)</span></div><div class="line">          <span class="comment">//syn0: 存放词表单词的词向量</span></div><div class="line">          <span class="comment">//syn1: 存放内节点的词向量</span></div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) f += syn0[c + l1] * syn1[c + l2];</div><div class="line">          <span class="keyword">if</span> (f &lt;= -MAX_EXP) <span class="keyword">continue</span>;</div><div class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (f &gt;= MAX_EXP) <span class="keyword">continue</span>;</div><div class="line">          <span class="keyword">else</span> f = expTable[(<span class="keyword">int</span>)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / <span class="number">2</span>))];</div><div class="line">          <span class="comment">//loss = -log(p) = -log(σ(sign(n(w,j+1)=ch(n(w,j))) * syn0' * syn1))</span></div><div class="line">          <span class="comment">//ch(n(w,j))既可以是n(w,j)的左子节点也可以是右子节点</span></div><div class="line">          <span class="comment">//这里采用左子节点，label为 1-vocab[word].code[d]</span></div><div class="line">          <span class="comment">//(1) 若n(w,j+1)=ch(n(w,j))为true，当前节点为左子节点，则</span></div><div class="line">          <span class="comment">//loss = -log(σ(syn0'*syn1)) = -log(f)</span></div><div class="line">          <span class="comment">//d(loss)/d(syn0) = -(1-f) * syn1</span></div><div class="line">          <span class="comment">//d(loss)/d(syn1) = -(1-f) * syn0</span></div><div class="line">          <span class="comment">//(2) 若n(w,j+1)=ch(n(w,j))为false，当前节点为右子节点，则</span></div><div class="line">          <span class="comment">//loss = -log(σ(-syn0'*syn1)) = -log(1-f)</span></div><div class="line">          <span class="comment">//d(loss)/d(syn0) = f * syn1</span></div><div class="line">          <span class="comment">//d(loss)/d(syn1) = f * syn0</span></div><div class="line">          <span class="comment">//(3) 合并(1)和(2)得：</span></div><div class="line">          <span class="comment">//d(loss)/d(syn0) = (-(1-f) * (1-code[d]) + f * code[d]) * syn1 = -(1-f-code[d]) * syn1</span></div><div class="line">          <span class="comment">//d(loss)/d(syn1) = (-(1-f) * (1-code[d]) + f * code[d]) * syn0 = -(1-f-code[d]) * syn0</span></div><div class="line">          <span class="comment">// 'g' is the gradient multiplied by the learning rate</span></div><div class="line">          g = (<span class="number">1</span> - vocab[word].code[d] - f) * alpha;</div><div class="line">          <span class="comment">// Propagate errors output -&gt; hidden</span></div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) neu1e[c] += g * syn1[c + l2];</div><div class="line">          <span class="comment">// Learn weights hidden -&gt; output</span></div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) syn1[c + l2] += g * syn0[c + l1];</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// NEGATIVE SAMPLING</span></div><div class="line">        <span class="keyword">if</span> (negative &gt; <span class="number">0</span>) <span class="keyword">for</span> (d = <span class="number">0</span>; d &lt; negative + <span class="number">1</span>; d++) &#123;</div><div class="line">          <span class="keyword">if</span> (d == <span class="number">0</span>) &#123;</div><div class="line">            target = word;</div><div class="line">            label = <span class="number">1</span>;	<span class="comment">//正样本</span></div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">            next_random = next_random * (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>)<span class="number">25214903917</span> + <span class="number">11</span>;</div><div class="line">            target = table[(next_random &gt;&gt; <span class="number">16</span>) % table_size];</div><div class="line">            <span class="keyword">if</span> (target == <span class="number">0</span>) target = next_random % (vocab_size - <span class="number">1</span>) + <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> (target == word) <span class="keyword">continue</span>;</div><div class="line">            label = <span class="number">0</span>;	<span class="comment">//负样本</span></div><div class="line">          &#125;</div><div class="line">          l2 = target * layer1_size;</div><div class="line">          f = <span class="number">0</span>;</div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];</div><div class="line">          <span class="keyword">if</span> (f &gt; MAX_EXP) g = (label - <span class="number">1</span>) * alpha;</div><div class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (f &lt; -MAX_EXP) g = (label - <span class="number">0</span>) * alpha;</div><div class="line">          <span class="keyword">else</span> g = (label - expTable[(<span class="keyword">int</span>)((f + MAX_EXP) * (EXP_TABLE_SIZE / MAX_EXP / <span class="number">2</span>))]) * alpha;</div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) neu1e[c] += g * syn1neg[c + l2];</div><div class="line">          <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) syn1neg[c + l2] += g * syn0[c + l1];</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// Learn weights input -&gt; hidden</span></div><div class="line">        <span class="keyword">for</span> (c = <span class="number">0</span>; c &lt; layer1_size; c++) syn0[c + l1] += neu1e[c];</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    sentence_position++;</div><div class="line">    <span class="keyword">if</span> (sentence_position &gt;= sentence_length) &#123;</div><div class="line">      sentence_length = <span class="number">0</span>;</div><div class="line">      <span class="keyword">continue</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  fclose(fi);</div><div class="line">  <span class="built_in">free</span>(neu1);</div><div class="line">  <span class="built_in">free</span>(neu1e);</div><div class="line">  pthread_exit(<span class="literal">NULL</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>pthread_exit</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="function"><span class="keyword">void</span> <span class="title">pthread_exit</span><span class="params">(<span class="keyword">void</span>* retval)</span></span>;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p><code>pthread_exit</code> 终止调用它的线程并返回一个指向某个对象的指针。<br>线程通过调用<code>pthread_exit</code>函数终止执行，就如同进程在结束时调用exit函数一样。</p>
+</blockquote>
+<p><strong>ReadWordIndex</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//从文件流中读取一个词，并返回这个词在词表中的索引</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">ReadWordIndex</span><span class="params">(FILE *fin)</span> </span>&#123;</div><div class="line">  <span class="keyword">char</span> word[MAX_STRING];</div><div class="line">  ReadWord(word, fin);	<span class="comment">//从文件中读取一个词</span></div><div class="line">  <span class="keyword">if</span> (feof(fin)) <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">  <span class="keyword">return</span> SearchVocab(word);	<span class="comment">//返回单词在词表中的索引</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/C/" rel="tag"># C</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/21/py-to-app/" rel="next" title="PyInstaller 打包 Python 程序">
+                <i class="fa fa-chevron-left"></i> PyInstaller 打包 Python 程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="simochen" />
+          <p class="site-author-name" itemprop="name">simochen</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/simochen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#word2vec-c"><span class="nav-number">1.</span> <span class="nav-text">word2vec.c</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#库-amp-参数定义"><span class="nav-number">1.1.</span> <span class="nav-text">库&参数定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主函数"><span class="nav-number">1.2.</span> <span class="nav-text">主函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ArgPos"><span class="nav-number">1.2.1.</span> <span class="nav-text">ArgPos</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TrainModel-训练模型"><span class="nav-number">1.3.</span> <span class="nav-text">TrainModel 训练模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ReadVocab-读入词表"><span class="nav-number">1.3.1.</span> <span class="nav-text">ReadVocab 读入词表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LearnVocabFromTrainFile-从训练文件中学习词表"><span class="nav-number">1.3.2.</span> <span class="nav-text">LearnVocabFromTrainFile 从训练文件中学习词表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SaveVocab-保存词表"><span class="nav-number">1.3.3.</span> <span class="nav-text">SaveVocab 保存词表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#InitNet-初始化网络"><span class="nav-number">1.3.4.</span> <span class="nav-text">InitNet 初始化网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#InitUnigramTable"><span class="nav-number">1.3.5.</span> <span class="nav-text">InitUnigramTable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TrainModelThread"><span class="nav-number">1.3.6.</span> <span class="nav-text">TrainModelThread</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-flash"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simochen</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'simochen';
+      var disqus_identifier = '2017/03/01/word2vec/';
+
+      var disqus_title = "word2vec 源码理解";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("n9Ip6iRj0cxMhHt6L592o3i2-gzGzoHsz", "3XGr7gwL89wUr5etoD1vtue4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
