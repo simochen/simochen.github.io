@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/2017/06/09/install-caffe/</loc>
+    
+    <lastmod>2017-06-09T05:25:42.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>//simochen.github.io/2017/03/13/nmt/</loc>
+    
+    <lastmod>2017-03-14T11:05:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2017/03/01/word2vec/</loc>
     
-    <lastmod>2017-03-03T17:59:43.000Z</lastmod>
+    <lastmod>2017-03-08T15:11:31.000Z</lastmod>
     
   </url>
   
