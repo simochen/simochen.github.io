@@ -88,21 +88,18 @@
 
 
 <meta name="description" content="文件准备下载预处理的 IWSLT 德语-英语翻译数据集。
-解压：tar zxvf iwslt-en-de-preprocessed.tar.gz
-数据处理保存词表123456def save_vocab(output_file, vocab):    #按照词频(value)进行排序[降序]	sort_vocab = sorted(vocab.items(), key= lambda d: d[1">
+解压：tar zxvf iwslt-en-de-preprocessed.tar.gz">
 <meta property="og:type" content="article">
 <meta property="og:title" content="神经机器翻译">
 <meta property="og:url" content="//simochen.github.io/2017/03/13/nmt/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="文件准备下载预处理的 IWSLT 德语-英语翻译数据集。
-解压：tar zxvf iwslt-en-de-preprocessed.tar.gz
-数据处理保存词表123456def save_vocab(output_file, vocab):    #按照词频(value)进行排序[降序]	sort_vocab = sorted(vocab.items(), key= lambda d: d[1">
-<meta property="og:updated_time" content="2017-03-14T11:05:47.000Z">
+解压：tar zxvf iwslt-en-de-preprocessed.tar.gz">
+<meta property="og:updated_time" content="2017-08-14T02:22:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经机器翻译">
 <meta name="twitter:description" content="文件准备下载预处理的 IWSLT 德语-英语翻译数据集。
-解压：tar zxvf iwslt-en-de-preprocessed.tar.gz
-数据处理保存词表123456def save_vocab(output_file, vocab):    #按照词频(value)进行排序[降序]	sort_vocab = sorted(vocab.items(), key= lambda d: d[1">
+解压：tar zxvf iwslt-en-de-preprocessed.tar.gz">
 
 
 
@@ -370,6 +367,7 @@
       
         <h2 id="文件准备"><a href="#文件准备" class="headerlink" title="文件准备"></a>文件准备</h2><p>下载预处理的 <a href="http://phontron.com/data/iwslt-en-de-preprocessed.tar.gz" target="_blank" rel="external">IWSLT</a> 德语-英语翻译数据集。</p>
 <p>解压：<code>tar zxvf iwslt-en-de-preprocessed.tar.gz</code></p>
+<a id="more"></a>
 <h2 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h2><h3 id="保存词表"><a href="#保存词表" class="headerlink" title="保存词表"></a>保存词表</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_vocab</span><span class="params">(output_file, vocab)</span>:</span></div><div class="line">    <span class="comment">#按照词频(value)进行排序[降序]</span></div><div class="line">	sort_vocab = sorted(vocab.items(), key= <span class="keyword">lambda</span> d: d[<span class="number">1</span>], reverse=<span class="keyword">True</span>)</div><div class="line">	<span class="keyword">with</span> open(output_file, <span class="string">'w'</span>) <span class="keyword">as</span> file_to_write:</div><div class="line">		<span class="keyword">for</span> word, cnt <span class="keyword">in</span> sort_vocab:</div><div class="line">			file_to_write.write(word+<span class="string">"\t"</span>+cnt+<span class="string">"\n"</span>)</div></pre></td></tr></table></figure>
 <h3 id="从文件中读取词表"><a href="#从文件中读取词表" class="headerlink" title="从文件中读取词表"></a>从文件中读取词表</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_vocab</span><span class="params">(vocab_file)</span>:</span></div><div class="line">	vocab = dict()</div><div class="line">	<span class="keyword">with</span> open(vocab_file, <span class="string">'r'</span>) <span class="keyword">as</span> vocab_to_read:</div><div class="line">		<span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">			line = vocab_to_read.readline() <span class="comment">#读取整行数据</span></div><div class="line">			<span class="keyword">if</span> <span class="keyword">not</span> line: <span class="keyword">break</span></div><div class="line">			word, cn = line.split()</div><div class="line">			cnt = int(cn)</div><div class="line">			vocab[word] = cnt</div><div class="line">	<span class="keyword">return</span> vocab</div></pre></td></tr></table></figure>
 <h3 id="读取训练文件并统计词频"><a href="#读取训练文件并统计词频" class="headerlink" title="读取训练文件并统计词频"></a>读取训练文件并统计词频</h3><h4 id="单词词频"><a href="#单词词频" class="headerlink" title="单词词频"></a>单词词频</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_vocab</span><span class="params">(train_file)</span>:</span></div><div class="line">	vocab = dict()</div><div class="line">	<span class="keyword">with</span> open(train_file, <span class="string">'r'</span>) <span class="keyword">as</span> file_to_read:</div><div class="line">	    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">	        line = file_to_read.readline() <span class="comment">#读取整行数据</span></div><div class="line">	        <span class="keyword">if</span> <span class="keyword">not</span> line: <span class="keyword">break</span></div><div class="line">	        <span class="comment">#将整行数据分割处理，如果分割符是空格，括号里就不用传入参数</span></div><div class="line">	        <span class="comment">#如果是逗号，则传入','字符。</span></div><div class="line">	        <span class="keyword">for</span> word <span class="keyword">in</span> line.split():</div><div class="line">	            <span class="keyword">if</span> word <span class="keyword">in</span> vocab.keys():</div><div class="line">	                vocab[word] += <span class="number">1</span></div><div class="line">	            <span class="keyword">else</span>:</div><div class="line">	                vocab[word] = <span class="number">1</span></div><div class="line">	<span class="keyword">return</span> vocab</div></pre></td></tr></table></figure>
@@ -520,7 +518,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

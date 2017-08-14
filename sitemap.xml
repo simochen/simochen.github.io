@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/2017/07/14/fast-rcnn-on-caffe/</loc>
+    
+    <lastmod>2017-08-14T02:48:54.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2017/06/09/install-caffe/</loc>
     
-    <lastmod>2017-06-09T05:25:42.000Z</lastmod>
+    <lastmod>2017-08-14T02:23:49.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>//simochen.github.io/2017/03/13/nmt/</loc>
     
-    <lastmod>2017-03-14T11:05:47.000Z</lastmod>
+    <lastmod>2017-08-14T02:22:49.000Z</lastmod>
     
   </url>
   
@@ -131,13 +138,6 @@
     <loc>//simochen.github.io/2016/10/28/GMM-EM/</loc>
     
     <lastmod>2017-02-17T07:08:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/11/12/opencv-6/</loc>
-    
-    <lastmod>2017-02-17T07:08:04.000Z</lastmod>
     
   </url>
   
