@@ -103,7 +103,7 @@ CIFAR-10 datasetCIFAR-10 数据集包含60000幅大小为 32 x 32 的彩色图�
 <meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/conv_bn_scale.png">
 <meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/conv_bn_scale_relu.png">
 <meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/res_block.png">
-<meta property="og:updated_time" content="2017-08-16T02:45:14.000Z">
+<meta property="og:updated_time" content="2017-08-16T02:49:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在cifar10上训练ResNet">
 <meta name="twitter:description" content="论文地址：deep residue network
@@ -375,10 +375,11 @@ CIFAR-10 datasetCIFAR-10 数据集包含60000幅大小为 32 x 32 的彩色图�
 
       
         <p>论文地址：<a href="https://arxiv.org/pdf/1512.03385.pdf" target="_blank" rel="external">deep residue network</a></p>
-<h2 id="CIFAR-10-dataset"><a href="#CIFAR-10-dataset" class="headerlink" title="CIFAR-10 dataset"></a>CIFAR-10 dataset</h2><p><a href="http://www.cs.toronto.edu/~kriz/cifar.html" target="_blank" rel="external">CIFAR-10</a> 数据集包含60000幅大小为 <code>32 x 32</code> 的彩色图像，这些图像分别属于10个类，每个类 6000 幅图像。数据集分为5个训练batch和1个测试batch，每个batch包含 10000 幅图像。</p>
+<h3 id="CIFAR-10-dataset"><a href="#CIFAR-10-dataset" class="headerlink" title="CIFAR-10 dataset"></a>CIFAR-10 dataset</h3><p><a href="http://www.cs.toronto.edu/~kriz/cifar.html" target="_blank" rel="external">CIFAR-10</a> 数据集包含60000幅大小为 <code>32 x 32</code> 的彩色图像，这些图像分别属于10个类，每个类 6000 幅图像。数据集分为5个训练batch和1个测试batch，每个batch包含 10000 幅图像。</p>
 <img src="/2017/08/14/resnet-cifar10/cifar10.png" alt="CIFAR-10数据集" title="CIFAR-10数据集">
 <a id="more"></a>
-<h3 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h3><ol>
+<p><strong>数据准备</strong></p>
+<ol>
 <li><p>下载 CIFAR-10</p>
 <p>打开终端，在 <code>$CAFFE_ROOT</code> （caffe 的根目录）下输入命令：</p>
 </li>
@@ -591,7 +592,7 @@ CIFAR-10 datasetCIFAR-10 数据集包含60000幅大小为 32 x 32 的彩色图�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CIFAR-10-dataset"><span class="nav-number">1.</span> <span class="nav-text">CIFAR-10 dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据准备"><span class="nav-number">1.1.</span> <span class="nav-text">数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建网络"><span class="nav-number">1.2.</span> <span class="nav-text">搭建网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#import-modules"><span class="nav-number">1.2.1.</span> <span class="nav-text">import modules</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网络层函数"><span class="nav-number">1.2.2.</span> <span class="nav-text">网络层函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#残差模块"><span class="nav-number">1.2.3.</span> <span class="nav-text">残差模块</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CIFAR-10-dataset"><span class="nav-number">1.</span> <span class="nav-text">CIFAR-10 dataset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建网络"><span class="nav-number">2.</span> <span class="nav-text">搭建网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#import-modules"><span class="nav-number">2.1.</span> <span class="nav-text">import modules</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网络层函数"><span class="nav-number">2.2.</span> <span class="nav-text">网络层函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#残差模块"><span class="nav-number">2.3.</span> <span class="nav-text">残差模块</span></a></li></ol></li></ol></div>
             
 
           </div>
