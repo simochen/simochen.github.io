@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/2017/08/14/resnet-cifar10/</loc>
+    
+    <lastmod>2017-08-16T02:25:58.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2017/07/14/fast-rcnn-on-caffe/</loc>
     
     <lastmod>2017-08-14T02:48:54.000Z</lastmod>

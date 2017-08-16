@@ -1,0 +1,895 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="caffe,Deep Learning," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="论文地址：deep residue network
+CIFAR-10 datasetCIFAR-10 数据集包含60000幅大小为 32 x 32 的彩色图像，这些图像分别属于10个类，每个类 6000 幅图像。数据集分为5个训练batch和1个测试batch，每个batch包含 10000 幅图像。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在cifar10上训练ResNet">
+<meta property="og:url" content="//simochen.github.io/2017/08/14/resnet-cifar10/index.html">
+<meta property="og:site_name" content="Ink One">
+<meta property="og:description" content="论文地址：deep residue network
+CIFAR-10 datasetCIFAR-10 数据集包含60000幅大小为 32 x 32 的彩色图像，这些图像分别属于10个类，每个类 6000 幅图像。数据集分为5个训练batch和1个测试batch，每个batch包含 10000 幅图像。">
+<meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/cifar10.png">
+<meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/get_cifar10.png">
+<meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/cifar10_batches.png">
+<meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/create_lmdb.png">
+<meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/cifar10_lmdb.png">
+<meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/conv_bn_scale.png">
+<meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/conv_bn_scale_relu.png">
+<meta property="og:updated_time" content="2017-08-16T02:25:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在cifar10上训练ResNet">
+<meta name="twitter:description" content="论文地址：deep residue network
+CIFAR-10 datasetCIFAR-10 数据集包含60000幅大小为 32 x 32 的彩色图像，这些图像分别属于10个类，每个类 6000 幅图像。数据集分为5个训练batch和1个测试batch，每个batch包含 10000 幅图像。">
+<meta name="twitter:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/cifar10.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="//simochen.github.io/2017/08/14/resnet-cifar10/"/>
+
+
+
+
+
+  <title> 在cifar10上训练ResNet | Ink One </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-84655686-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ink One</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-bookmark">
+          <a href="/bookmark/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-bookmark"></i> <br />
+            
+            书签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="//simochen.github.io/2017/08/14/resnet-cifar10/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="simochen">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Ink One">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Ink One" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                在cifar10上训练ResNet
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-14T11:51:11+08:00">
+                2017-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/14/resnet-cifar10/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/14/resnet-cifar10/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/14/resnet-cifar10/" class="leancloud_visitors" data-flag-title="在cifar10上训练ResNet">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>论文地址：<a href="https://arxiv.org/pdf/1512.03385.pdf" target="_blank" rel="external">deep residue network</a></p>
+<h2 id="CIFAR-10-dataset"><a href="#CIFAR-10-dataset" class="headerlink" title="CIFAR-10 dataset"></a>CIFAR-10 dataset</h2><p><a href="http://www.cs.toronto.edu/~kriz/cifar.html" target="_blank" rel="external">CIFAR-10</a> 数据集包含60000幅大小为 <code>32 x 32</code> 的彩色图像，这些图像分别属于10个类，每个类 6000 幅图像。数据集分为5个训练batch和1个测试batch，每个batch包含 10000 幅图像。</p>
+<img src="/2017/08/14/resnet-cifar10/cifar10.png" alt="CIFAR-10数据集" title="CIFAR-10数据集">
+<a id="more"></a>
+<h3 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h3><ol>
+<li><p>下载 CIFAR-10</p>
+<p>打开终端，在 <code>$CAFFE_ROOT</code> （caffe 的根目录）下输入命令：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./data/cifar10/get_cifar10.sh</div></pre></td></tr></table></figure>
+<img src="/2017/08/14/resnet-cifar10/get_cifar10.png" alt="下载CIFAR-10数据集" title="下载CIFAR-10数据集">
+<p>下载完成后，会在 <code>$CAFFE_ROOT/data/cifar10/</code> 中生成数据 batch，不过这些都是二进制文件，需要转换为 LMDB 格式。</p>
+<img src="/2017/08/14/resnet-cifar10/cifar10_batches.png" alt="CIFAR-10 batches" title="CIFAR-10 batches">
+<ol>
+<li>生成 LMDB 文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./examples/cifar10/create_cifar10.sh</div></pre></td></tr></table></figure>
+<img src="/2017/08/14/resnet-cifar10/create_lmdb.png" alt="生成LMDB文件" title="生成LMDB文件">
+<p>这样就生成了 LMDB 文件，同时生成了训练数据 (<code>cifar10_train_lmdb</code>) 的均值文件 <code>mean.binaryproto</code>。均值文件的计算方式是计算不同维度上的样本均值，在 CIFAR-10 中，训练数据 size 为 <code>5000 x 3 x 32 x 32</code> (样本数 x 图像通道数 x 图像高度 x 图像宽度)，则均值的 size 是 <code>3 x 32 x 32</code>。</p>
+<img src="/2017/08/14/resnet-cifar10/cifar10_lmdb.png" alt="生成的LMDB和均值文件" title="生成的LMDB和均值文件">
+<h3 id="搭建网络"><a href="#搭建网络" class="headerlink" title="搭建网络"></a>搭建网络</h3><p>在 <code>$CAFFE_ROOT/examples/</code> 目录下新建文件夹 <code>ResNet</code> ，并在文件夹下新建 <code>resnet_cifar10.py</code> .</p>
+<h4 id="import-modules"><a href="#import-modules" class="headerlink" title="import modules"></a>import modules</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> caffe</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> caffe <span class="keyword">import</span> layers <span class="keyword">as</span> L, params <span class="keyword">as</span> P</div><div class="line"></div><div class="line">workdir = os.path.dirname(__file__)</div></pre></td></tr></table></figure>
+<h4 id="网络层函数"><a href="#网络层函数" class="headerlink" title="网络层函数"></a>网络层函数</h4><p>ResNet 中两个基本的结构如下：</p>
+<img src="/2017/08/14/resnet-cifar10/conv_bn_scale.png" alt="conv_BN_scale" title="conv_BN_scale"> <img src="/2017/08/14/resnet-cifar10/conv_bn_scale_relu.png" alt="conv_BN_scale_relu" title="conv_BN_scale_relu">
+<p>定义层函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv_BN_scale</span><span class="params">(ntype, bottom, nout, ks, stride = <span class="number">1</span>, pad = <span class="number">0</span>, bias_term = True)</span>:</span></div><div class="line">    <span class="keyword">if</span> bias_term:</div><div class="line">    	conv = L.Convolution(bottom, num_output = nout, kernel_size = ks, </div><div class="line">                             stride = stride, pad = pad, bias_term = bias_term, </div><div class="line">                             weight_filler = dict(type = <span class="string">'xavier'</span>), </div><div class="line">                             bias_filler = dict(type = <span class="string">'constant'</span>), </div><div class="line">                             param = [dict(lr_mult = <span class="number">1</span>, decay_mult = <span class="number">1</span>), </div><div class="line">                                      dict(lr_mult = <span class="number">2</span>, decay_mult = <span class="number">0</span>)])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">	conv = L.Convolution(bottom, num_output = nout, kernel_size = ks, </div><div class="line">                             stride = stride, pad = pad, bias_term = bias_term, </div><div class="line">                             weight_filler = dict(type = <span class="string">'xavier'</span>), </div><div class="line">                             param = [dict(lr_mult = <span class="number">1</span>, decay_mult = <span class="number">1</span>)])</div><div class="line">    <span class="comment"># **Attention:**</span></div><div class="line">    <span class="comment"># 网络结构文件中BatchNorm层的参数要注意： </span></div><div class="line">    <span class="comment"># 1.在训练时所有BN层要设置use_global_stats: false（也可以不写，caffe默认是false） </span></div><div class="line">    <span class="comment"># 2.在测试时所有BN层要设置use_global_stats: true</span></div><div class="line">    <span class="comment"># 区别：</span></div><div class="line">    <span class="comment"># use_global_stats: false是使用了每个Batch里的数据的均值和方差； </span></div><div class="line">    <span class="comment"># use_global_stats: true是使用了所有数据的均值和方差。</span></div><div class="line">    <span class="keyword">if</span> ntype == <span class="string">'train'</span>:</div><div class="line">        BN = L.BatchNorm(</div><div class="line">            conv, batch_norm_param = dict(use_global_stats = <span class="keyword">False</span>), </div><div class="line">                in_place = <span class="keyword">True</span>)      </div><div class="line">    <span class="keyword">else</span>: </div><div class="line">        BN = L.BatchNorm(</div><div class="line">            conv, batch_norm_param = dict(use_global_stats = <span class="keyword">True</span>), </div><div class="line">                in_place = <span class="keyword">True</span>)</div><div class="line">    </div><div class="line">    scale = L.Scale(BN, scale_param = dict(bias_term = <span class="keyword">True</span>), in_place = <span class="keyword">True</span>)</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> conv, BN, scale</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv_BN_scale_relu</span><span class="params">(ntype, bottom, nout, ks, stride = <span class="number">1</span>, pad = <span class="number">0</span>, bias_term = True)</span>:</span></div><div class="line">    conv, BN, scale = conv_BN_scale(ntype, bottom, nout, ks, stride, pad, bias_term)</div><div class="line">    relu = L.ReLU(scale, in_place = <span class="keyword">True</span>)</div><div class="line">    <span class="keyword">return</span> conv, BN, scale, relu</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">set_branch</span><span class="params">(n, branch_name, conv, BN, scale, relu = None)</span>:</span></div><div class="line">    n.__setattr__(branch_name, conv)</div><div class="line">    n.__setattr__(<span class="string">'bn%s'</span> % branch_name[<span class="number">3</span>:], BN)</div><div class="line">    n.__setattr__(<span class="string">'scale%s'</span> % branch_name[<span class="number">3</span>:], scale)</div><div class="line">    <span class="keyword">if</span> relu:</div><div class="line">        n.__setattr__(<span class="string">'%s_relu'</span> % branch_name, relu)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/caffe/" rel="tag"># caffe</a>
+          
+            <a href="/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/14/fast-rcnn-on-caffe/" rel="next" title="配置并运行 fast-RCNN">
+                <i class="fa fa-chevron-left"></i> 配置并运行 fast-RCNN
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="simochen" />
+          <p class="site-author-name" itemprop="name">simochen</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/simochen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CIFAR-10-dataset"><span class="nav-number">1.</span> <span class="nav-text">CIFAR-10 dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据准备"><span class="nav-number">1.1.</span> <span class="nav-text">数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建网络"><span class="nav-number">1.2.</span> <span class="nav-text">搭建网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#import-modules"><span class="nav-number">1.2.1.</span> <span class="nav-text">import modules</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网络层函数"><span class="nav-number">1.2.2.</span> <span class="nav-text">网络层函数</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-flash"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">simochen</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'simochen';
+      var disqus_identifier = '2017/08/14/resnet-cifar10/';
+
+      var disqus_title = "在cifar10上训练ResNet";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("n9Ip6iRj0cxMhHt6L592o3i2-gzGzoHsz", "3XGr7gwL89wUr5etoD1vtue4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
