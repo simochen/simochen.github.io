@@ -102,7 +102,7 @@ CIFAR-10 datasetCIFAR-10 数据集包含60000幅大小为 32 x 32 的彩色图�
 <meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/cifar10_lmdb.png">
 <meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/conv_bn_scale.png">
 <meta property="og:image" content="//simochen.github.io/2017/08/14/resnet-cifar10/conv_bn_scale_relu.png">
-<meta property="og:updated_time" content="2017-08-16T02:25:58.000Z">
+<meta property="og:updated_time" content="2017-08-16T02:28:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在cifar10上训练ResNet">
 <meta name="twitter:description" content="论文地址：deep residue network
@@ -391,7 +391,7 @@ CIFAR-10 datasetCIFAR-10 数据集包含60000幅大小为 32 x 32 的彩色图�
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ./examples/cifar10/create_cifar10.sh</div></pre></td></tr></table></figure>
 <img src="/2017/08/14/resnet-cifar10/create_lmdb.png" alt="生成LMDB文件" title="生成LMDB文件">
-<p>这样就生成了 LMDB 文件，同时生成了训练数据 (<code>cifar10_train_lmdb</code>) 的均值文件 <code>mean.binaryproto</code>。均值文件的计算方式是计算不同维度上的样本均值，在 CIFAR-10 中，训练数据 size 为 <code>5000 x 3 x 32 x 32</code> (样本数 x 图像通道数 x 图像高度 x 图像宽度)，则均值的 size 是 <code>3 x 32 x 32</code>。</p>
+<p>这样就生成了 LMDB 文件，同时生成了训练数据 (<code>cifar10_train_lmdb</code>) 的均值文件 <code>mean.binaryproto</code>。均值文件的计算方式是计算不同通道上的样本均值，在 CIFAR-10 中，训练数据 size 为 <code>5000 x 3 x 32 x 32</code> (样本数 x 图像通道数 x 图像高度 x 图像宽度)，则均值的 size 是 <code>3</code>。</p>
 <img src="/2017/08/14/resnet-cifar10/cifar10_lmdb.png" alt="生成的LMDB和均值文件" title="生成的LMDB和均值文件">
 <h3 id="搭建网络"><a href="#搭建网络" class="headerlink" title="搭建网络"></a>搭建网络</h3><p>在 <code>$CAFFE_ROOT/examples/</code> 目录下新建文件夹 <code>ResNet</code> ，并在文件夹下新建 <code>resnet_cifar10.py</code> .</p>
 <h4 id="import-modules"><a href="#import-modules" class="headerlink" title="import modules"></a>import modules</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> caffe</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> caffe <span class="keyword">import</span> layers <span class="keyword">as</span> L, params <span class="keyword">as</span> P</div><div class="line"></div><div class="line">workdir = os.path.dirname(__file__)</div></pre></td></tr></table></figure>
