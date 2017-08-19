@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Caffe," />
 
 
 
@@ -87,12 +87,23 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Ink One">
-<meta property="og:url" content="//simochen.github.io/tags/Neural-Network/index.html">
+<meta name="description" content="保存训练日志以上一篇文章的 ResNet 训练过程为例，在 examples/ResNet/ 目录下新建文件夹 log， 新建脚本：
+123456#!/bin/basht=$(date +%Y-%m-%d_%H:%M:%S) LOG=examples/ResNet/log/cifar10_$t.log./build/tools/caffe train --solver=examples/ResNe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Caffe绘制训练过程中的loss曲线">
+<meta property="og:url" content="//simochen.github.io/2017/08/18/caffe-draw-loss/index.html">
 <meta property="og:site_name" content="Ink One">
+<meta property="og:description" content="保存训练日志以上一篇文章的 ResNet 训练过程为例，在 examples/ResNet/ 目录下新建文件夹 log， 新建脚本：
+123456#!/bin/basht=$(date +%Y-%m-%d_%H:%M:%S) LOG=examples/ResNet/log/cifar10_$t.log./build/tools/caffe train --solver=examples/ResNe">
+<meta property="og:image" content="//simochen.github.io/2017/08/18/caffe-draw-loss/train_loss_iter.png">
+<meta property="og:image" content="//simochen.github.io/2017/08/18/caffe-draw-loss/test_loss_iter.png">
+<meta property="og:image" content="//simochen.github.io/2017/08/18/caffe-draw-loss/test_acc_iter.png">
+<meta property="og:updated_time" content="2017-08-19T03:35:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ink One">
+<meta name="twitter:title" content="Caffe绘制训练过程中的loss曲线">
+<meta name="twitter:description" content="保存训练日志以上一篇文章的 ResNet 训练过程为例，在 examples/ResNet/ 目录下新建文件夹 log， 新建脚本：
+123456#!/bin/basht=$(date +%Y-%m-%d_%H:%M:%S) LOG=examples/ResNet/log/cifar10_$t.log./build/tools/caffe train --solver=examples/ResNe">
+<meta name="twitter:image" content="//simochen.github.io/2017/08/18/caffe-draw-loss/train_loss_iter.png">
 
 
 
@@ -120,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="//simochen.github.io/tags/Neural-Network/"/>
+  <link rel="canonical" href="//simochen.github.io/2017/08/18/caffe-draw-loss/"/>
 
 
 
 
 
-  <title> 标签: Neural Network | Ink One </title>
+  <title> Caffe绘制训练过程中的loss曲线 | Ink One </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -160,7 +171,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -252,46 +263,202 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        Neural Network
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="//simochen.github.io/2017/08/18/caffe-draw-loss/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="simochen">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Ink One">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Ink One" src="">
+    </span>
+  </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Caffe绘制训练过程中的loss曲线
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-18T17:50:32+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/18/caffe-draw-loss/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/18/caffe-draw-loss/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/18/caffe-draw-loss/" class="leancloud_visitors" data-flag-title="Caffe绘制训练过程中的loss曲线">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h3 id="保存训练日志"><a href="#保存训练日志" class="headerlink" title="保存训练日志"></a>保存训练日志</h3><p>以<a href="https://simochen.github.io/2017/08/14/resnet-cifar10/" target="_blank" rel="external">上一篇文章</a>的 ResNet 训练过程为例，在 <code>examples/ResNet/</code> 目录下新建文件夹 <code>log</code>， 新建脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line">t=$(date +%Y-%m-%d_%H:%M:%S) </div><div class="line">LOG=examples/ResNet/<span class="built_in">log</span>/cifar10_<span class="variable">$t</span>.log</div><div class="line">./build/tools/caffe train --solver=examples/ResNet/solver.prototxt \</div><div class="line">--gpu=0 2&gt;&amp;1 | tee <span class="variable">$LOG</span></div></pre></td></tr></table></figure>
+<p>运行脚本进行训练。</p>
+<h3 id="绘制-loss-和-accuracy-曲线"><a href="#绘制-loss-和-accuracy-曲线" class="headerlink" title="绘制 loss 和 accuracy 曲线"></a>绘制 loss 和 accuracy 曲线</h3><p>使用到的文件：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$CAFFE_ROOT</span>/tools/extra/parse_log<span class="selector-class">.sh</span></div><div class="line"><span class="variable">$CAFFE_ROOT</span>/tools/extra/extract_seconds<span class="selector-class">.py</span></div><div class="line"><span class="variable">$CAFFE_ROOT</span>/tools/extra/plot_training_log<span class="selector-class">.py</span><span class="selector-class">.example</span></div></pre></td></tr></table></figure>
+<h4 id="绘制曲线"><a href="#绘制曲线" class="headerlink" title="绘制曲线"></a>绘制曲线</h4><p>执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ../../../tools/plot_training_log.py.example &lt;chart_type&gt; &lt;path_to_png&gt; &lt;path_to_log&gt;</div></pre></td></tr></table></figure>
+<p> 参数分别为：</p>
+<ul>
+<li>chart_type: 绘制曲线类型，取值范围：<ul>
+<li>0: Test accuracy vs. Iters </li>
+<li>1: Test accuracy vs. Seconds </li>
+<li>2: Test loss vs. Iters </li>
+<li>3: Test loss vs. Seconds </li>
+<li>4: Train learning rate vs. Iters </li>
+<li>5: Train learning rate vs. Seconds </li>
+<li>6: Train loss vs. Iters </li>
+<li>7: Train loss vs. Seconds </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>path_to_png: 输出图片的文件名，格式为<code>.png</code></li>
+<li>path_to<em>log: 日志文件，格式为<code>.log</code>，本例中为`cifar10</em>*.log`</li>
+</ul>
+<p>调用了同个目录下的 <code>parse_log.sh</code> 脚本，生成 <code>cifar10_*.log.train</code>、<code>cifar10_*.log.test</code> 两个文件。</p>
+<p>并绘制曲线。</p>
+<img src="/2017/08/18/caffe-draw-loss/train_loss_iter.png" alt="Train loss vs. Iters" title="Train loss vs. Iters">
+<img src="/2017/08/18/caffe-draw-loss/test_loss_iter.png" alt="Test loss vs. Iters" title="Test loss vs. Iters">
+<img src="/2017/08/18/caffe-draw-loss/test_acc_iter.png" alt="Test accuracy vs. Iters" title="Test accuracy vs. Iters">
+      
+    </div>
 
-      <h1 class="post-title">
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/02/10/python-nn/" itemprop="url">
-              
-                <span itemprop="name">Python 搭建 BP 神经网络</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-02-10T16:29:30+08:00"
-              content="2017-02-10" >
-          02-10
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Caffe/" rel="tag"># Caffe</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/14/resnet-cifar10/" rel="next" title="在cifar10上训练ResNet">
+                <i class="fa fa-chevron-left"></i> 在cifar10上训练ResNet
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -299,6 +466,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -318,8 +496,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -386,6 +573,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#保存训练日志"><span class="nav-number">1.</span> <span class="nav-text">保存训练日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制-loss-和-accuracy-曲线"><span class="nav-number">2.</span> <span class="nav-text">绘制 loss 和 accuracy 曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制曲线"><span class="nav-number">2.1.</span> <span class="nav-text">绘制曲线</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -508,6 +711,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -524,9 +731,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'simochen';
-      var disqus_identifier = 'tags/Neural-Network/index.html';
+      var disqus_identifier = '2017/08/18/caffe-draw-loss/';
 
-      var disqus_title = "";
+      var disqus_title = "Caffe绘制训练过程中的loss曲线";
 
 
       function run_disqus_script(disqus_script) {
@@ -539,6 +746,13 @@
 
       run_disqus_script('count.js');
 
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
       
 
     </script>
@@ -557,26 +771,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
