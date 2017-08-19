@@ -98,7 +98,7 @@
 <meta property="og:image" content="//simochen.github.io/2017/08/18/caffe-draw-loss/train_loss_iter.png">
 <meta property="og:image" content="//simochen.github.io/2017/08/18/caffe-draw-loss/test_loss_iter.png">
 <meta property="og:image" content="//simochen.github.io/2017/08/18/caffe-draw-loss/test_acc_iter.png">
-<meta property="og:updated_time" content="2017-08-19T03:43:52.000Z">
+<meta property="og:updated_time" content="2017-08-19T03:47:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Caffe绘制训练过程中的loss曲线">
 <meta name="twitter:description" content="保存训练日志以上一篇文章的 ResNet 训练过程为例，在 examples/ResNet/ 目录下新建文件夹 log， 新建脚本：
@@ -372,6 +372,7 @@
         <h3 id="保存训练日志"><a href="#保存训练日志" class="headerlink" title="保存训练日志"></a>保存训练日志</h3><p>以<a href="https://simochen.github.io/2017/08/14/resnet-cifar10/" target="_blank" rel="external">上一篇文章</a>的 ResNet 训练过程为例，在 <code>examples/ResNet/</code> 目录下新建文件夹 <code>log</code>， 新建脚本：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line">t=$(date +%Y-%m-%d_%H:%M:%S) </div><div class="line">LOG=examples/ResNet/<span class="built_in">log</span>/cifar10_<span class="variable">$t</span>.log</div><div class="line">./build/tools/caffe train --solver=examples/ResNet/solver.prototxt \</div><div class="line">--gpu=0 2&gt;&amp;1 | tee <span class="variable">$LOG</span></div></pre></td></tr></table></figure>
 <p>运行脚本进行训练。</p>
+<a id="more"></a>
 <h3 id="绘制-loss-和-accuracy-曲线"><a href="#绘制-loss-和-accuracy-曲线" class="headerlink" title="绘制 loss 和 accuracy 曲线"></a>绘制 loss 和 accuracy 曲线</h3><p>使用到的文件：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$CAFFE_ROOT</span>/tools/extra/parse_log<span class="selector-class">.sh</span></div><div class="line"><span class="variable">$CAFFE_ROOT</span>/tools/extra/extract_seconds<span class="selector-class">.py</span></div><div class="line"><span class="variable">$CAFFE_ROOT</span>/tools/extra/plot_training_log<span class="selector-class">.py</span><span class="selector-class">.example</span></div></pre></td></tr></table></figure>
 <h4 id="绘制曲线"><a href="#绘制曲线" class="headerlink" title="绘制曲线"></a>绘制曲线</h4><p>执行命令：</p>
