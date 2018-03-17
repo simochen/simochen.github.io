@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/about/index.html</loc>
+    
+    <lastmod>2018-03-17T03:52:39.098Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2018/03/17/ubuntu-cuda/</loc>
     
     <lastmod>2018-03-17T03:14:12.546Z</lastmod>
@@ -180,13 +187,6 @@
     <loc>//simochen.github.io/2016/10/24/latex-under-equation/</loc>
     
     <lastmod>2017-02-17T04:51:14.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/about/index.html</loc>
-    
-    <lastmod>2017-02-16T17:50:56.000Z</lastmod>
     
   </url>
   
