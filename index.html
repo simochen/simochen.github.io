@@ -364,59 +364,17 @@
 
       
         
-          
-            <a id="more"></a>
-<h2 id="CUDA-安装"><a href="#CUDA-安装" class="headerlink" title="CUDA 安装"></a>CUDA 安装</h2><ol>
-<li><p>从官网下载<a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="external">CUDA</a></p>
+          <h2 id="CUDA-安装"><a href="#CUDA-安装" class="headerlink" title="CUDA 安装"></a>CUDA 安装</h2><ol>
+<li><p>从官网下载<a href="https://developer.nvidia.com/cuda-downloads">CUDA</a></p>
 <img src="/2018/03/17/ubuntu-cuda/cuda.png" alt="cuda.png" title="">
 <p>选择 <code>runfile</code> 安装。</p>
-</li>
-<li><p>重启电脑，按 <code>Ctrl</code>+<code>Alt</code>+<code>F1</code> 进入命令行界面，登录账户。</p>
-</li>
-<li><p>输入 <code>$ sudo service lightdm stop</code> 关闭图形化界面</p>
-</li>
-<li><p>切换到 <code>cuda</code> 安装文件的路径</p>
-<p><code>$ sudo sh cuda_9.1.85_387.26_linux.run</code></p>
-<p>按照提示进行操作。</p>
-<blockquote>
-<p><strong>注：</strong>遇到提示是否安装 <code>OpenGL</code>，选择 <code>no</code>（如果电脑是双显，且主显是非NVIDIA的GPU在工作需要选择 <code>no</code>，否则可以 <code>yes</code>），其他都选择 <code>yes</code>或者默认即可。（如果电脑是双显卡且在这一步选择了 <code>yes</code>，那么极有可能安装完CUDA之后，重启图形化界面后遇到登录界面循环问题：输入密码后又跳回密码输入界面。 这是因为电脑是双显，而且用来显示的那块GPU不是NVIDIA，则安装 OpenGL Libraries 后正在使用的那块GPU（非NVIDIA的GPU）的OpenGL Libraries会被覆盖，GUI就无法工作了。）安装成功后，会显示<code>installed</code>，否则会显示 <code>failed</code>。</p>
-</blockquote>
-</li>
-<li><p>输入 <code>$ sudo service lightdm start</code> 重新启动图形化界面</p>
-</li>
-<li><p><code>Ctrl</code>+<code>Alt</code>+<code>F7</code> 返回到图形化界面</p>
-</li>
-<li><p>设置环境变量</p>
-<p>在终端中输入 <code>$ gedit ~/.bashrc</code></p>
-<p>在文件末尾添加：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export CUDA_HOME=/usr/local/cuda</div><div class="line">export PATH=$CUDA_HOME/bin:$PATH</div><div class="line">export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH</div></pre></td></tr></table></figure>
-<p>运行 <code>$ source ~/.bashrc</code> 使修改生效。</p>
-</li>
-<li><p>验证是否安装成功</p>
-<ul>
-<li><code>nvidia-smi</code></li>
-<li><code>nvcc -V</code></li>
-<li><code>cd ~/NVIDIA_CUDA-9.1_Samples/1_Utilities/deviceQuery; make; ./deviceQuery</code></li>
-</ul>
-</li>
-</ol>
-<h2 id="CuDNN-安装"><a href="#CuDNN-安装" class="headerlink" title="CuDNN 安装"></a>CuDNN 安装</h2><ol>
-<li><p>从官网下载 <a href="https://developer.nvidia.com/cudnn" target="_blank" rel="external">CuDNN</a></p>
-<img src="/2018/03/17/ubuntu-cuda/cudnn.png" alt="cudnn.png" title="">
-</li>
-<li><p>解压文件</p>
-<p><code>$ tar -xvf cudnn-9.1-linux-x64-v7.1.tgz</code></p>
-</li>
-<li><p>把相应文件拷贝到对应的 <code>CUDA</code> 目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo cp cuda/include/cudnn.h /usr/local/cuda/include/</div><div class="line">$ sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64/</div><div class="line">$ sudo chmod a+r /usr/local/cuda/include/cudnn.h</div><div class="line">$ sudo chmod a+r /usr/local/cuda/lib64/libcudnn*</div></pre></td></tr></table></figure>
-</li>
-<li><p>生成软链接</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo rm -rf libcudnn.so libcudnn.so.7 #删除原有动态文件 </div><div class="line">$ sudo ln -s libcudnn.so.7.1.1 libcudnn.so.7 #生成软衔接 </div><div class="line">$ sudo ln -s libcudnn.so.7 libcudnn.so #生成软链接</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ol>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/17/ubuntu-cuda/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
