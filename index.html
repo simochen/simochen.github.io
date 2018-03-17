@@ -365,7 +365,8 @@
       
         
           
-            <h2 id="CUDA-安装"><a href="#CUDA-安装" class="headerlink" title="CUDA 安装"></a>CUDA 安装</h2><ol>
+            <a id="more"></a>
+<h2 id="CUDA-安装"><a href="#CUDA-安装" class="headerlink" title="CUDA 安装"></a>CUDA 安装</h2><ol>
 <li><p>从官网下载<a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="external">CUDA</a></p>
 <img src="/2018/03/17/ubuntu-cuda/cuda.png" alt="cuda.png" title="">
 <p>选择 <code>runfile</code> 安装。</p>
@@ -578,22 +579,6 @@
         
           <p><strong>Associative Embedding: End-to-End Learning for Joint Detection and Grouping</strong> </p>
 <p><a href="http://papers.nips.cc/paper/6822-associative-embedding-end-to-end-learning-for-joint-detection-and-grouping.pdf">NIPS, 2017</a></p>
-<h3 id="设计思想"><a href="#设计思想" class="headerlink" title="设计思想"></a>设计思想</h3><p>Multi-Person Pose Estimation 的方法主要分为两类：</p>
-<ul>
-<li>Top-Down方法：<ul>
-<li>首先在图像上进行行人检测，得到边界框；再在每个人体边界框内进行 Single-Person Pose Estimation</li>
-<li><strong>优点</strong>：Single-Person Pose Estimation 的后处理简单，仅需选取 heatmap 上响应最大的位置作为关键点坐标；在行人检测阶段实现了多尺度的检测，姿态估计仅需运行在单一尺度上。</li>
-<li><strong>缺点</strong>：需要对检测到的每个人体边界框运行一次 Single-Person Pose Estimation，运行速度受图像中人数影响较大；当多个人相互遮挡比较严重时，边界框内可能包含其他人的身体部位，影响关键点检测的结果（e.g. 对于某个特定部位，Single-Person Pose Estimation 算法至多只会检测出一个关键点，而边界框内包含多个关键点，算法不一定能鉴别出当前人的关键点）。</li>
-</ul>
-</li>
-<li>Bottom-Up方法：<ul>
-<li>对整幅图像进行关键点检测，再将检测到的关键点组合成人。</li>
-<li><strong>优点</strong>：关键点检测在图像上仅运行一次，速度较快，且受图像中人数影响较小。</li>
-<li><strong>缺点</strong>：由于关键点数量不确定，非极大值抑制、将关键点组合成人的处理比较复杂；图上的人可能具有不同的尺度，需要增加姿态估计模型对多尺度的处理能力。</li>
-</ul>
-</li>
-</ul>
-<p>《Associative Embedding: End-to-End Learning for Joint Detection and Grouping》这篇论文更接近于 bottom-up 方法，不同的是没有 detection 和 grouping 步骤的区分，相比于过去的 bottom-up 方法，后处理较为简单。论文训练模型同时生成 keypoints detection 所需的 heatmaps 和 grouping 所需的 tags。“Tags” 用于判断哪些关键点属于同一个人。主要的想法是同时做 pose estimation 和 instance segmentation（但此处的segmentation比较粗糙，仅用于区分不同的人）。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/25/associative-embedding/#more" rel="contents">

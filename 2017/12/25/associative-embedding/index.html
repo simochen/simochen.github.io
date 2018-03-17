@@ -88,32 +88,20 @@
 
 
 <meta name="description" content="Associative Embedding: End-to-End Learning for Joint Detection and Grouping 
-NIPS, 2017
-设计思想Multi-Person Pose Estimation 的方法主要分为两类：
-
-Top-Down方法：
-首先在图像上进行行人检测，得到边界框；再在每个人体边界框内进行 Single-Person Pose Esti">
+NIPS, 2017">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Associative Embedding 阅读笔记">
 <meta property="og:url" content="//simochen.github.io/2017/12/25/associative-embedding/index.html">
 <meta property="og:site_name" content="Ink One">
 <meta property="og:description" content="Associative Embedding: End-to-End Learning for Joint Detection and Grouping 
-NIPS, 2017
-设计思想Multi-Person Pose Estimation 的方法主要分为两类：
-
-Top-Down方法：
-首先在图像上进行行人检测，得到边界框；再在每个人体边界框内进行 Single-Person Pose Esti">
+NIPS, 2017">
 <meta property="og:image" content="//simochen.github.io/2017/12/25/associative-embedding/1.png">
 <meta property="og:image" content="//simochen.github.io/2017/12/25/associative-embedding/2.png">
-<meta property="og:updated_time" content="2018-01-02T07:29:43.000Z">
+<meta property="og:updated_time" content="2018-03-17T03:09:28.344Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Associative Embedding 阅读笔记">
 <meta name="twitter:description" content="Associative Embedding: End-to-End Learning for Joint Detection and Grouping 
-NIPS, 2017
-设计思想Multi-Person Pose Estimation 的方法主要分为两类：
-
-Top-Down方法：
-首先在图像上进行行人检测，得到边界框；再在每个人体边界框内进行 Single-Person Pose Esti">
+NIPS, 2017">
 <meta name="twitter:image" content="//simochen.github.io/2017/12/25/associative-embedding/1.png">
 
 
@@ -404,6 +392,7 @@ Top-Down方法：
       
         <p><strong>Associative Embedding: End-to-End Learning for Joint Detection and Grouping</strong> </p>
 <p><a href="http://papers.nips.cc/paper/6822-associative-embedding-end-to-end-learning-for-joint-detection-and-grouping.pdf" target="_blank" rel="external">NIPS, 2017</a></p>
+<a id="more"></a>
 <h3 id="设计思想"><a href="#设计思想" class="headerlink" title="设计思想"></a>设计思想</h3><p>Multi-Person Pose Estimation 的方法主要分为两类：</p>
 <ul>
 <li>Top-Down方法：<ul>
@@ -420,7 +409,6 @@ Top-Down方法：
 </li>
 </ul>
 <p>《Associative Embedding: End-to-End Learning for Joint Detection and Grouping》这篇论文更接近于 bottom-up 方法，不同的是没有 detection 和 grouping 步骤的区分，相比于过去的 bottom-up 方法，后处理较为简单。论文训练模型同时生成 keypoints detection 所需的 heatmaps 和 grouping 所需的 tags。“Tags” 用于判断哪些关键点属于同一个人。主要的想法是同时做 pose estimation 和 instance segmentation（但此处的segmentation比较粗糙，仅用于区分不同的人）。</p>
-<a id="more"></a>
 <img src="/2017/12/25/associative-embedding/1.png" alt="1.png" title="">
 <h3 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h3><p>采用 Stacked Hourglass 结构，并改进如下：</p>
 <ol>
