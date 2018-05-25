@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/bookmark/index.html</loc>
+    
+    <lastmod>2018-05-25T15:37:15.352Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2017/12/25/associative-embedding/</loc>
     
     <lastmod>2018-05-25T15:33:50.893Z</lastmod>
@@ -152,13 +159,6 @@
     <loc>//simochen.github.io/2016/10/28/GMM-EM/</loc>
     
     <lastmod>2017-02-17T07:08:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/bookmark/index.html</loc>
-    
-    <lastmod>2017-02-17T06:38:40.000Z</lastmod>
     
   </url>
   
