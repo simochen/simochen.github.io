@@ -384,7 +384,7 @@
 <p>尝试将上述代码中的 adobefonts 改为 AdobeSongStd-Light ，编译通过并能显示中文字体，且显示的中文字体不仅为宋体、原来文件设置的页眉的楷体也能够显示。推测这里的 AdobeSongStd-Light 可能仅起到一个入口的调用作用，而非设置字体为宋体。</p>
 <p>后来查阅资料时无意中进入文件夹<br>    /usr/local/texlive/2015/texmf-dist/tex/latex/ctex/fontset/</p>
 <p>其中有若干设置文件，包括 ctex-fontset-adobe.def 、 ctex-fontset-mac.def 、 ctex-fontset-windows.def 等。打开 ctex-fontset-adobe.def 文件。发现其中涉及到的 Adobe 字体名为 AdobeSongStd-Light、AdobeKaitiStd-Regular、AdobeHeitiStd-Regular、AdobeFangsongStd-Regular， 即最近版本使用的 Adobe 字体。于是不再尝试安装旧的 Adobe 字体，而是将调用的代码中的 adobefonts 改为 adobe ，再次编译，能够正常显示各种设定字体。</p>
-<h2 id="未定义命令-sjtuspace"><a href="#未定义命令-sjtuspace" class="headerlink" title="未定义命令 \sjtuspace.."></a>未定义命令 <code>\sjtuspace..</code></h2><p>接着测试 diss.tex 文件，编译报错，错误信息为<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Undefined control sequence <span class="string">\sjtuspace</span> <span class="function">-&gt;</span><span class="string">\protect</span> <span class="string">\CTEX@spaceChar\protect</span> <span class="string">\CTEX@spaceChar</span></div></pre></td></tr></table></figure></p>
+<h2 id="未定义命令-sjtuspace"><a href="#未定义命令-sjtuspace" class="headerlink" title="未定义命令 \sjtuspace.."></a>未定义命令 <code>\sjtuspace..</code></h2><p>接着测试 diss.tex 文件，编译报错，错误信息为<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Undefined control sequence <span class="tag">\<span class="name">sjtuspace</span></span> -&gt;<span class="tag">\<span class="name">protect</span></span> <span class="tag">\<span class="name">CTEX</span></span>@spaceChar<span class="tag">\<span class="name">protect</span></span> <span class="tag">\<span class="name">CTEX</span></span>@spaceChar</div></pre></td></tr></table></figure></p>
 <p>查找错误位置，sjtuthesis.cls 文件中<br><code>\newcommand\sjtuspace{\protect\CTEX@spaceChar\protect\CTEX@spaceChar}</code><br>一行报错。</p>
 <p>查阅资料，在 bbs.ctex 上有人问了类似的问题，引用回答如下<br><strong>回答部分</strong></p>
 <blockquote>
@@ -524,7 +524,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -533,7 +533,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -542,7 +542,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
