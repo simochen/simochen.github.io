@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/2018/06/05/pose-estimation-and-tracking/</loc>
+    
+    <lastmod>2018-06-05T15:33:47.478Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/bookmark/index.html</loc>
     
     <lastmod>2018-05-25T15:37:15.352Z</lastmod>
@@ -65,20 +72,6 @@
   </url>
   
   <url>
-    <loc>//simochen.github.io/2017/03/13/nmt/</loc>
-    
-    <lastmod>2017-08-14T02:22:49.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2017/03/01/word2vec/</loc>
-    
-    <lastmod>2017-03-08T15:11:31.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>//simochen.github.io/2017/02/21/py-to-app/</loc>
     
     <lastmod>2017-02-21T08:35:38.000Z</lastmod>
@@ -96,13 +89,6 @@
     <loc>//simochen.github.io/2016/10/02/opencv-1/</loc>
     
     <lastmod>2017-02-19T07:05:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2015/07/09/mactex-1/</loc>
-    
-    <lastmod>2017-02-19T07:00:42.000Z</lastmod>
     
   </url>
   
@@ -166,20 +152,6 @@
     <loc>//simochen.github.io/2016/09/26/markdown-edit-image/</loc>
     
     <lastmod>2017-02-17T05:13:19.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2015/07/15/mactex-2/</loc>
-    
-    <lastmod>2017-02-17T05:04:59.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2016/09/26/a-story-about-bicycle/</loc>
-    
-    <lastmod>2017-02-17T05:02:16.000Z</lastmod>
     
   </url>
   
