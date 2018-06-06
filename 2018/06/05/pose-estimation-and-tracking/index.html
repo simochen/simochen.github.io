@@ -103,7 +103,7 @@
 <meta property="og:image" content="//simochen.github.io/2018/06/05/pose-estimation-and-tracking/compare_posetrack.png">
 <meta property="og:image" content="//simochen.github.io/2018/06/05/pose-estimation-and-tracking/compare_mota.png">
 <meta property="og:image" content="//simochen.github.io/2018/06/05/pose-estimation-and-tracking/result_posetrack.png">
-<meta property="og:updated_time" content="2018-06-06T00:20:17.766Z">
+<meta property="og:updated_time" content="2018-06-06T00:20:47.039Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】Simple Baselines for Human Pose Estimation and Tracking">
 <meta name="twitter:description" content="[论文地址]">
@@ -424,12 +424,12 @@
 <li><p>单帧姿态估计</p>
 </li>
 <li><p>通过在帧间指派 id 来跟踪人体姿态</p>
-<p>当处理第k帧$I<em>k$时，我们已经得到了第k-1帧$I</em>{k-1}$中人实例的集合$$P_{k-1}={p_i}, p_i=(\mathrm{joints}_i,\mathrm{id}_i)$$，其中 id 表示轨迹；以及实例集合 $$P_k={p_j}, p_j=(\mathrm{joints}_j, \mathrm{id}_j=\mathrm{None})​$$.</p>
+<p>当处理第k帧$I<em>k$时，我们已经得到了第k-1帧$I</em>{k-1}$中人实例的集合$$P_{k-1}={p_i}, p_i=(\mathrm{joints}_i,\mathrm{id}_i)$$，其中 id 表示轨迹；以及实例集合 $$P_k={p_j}, p_j=(\mathrm{joints}_j, \mathrm{id}_j=\mathrm{None})$$.</p>
 <p>如果 $p_j$ 链接到一个 $p_i$，那么 $\mathrm{id}_i$ 分配给 $\mathrm{id}_j$，否则一个新的 id 被指派给 $p_j$，表示一个新的轨迹。</p>
 </li>
 </ol>
 <h4 id="采用光流的-box-propagation"><a href="#采用光流的-box-propagation" class="headerlink" title="采用光流的 box propagation"></a>采用光流的 box propagation</h4><p>直接采用基于图像的检测器（e.g. R-FCN）存在的问题：由于视频帧的运动模糊和遮挡，可能会漏检和误检。通常引入时间信息来生成更鲁棒的检测结果。</p>
-<p>本文提出通过光流表示的时间信息来从相邻帧获得boxes。给定帧 $I_{k-1}$ 中人的实例 $p_i=(\mathrm{joints}_i, \mathrm{id}<em>i)$ 以及帧 $I</em>{k-1}$ 和帧 $I_k$ 间的光流，我们可以利用光流位移 $p_i$ 的关节坐标来估计帧 $I_k$ 中对应的 $\hat{p_j}=(\hat{\mathrm{joints}_j},\mathrm{id}_j)$。然后本文通过扩大 $\hat{\mathrm{joints}_j}$ 的 min 和 max 范围（实验中为15%）来计算传播得到的边界框。</p>
+<p>本文提出通过光流表示的时间信息来从相邻帧获得boxes。给定帧 $I_{k-1}$ 中人的实例 $$p_i=(\mathrm{joints}_i, \mathrm{id}<em>i)$$ 以及帧 $I</em>{k-1}$ 和帧 $I_k$ 间的光流，我们可以利用光流位移 $p_i$ 的关节坐标来估计帧 $I_k$ 中对应的 $$\hat{p_j}=(\hat{\mathrm{joints}_j},\mathrm{id}_j)$$。然后本文通过扩大 $\hat{\mathrm{joints}_j}$ 的 min 和 max 范围（实验中为15%）来计算传播得到的边界框。</p>
 <h4 id="基于流的姿态相似性"><a href="#基于流的姿态相似性" class="headerlink" title="基于流的姿态相似性"></a>基于流的姿态相似性</h4><p>相邻帧采用边界框 IoU 作为相似性度量（$S<em>{Bbox}$）来联系实例在下述场景中会存在问题：当一个实例移动得很快，相邻帧的边界框没有重叠，且其处于一个密集的场景中。一个更精细的度量是姿态相似性（$S</em>{Pose}$），它通过目标关键点相似性（OKS）来计算两个实例间的人体关节距离。姿态相似性在同一个人在不同的帧间姿态变化时可能存在问题。本文提出了一个基于流的姿态相似性度量。</p>
 <p>利用 $I_k$ 和 $I_l$ 帧间的光流位移人体关节坐标来从 $p_i$ 得到 $\hat{p_i}$。可利用 $I_l$ 中的 $p_j$ 和 $\hat{p_i}$ 的相似性来代理 $p_j$ 和 $p_i$ 是同一个人的相似性。</p>
 <p>给定帧 $I_k$ 中的实例集合 $P_k={p_i}$ 以及帧 $I_l$ 中的实例集合 $P_l={p<em>j}$ ，基于流的姿态相似性度量如下表示：<br>$$<br>S</em>{Flow}(P_k,P_l)=\mathrm{OKS}(\hat{P_k},P<em>l)<br>$$<br>由于不同的人和物体之间会产生遮挡，人可能在视频中消失又重新出现。仅考虑连续的两帧是不够的，因此我们的姿态相似性度量考虑了多帧（$\mathrm{Multi-}S</em>{flow}$），意味着 $\hat{P_k}$ 可能从多帧之前位移得到。</p>
