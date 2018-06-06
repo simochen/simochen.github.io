@@ -103,7 +103,7 @@
 <meta property="og:image" content="//simochen.github.io/2018/06/05/pose-estimation-and-tracking/compare_posetrack.png">
 <meta property="og:image" content="//simochen.github.io/2018/06/05/pose-estimation-and-tracking/compare_mota.png">
 <meta property="og:image" content="//simochen.github.io/2018/06/05/pose-estimation-and-tracking/result_posetrack.png">
-<meta property="og:updated_time" content="2018-06-06T00:18:15.527Z">
+<meta property="og:updated_time" content="2018-06-06T00:20:17.766Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】Simple Baselines for Human Pose Estimation and Tracking">
 <meta name="twitter:description" content="[论文地址]">
@@ -424,7 +424,7 @@
 <li><p>单帧姿态估计</p>
 </li>
 <li><p>通过在帧间指派 id 来跟踪人体姿态</p>
-<p>当处理第k帧$I<em>k$时，我们已经得到了第k-1帧$I</em>{k-1}$中人实例的集合$P_{k-1}={p_i}, p_i=(\mathrm{joints}_i,\mathrm{id}_i)$，其中 id 表示轨迹；以及实例集合 $P_k={p_j}, p_j=(\mathrm{joints}_j, \mathrm{id}_j=\mathrm{None})$.</p>
+<p>当处理第k帧$I<em>k$时，我们已经得到了第k-1帧$I</em>{k-1}$中人实例的集合$$P_{k-1}={p_i}, p_i=(\mathrm{joints}_i,\mathrm{id}_i)$$，其中 id 表示轨迹；以及实例集合 $$P_k={p_j}, p_j=(\mathrm{joints}_j, \mathrm{id}_j=\mathrm{None})​$$.</p>
 <p>如果 $p_j$ 链接到一个 $p_i$，那么 $\mathrm{id}_i$ 分配给 $\mathrm{id}_j$，否则一个新的 id 被指派给 $p_j$，表示一个新的轨迹。</p>
 </li>
 </ol>
