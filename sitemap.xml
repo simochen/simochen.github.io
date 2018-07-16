@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>//simochen.github.io/2017/07/14/faster-rcnn-on-caffe/</loc>
+    
+    <lastmod>2018-06-11T06:38:04.527Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>//simochen.github.io/2018/06/05/pose-estimation-and-tracking/</loc>
     
     <lastmod>2018-06-06T00:41:16.974Z</lastmod>
@@ -61,13 +68,6 @@
     <loc>//simochen.github.io/2017/06/09/install-caffe/</loc>
     
     <lastmod>2017-08-16T06:06:43.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>//simochen.github.io/2017/07/14/fast-rcnn-on-caffe/</loc>
-    
-    <lastmod>2017-08-16T06:06:36.000Z</lastmod>
     
   </url>
   
